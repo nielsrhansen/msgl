@@ -1,0 +1,26 @@
+Package: msgl
+Type: Package
+Title: High dimensional multiclass classification using sparse group
+    lasso
+Version: 2.1.137.0
+Date: 2014-26-06
+Author: Martin Vincent
+Maintainer: Martin Vincent <vincent@math.ku.dk>
+Description: Sparse group lasso multiclass classification, suitable for
+    high dimensional problems with many classes. Fast algorithm for
+    solving the multinomial sparse group lasso convex optimization
+    problem. This package apply template metaprogramming
+    techniques, therefore -- when compiling the package from source
+    -- a high level of optimization is needed to gain full speed
+    (e.g. for the GCC compiler use -O3). Use of multiple processors
+    for cross validation and subsampling is supported through
+    OpenMP. The Armadillo C++ library is used as the primary linear
+    algebra engine.
+URL: http://dx.doi.org/10.1016/j.csda.2013.06.004
+License: GPL (>= 2)
+LazyLoad: yes
+Depends:
+    R (>= 3.0.0),
+    Matrix,
+    sglOptim (== 1.1.137.0)
+LinkingTo: Rcpp, RcppProgress, RcppArmadillo, BH, sglOptim
