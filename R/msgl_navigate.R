@@ -233,6 +233,7 @@ models.msgl <- function(object, index = 1:nmod(object), ...) {
 #' coef(fit, index = c(1,10,20))
 #'
 #' @author Martin Vincent
+#' @importFrom stats coef
 #' @method coef msgl
 #' @import sglOptim
 #' @export

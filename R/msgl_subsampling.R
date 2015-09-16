@@ -55,8 +55,10 @@
 #' Err(fit.sub, type="loglike")
 #' 
 #' @author Martin Vincent
+#' @importFrom utils packageVersion
+#' @importFrom methods is
 #' @export
-#' @useDynLib msgl .registration=TRUE
+#' @useDynLib msgl, .registration=TRUE
 msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), length(classes)), grouping = NULL, groupWeights = NULL, parameterWeights = NULL, alpha = 0.5, standardize = TRUE,
 		lambda, training, test, intercept = TRUE, sparse.data = is(x, "sparseMatrix"), collapse = FALSE, max.threads = 2L, algorithm.config = msgl.standard.config) {
 	

@@ -81,8 +81,10 @@
 #' # instead use msgl.cv to estimate the expected errors by cross validation 
 #' 
 #' @author Martin Vincent
+#' @importFrom utils packageVersion
+#' @importFrom methods is
 #' @export
-#' @useDynLib msgl .registration=TRUE
+#' @useDynLib msgl, .registration=TRUE
 #' @import Matrix
 msgl <- function(x, classes, sampleWeights = rep(1/length(classes), length(classes)), grouping = NULL, groupWeights = NULL, parameterWeights = NULL, alpha = 0.5, standardize = TRUE,
 		lambda, return = 1:length(lambda), intercept = TRUE, sparse.data = is(x, "sparseMatrix"), algorithm.config = msgl.standard.config) {
@@ -226,8 +228,9 @@ msgl <- function(x, classes, sampleWeights = rep(1/length(classes), length(class
 #'
 #' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 100, lambda.min = 0.01)
 #' @author Martin Vincent
+#' @importFrom methods is
 #' @export
-#' @useDynLib msgl .registration=TRUE
+#' @useDynLib msgl, .registration=TRUE
 msgl.lambda.seq <- function(x, classes, sampleWeights = rep(1/length(classes), length(classes)), grouping = NULL, groupWeights = NULL, parameterWeights = NULL, alpha = 0.5, d = 100L, standardize = TRUE, lambda.min, intercept = TRUE, sparse.data = is(x, "sparseMatrix"), algorithm.config = sgl.standard.config) {
 
 		#Check dimensions 

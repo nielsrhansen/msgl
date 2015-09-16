@@ -33,9 +33,12 @@
 #' res$classes[,20]
 #' 
 #' @author Martin Vincent
+#' @importFrom utils packageVersion
+#' @importFrom methods is
+#' @importFrom methods as
 #' @method predict msgl
 #' @export
-#' @useDynLib msgl .registration=TRUE
+#' @useDynLib msgl, .registration=TRUE
 predict.msgl <- function(object, x, sparse.data = is(x, "sparseMatrix"), ...) {
 
 	# Get call

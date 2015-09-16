@@ -74,8 +74,10 @@
 #' Err(fit.cv, type="loglike")
 #' 
 #' @author Martin Vincent
+#' @importFrom utils packageVersion
+#' @importFrom methods is
 #' @export
-#' @useDynLib msgl .registration=TRUE
+#' @useDynLib msgl, .registration=TRUE
 msgl.cv <- function(x, classes, sampleWeights = NULL, grouping = NULL, groupWeights = NULL, parameterWeights = NULL, alpha = 0.5, standardize = TRUE,
 		lambda, fold = 10L, cv.indices = list(), intercept = TRUE, sparse.data = is(x, "sparseMatrix"), max.threads = 2L, seed = NULL, algorithm.config = msgl.standard.config) {
 	
