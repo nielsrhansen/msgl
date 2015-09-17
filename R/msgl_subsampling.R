@@ -120,11 +120,11 @@ msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), 
 		if(algorithm.config$verbose) {
 			
 			cat(paste("Running msgl subsampling with ", length(training)," subsamples (sparse design matrix)\n\n", sep=""))
-			print(data.frame('Samples: ' = length(sampleWeights), 
-							'Features: ' = data$n.covariate, 
-							'Classes: ' = length(levels(classes)), 
-							'Groups: ' = length(unique(covariateGrouping)), 
-							'Parameters: ' = length(parameterWeights),
+			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)), 
+							'Features: ' = print_with_metric_prefix(data$n.covariate), 
+							'Classes: ' = print_with_metric_prefix(length(levels(classes))), 
+							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))), 
+							'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
 							check.names = FALSE), 
 					row.names = FALSE, digits = 2, right = TRUE)
 			cat("\n")
@@ -137,11 +137,11 @@ msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), 
 			if(algorithm.config$verbose) {
 				
 				cat(paste("Running msgl subsampling with ", length(training)," subsamples (dense design matrix)\n\n", sep=""))
-				print(data.frame('Samples: ' = length(sampleWeights), 
-								'Features: ' = data$n.covariate, 
-								'Classes: ' = length(levels(classes)), 
-								'Groups: ' = length(unique(covariateGrouping)), 
-								'Parameters: ' = length(parameterWeights),
+				print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)), 
+								'Features: ' = print_with_metric_prefix(data$n.covariate), 
+								'Classes: ' = print_with_metric_prefix(length(levels(classes))), 
+								'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))), 
+								'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
 								check.names = FALSE), 
 						row.names = FALSE, digits = 2, right = TRUE)
 				cat("\n")
