@@ -50,7 +50,7 @@
 #' @param standardize if TRUE the features are standardize before fitting the model. The model parameters are returned in the original scale.
 #' @param lambda the lambda sequence for the regularization path.
 #' @param return the indices of lambda values for which to return a the fitted parameters.
-#' @param intercept should the model include intercept parameters
+#' @param intercept should the model fit include intercept parameters (note that due to standardization the returned beta matrix will always have an intercept column)
 #' @param sparse.data if TRUE \code{x} will be treated as sparse, if \code{x} is a sparse matrix it will be treated as sparse by default.
 #' @param algorithm.config the algorithm configuration to be used.
 #' @return
@@ -132,17 +132,21 @@ msgl <- function(x, classes, sampleWeights = rep(1/length(classes), length(class
 	}
 	
 	if(intercept) {
+		intercept.value = 1
+	} else {
+		intercept.value = 0
+	}
 		# add intercept
-		if(is.null(colnames(x))) {
-			x <- cBind(rep(1, nrow(x)), x)
-		} else {
-			x <- cBind(Intercept = rep(1, nrow(x)), x)
-		}
-		groupWeights <- c(0, groupWeights)
-		parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
-		covariateGrouping <- factor(c("Intercept", as.character(covariateGrouping)), levels = c("Intercept", levels(covariateGrouping)))
+	if(is.null(colnames(x))) {
+		x <- cBind(rep(intercept.value, nrow(x)), x)
+	} else {
+		x <- cBind(Intercept = rep(intercept.value, nrow(x)), x)
 	}
 	
+	groupWeights <- c(0, groupWeights)
+	parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
+	covariateGrouping <- factor(c("Intercept", as.character(covariateGrouping)), levels = c("Intercept", levels(covariateGrouping)))
+
 	# create data
 	data <- create.sgldata(x, y = NULL, sampleWeights, classes, sparseX = sparse.data)
 	
@@ -189,7 +193,6 @@ msgl <- function(x, classes, sampleWeights = rep(1/length(classes), length(class
 
 	# Various 
 	res$msgl_version <- packageVersion("msgl")
-	res$intercept <- intercept
 	res$call <- cl
 
 	class(res) <- "msgl"
@@ -265,20 +268,28 @@ msgl.lambda.seq <- function(x, classes, sampleWeights = rep(1/length(classes), l
 				x.center <- rep(0, length(x.scale))
 				x <- x%*%Diagonal(x=1/x.scale)
 			} else {
-				x <- scale(x, if(sparse.data) FALSE else TRUE, TRUE)
+				x <- scale(x, TRUE, TRUE)
                 x.scale <- attr(x, "scaled:scale")
-                x.center <- if(sparse.data) rep(0, length(x.scale)) else attr(x, "scaled:center")
+                x.center <- attr(x, "scaled:center")
 			}
         }
 
 		if(intercept) {
-			# add intercept
-			x <- cBind(Intercept = rep(1, nrow(x)), x)
-			groupWeights <- c(0, groupWeights)
-			parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
-			covariateGrouping <- factor(c("Intercept", as.character(covariateGrouping)), levels = c("Intercept", levels(covariateGrouping)))
+			intercept.value = 1
+		} else {
+			intercept.value = 0
 		}
-					
+		# add intercept
+		if(is.null(colnames(x))) {
+			x <- cBind(rep(intercept.value, nrow(x)), x)
+		} else {
+			x <- cBind(Intercept = rep(intercept.value, nrow(x)), x)
+		}
+		
+		groupWeights <- c(0, groupWeights)
+		parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
+		covariateGrouping <- factor(c("Intercept", as.character(covariateGrouping)), levels = c("Intercept", levels(covariateGrouping)))
+		
         # create data
         data <- create.sgldata(x, y = NULL, sampleWeights, classes, sparseX = sparse.data)
 
@@ -294,7 +305,8 @@ msgl.lambda.seq <- function(x, classes, sampleWeights = rep(1/length(classes), l
 
 
 .to_org_scale <- function(beta, x.scale, x.center) {
-        for(l in 1:length(beta)) {
+
+		for(l in 1:length(beta)) {
 
                 beta.org <- t(t(beta[[l]])*c(1,1/x.scale))
                 beta.org[,1] <- beta.org[,1] - rowSums(t(t(beta[[l]][,-1])*(x.center/x.scale)))

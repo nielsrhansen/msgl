@@ -147,13 +147,21 @@ msgl.cv <- function(x, classes, sampleWeights = NULL, grouping = NULL, groupWeig
 	}
 	
 	if(intercept) {
-		# add intercept
-		x <- cBind(Intercept = rep(1, nrow(x)), x)
-		groupWeights <- c(0, groupWeights)
-		parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
-		covariateGrouping <- factor(c("Intercept", as.character(covariateGrouping)), levels = c("Intercept", levels(covariateGrouping)))
+		intercept.value = 1
+	} else {
+		intercept.value = 0
+	}
+	# add intercept
+	if(is.null(colnames(x))) {
+		x <- cBind(rep(intercept.value, nrow(x)), x)
+	} else {
+		x <- cBind(Intercept = rep(intercept.value, nrow(x)), x)
 	}
 	
+	groupWeights <- c(0, groupWeights)
+	parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
+	covariateGrouping <- factor(c("Intercept", as.character(covariateGrouping)), levels = c("Intercept", levels(covariateGrouping)))
+		
 	# create data
 	data <- create.sgldata(x, y = NULL, sampleWeights, classes, sparseX = sparse.data)
 	
@@ -210,7 +218,6 @@ msgl.cv <- function(x, classes, sampleWeights = NULL, grouping = NULL, groupWeig
 		
 	# Various 
 	res$msgl_version <- packageVersion("msgl")
-	res$intercept <- intercept
 	res$call <- cl
 
 	class(res) <- "msgl"

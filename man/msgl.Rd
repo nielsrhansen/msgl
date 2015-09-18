@@ -37,7 +37,7 @@ Default weights are is 0 for the intercept weights and 1 for all other weights.}
 
 \item{return}{the indices of lambda values for which to return a the fitted parameters.}
 
-\item{intercept}{should the model include intercept parameters}
+\item{intercept}{should the model fit include intercept parameters (note that due to standardization the returned beta matrix will always have an intercept column)}
 
 \item{sparse.data}{if TRUE \code{x} will be treated as sparse, if \code{x} is a sparse matrix it will be treated as sparse by default.}
 

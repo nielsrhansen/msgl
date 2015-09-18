@@ -40,53 +40,56 @@
 #' @export
 #' @useDynLib msgl, .registration=TRUE
 predict.msgl <- function(object, x, sparse.data = is(x, "sparseMatrix"), ...) {
-
+	
 	# Get call
 	cl <- match.call()
 	
-	if(object$intercept){
-		# add intercept
-		x <- cBind(Intercept = rep(1, nrow(x)), x)
-	}	
-
-        data <- list()
-		data$sparseX <- FALSE
-				
-        if(sparse.data) {
-
-                data$X <- as(x, "CsparseMatrix")
-				data$sample.names <- rownames(x)
-				data$sparseX <- TRUE
-				
-                res <- sgl_predict("msgl_sparse", "msgl", object, data)
-
-        } else {
-
-                data$X <- as.matrix(x)
-				data$sample.names <- rownames(x)
-								
-                res <- sgl_predict("msgl_dense", "msgl", object, data)
-
-        }
-
-		### Responses
-		res$classes <- res$responses$classes
-		res$response <- res$responses$response
-		res$link <- res$responses$link
-		res$responses <- NULL
+	if(is.null(object$beta)) stop("No models found -- missing beta")
+	
+	# add intercept
+	x <- cBind(Intercept = rep(1, nrow(x)), x)
+	
+	#Check dimension of x
+	if(dim(object$beta[[2]])[2] != ncol(x)) stop("x has wrong dimension")
+	
+	data <- list()
+	data$sparseX <- FALSE
+	
+	if(sparse.data) {
 		
-		class.names <- rownames(object$beta[[1]])
-		if(!is.null(class.names)) {
-			# Set class names
-			res$classes <- apply(X = res$classes, MARGIN = c(1,2), FUN = function(x) class.names[x])
-			res$link <- lapply(X = res$link, FUN = function(x) {rownames(x) <- class.names; x})
-			res$response <- lapply(X = res$response, FUN = function(x) {rownames(x) <- class.names; x})
-		}
+		data$X <- as(x, "CsparseMatrix")
+		data$sample.names <- rownames(x)
+		data$sparseX <- TRUE
 		
-		# Various 
-		res$msgl_version <- packageVersion("msgl")
-		res$call <- cl		
-
-		class(res) <- "msgl"
-        return(res)
+		res <- sgl_predict("msgl_sparse", "msgl", object, data)
+		
+	} else {
+		
+		data$X <- as.matrix(x)
+		data$sample.names <- rownames(x)
+		
+		res <- sgl_predict("msgl_dense", "msgl", object, data)
+		
+	}
+	
+	### Responses
+	res$classes <- res$responses$classes
+	res$response <- res$responses$response
+	res$link <- res$responses$link
+	res$responses <- NULL
+	
+	class.names <- rownames(object$beta[[1]])
+	if(!is.null(class.names)) {
+		# Set class names
+		res$classes <- apply(X = res$classes, MARGIN = c(1,2), FUN = function(x) class.names[x])
+		res$link <- lapply(X = res$link, FUN = function(x) {rownames(x) <- class.names; x})
+		res$response <- lapply(X = res$response, FUN = function(x) {rownames(x) <- class.names; x})
+	}
+	
+	# Various 
+	res$msgl_version <- packageVersion("msgl")
+	res$call <- cl		
+	
+	class(res) <- "msgl"
+	return(res)
 }
