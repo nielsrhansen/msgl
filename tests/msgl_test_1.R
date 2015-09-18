@@ -1,5 +1,8 @@
 library(msgl)
 
+# warnings = errors
+options(warn=2)
+
 ### Basic tests
 
 data(SimData)
