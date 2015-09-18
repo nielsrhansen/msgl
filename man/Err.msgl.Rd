@@ -16,7 +16,7 @@
 
 \item{classes}{a vector of classes}
 
-\item{type}{type of error rate \code{rate} or \code{count}}
+\item{type}{type of error rate}
 
 \item{...}{ignored}
 }

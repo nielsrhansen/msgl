@@ -31,7 +31,7 @@
 #' @param data a matrix of 
 #' @param response a vector of classes
 #' @param classes a vector of classes
-#' @param type type of error rate \code{rate} or \code{count}
+#' @param type type of error rate
 #' @param ... ignored
 #' @return a vector of error rates
 #' 
