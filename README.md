@@ -5,19 +5,23 @@
 
 High dimensional multiclass classification using sparse group lasso. The penalized maximum likelihood estimator for multinomial logistic regression is computed using a coordinate grdient descent algorithm.
 
+![alt tag](https://raw.github.com/vincent-dk/msgl/master/fig1.png)
+
 Package features includes:
 
-* **feature and parameter selection**:
+* **Feature and parameter selection**:
 
-* **fast**:
+* **Fast**:
 
-* **sutable for high dimensional multiclass classification**:
+* **Sutable for high dimensional multiclass classification**:
 
-* **custom grouping of features**:
+* **Support for lasso, group lasso and sparse group lasso**:
 
-* **sample weighting**:
+* **Custom grouping of features**:
 
-* **individual weighting of the group and parameter penalties**:
+* **Sample weighting**:
+
+* **Individual weighting of the group and parameter penalties**:
 
 ## Installation
 
