@@ -56,7 +56,7 @@ lambda <- msgl.lambda.seq(x, classes, alpha = .5, lambda.min = 0.05)
 
 **Estimate the error for each lambda value using 10 fold cross validation**
 ```R
-fit.cv <- msgl.cv(x, classes, fold = 10, alpha = .5, lambda = lambda)
+fit.cv <- msgl.cv(x, classes, fold = 10, alpha = .5, lambda = lambda, max.threads = 5)
 ```
 the output (while the algorithm is running) could look something like this:
 ```
@@ -70,13 +70,27 @@ Running msgl 10 fold cross validation (dense design matrix)
 ********************************************
 ```
 
-
-**Look at the estimated missclassification errors**
-```R
-Err(fit.cv)
-```
-
-**or get a summery of the estimated models**
+**Get a summery of the estimated models**
 ```R
 fit.cv
+```
+this could look like this:
+```
+Call:
+msgl.cv(x = x, classes = classes, alpha = 0.5, lambda = lambda, 
+    fold = 10, max.threads = 5)
+
+Models:
+
+ Index:  Lambda:  Features:  Parameters:  Error: 
+      20  0.02718       70.5        916.5    0.30
+      40  0.00669        123       1.599k    0.22
+      60  0.00165      139.5       1.813k    0.19
+      80  0.00041        152       1.976k    0.19
+     100  0.00010        159       2.067k    0.20
+
+Best model:
+
+ Index:  Lambda:  Features:  Parameters:  Error: 
+      52   0.0029      133.5       1.736k    0.19
 ```
