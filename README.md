@@ -5,10 +5,10 @@
 
 High dimensional multiclass classification using sparse group lasso. The penalized maximum likelihood estimator for multinomial logistic regression is computed using a coordinate grdient descent algorithm.
 
-### Classification of cancer site. Error estimted by 10-fold cross validation on a data set consist of miRNA expression measurements of leaser dissected primary cancers:
 ![alt tag](https://raw.github.com/vincent-dk/msgl/master/fig1.png)
+> Classification of cancer site. Error estimted by 10-fold cross validation on a data set consist of miRNA expression measurements of leaser dissected primary cancers:
 
-## Package features includes:
+### Package features includes:
 
 * **Feature and parameter selection**:
 
