@@ -59,8 +59,8 @@ lambda <- msgl.lambda.seq(x, classes, alpha = .5, lambda.min = 0.05)
 fit.cv <- msgl.cv(x, classes, fold = 10, alpha = .5, lambda = lambda)
 ```
 the output (while the algorithm is running) could look something like this:
-```R
-Running msgl 4 fold cross validation (dense design matrix)
+```
+Running msgl 10 fold cross validation (dense design matrix)
 
  Samples:  Features:  Classes:  Groups:  Parameters: 
        119    22.284k        13  22.284k     289.692k
