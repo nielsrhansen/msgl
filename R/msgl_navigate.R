@@ -46,7 +46,7 @@
 #' classes.2 <- sim.data$classes[51:100]
 #' 
 #' #### Fit models using x.1
-#' lambda <- msgl.lambda.seq(x.1, classes.1, alpha = .5, d = 50, lambda.min = 0.05)
+#' lambda <- msgl.lambda.seq(x.1, classes.1, alpha = .5, d = 25, lambda.min = 0.075)
 #' fit <- msgl(x.1, classes.1, alpha = .5, lambda = lambda)
 #' 
 #' #### Training errors:
@@ -256,7 +256,7 @@ coef.msgl <- function(object, index = 1:nmod(object), ...) {
 #' classes <- sim.data$classes
 #' 
 #' ### Estimation
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
+#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25, lambda.min = 0.075)
 #' fit <- msgl(x, classes, alpha = .5, lambda = lambda)
 #'
 #' # Print some information about the estimated models

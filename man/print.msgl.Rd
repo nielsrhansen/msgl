@@ -20,7 +20,7 @@ x <- sim.data$x
 classes <- sim.data$classes
 
 ### Estimation
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
+lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25, lambda.min = 0.075)
 fit <- msgl(x, classes, alpha = .5, lambda = lambda)
 
 # Print some information about the estimated models
