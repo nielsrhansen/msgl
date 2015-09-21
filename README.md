@@ -41,6 +41,11 @@ devtools::install_github("vincent-dk/msgl")
 ```
 ## Quick start
 
+**Load the lsgl library in R**
+```R
+library(lsgl)
+```
+
 **Load your data**, containing N samples and p features (covariates):
 
 ```R
@@ -48,7 +53,7 @@ x <- # load design matrix (of size N x p)
 classes <- # load class labels (a vector of size N)
 ```
 
-**Compute lambda sequence**, choos a lambda.min and an alpha (alpha = 1 for lasso, alpha = 0 for group lasso and alpha in the range (0,1) for sprase group lasso)
+**Compute lambda sequence**, choos a lambda.min and an alpha. With alpha = 1 for lasso, alpha = 0 for group lasso and alpha in the range (0,1) for spares group lasso.
 
 ```R
 lambda <- msgl.lambda.seq(x, classes, alpha = .5, lambda.min = 0.05)
@@ -58,7 +63,7 @@ lambda <- msgl.lambda.seq(x, classes, alpha = .5, lambda.min = 0.05)
 ```R
 fit.cv <- msgl.cv(x, classes, fold = 10, alpha = .5, lambda = lambda, max.threads = 5)
 ```
-the output (while the algorithm is running) could look something like this:
+the output (while the algorithm is running) would look something like this:
 ```
 Running msgl 10 fold cross validation (dense design matrix)
 
@@ -74,7 +79,7 @@ Running msgl 10 fold cross validation (dense design matrix)
 ```R
 fit.cv
 ```
-this could look like this:
+this would look like this:
 ```
 Call:
 msgl.cv(x = x, classes = classes, alpha = 0.5, lambda = lambda, 
