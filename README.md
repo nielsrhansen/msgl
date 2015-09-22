@@ -41,9 +41,9 @@ devtools::install_github("vincent-dk/msgl")
 ```
 ## Quick start
 
-**Load the lsgl library in R**
+**Load the msgl library in R**
 ```R
-library(lsgl)
+library(msgl)
 ```
 
 **Load your data**, containing N samples and p features (covariates):
