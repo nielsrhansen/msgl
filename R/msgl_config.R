@@ -102,7 +102,7 @@ msgl.algorithm.config <- function(tolerance_penalized_main_equation_loop = 1e-10
 #' 
 #' @author Martin Vicnet
 #' @export
-msgl.standard.config <- msgl.algorithm.config();
+msgl.standard.config <- msgl.algorithm.config()
 
 #' Featch information about the C side configuration of the package
 #' @return list
