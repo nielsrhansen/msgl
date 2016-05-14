@@ -12,7 +12,7 @@
 \item{...}{ignored}
 }
 \description{
-This funtion will print some general information about the msgl object
+This function will print some general information about the msgl object
 }
 \examples{
 data(SimData)

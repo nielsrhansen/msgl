@@ -2,7 +2,7 @@
 % Please edit documentation in R/msgl_navigate.R
 \name{models.msgl}
 \alias{models.msgl}
-\title{Exstract the fitted models}
+\title{Extract the fitted models}
 \usage{
 \method{models}{msgl}(object, index = 1:nmod(object), ...)
 }
