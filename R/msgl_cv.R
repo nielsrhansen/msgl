@@ -28,14 +28,15 @@
 #' @param classes classes, factor of length \eqn{N}.
 #' @param sampleWeights sample weights, a vector of length \eqn{N}.
 #' @param grouping grouping of features (covariates), a vector of length \eqn{p}. Each element of the vector specifying the group of the feature.
-#' #' @param groupWeights the group weights, a vector of length \eqn{m} (the number of groups).
+#' @param groupWeights the group weights, a vector of length \eqn{m} (the number of groups).
 #' If \code{groupWeights = NULL} default weights will be used.
 #' Default weights are 0 for the intercept and 
 #' \deqn{\sqrt{K\cdot\textrm{number of features in the group}}}
 #' for all other weights.
 #' @param parameterWeights a matrix of size \eqn{K \times p}.
 #' If \code{parameterWeights = NULL} default weights will be used.
-#' Default weights are is 0 for the intercept weights and 1 for all other weights.#' @param alpha the \eqn{\alpha} value 0 for group lasso, 1 for lasso, between 0 and 1 gives a sparse group lasso penalty.
+#' Default weights are is 0 for the intercept weights and 1 for all other weights.#' 
+#' @param alpha the \eqn{\alpha} value 0 for group lasso, 1 for lasso, between 0 and 1 gives a sparse group lasso penalty.
 #' @param standardize if TRUE the features are standardize before fitting the model. The model parameters are returned in the original scale.
 #' @param lambda the lambda sequence for the regularization path.
 #' @param fold the fold of the cross validation, an integer larger than \eqn{1} and less than \eqn{N+1}. Ignored if \code{cv.indices != NULL}.

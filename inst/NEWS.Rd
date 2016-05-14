@@ -2,6 +2,14 @@
 \title{News for Package 'msgl'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in msgl version 2.2.1 (2016-??-??)}{
+  \itemize{
+  \item added quick-start vignette
+  \item minor fixes and updates
+}
+}
+
+
 \section{Changes in msgl version 2.2.0 (2015-09-16)}{
 \itemize{
   \itemize{

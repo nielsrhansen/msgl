@@ -5,27 +5,31 @@ Version: 2.2.1
 Date: 2016-05-08
 Author: Martin Vincent
 Maintainer: Martin Vincent <martin.vincent.dk@gmail.com>
-Description: Multinomial logistic regression with sparse group lasso penalty. Suitable for high dimensional multiclass classification with many classes. The algorithm finds the sparse group lasso penalized maximum likelihood estimator. This result in feature and parameter selection, and parameter estimation. Use of multiple processors for cross validation and subsampling is supported through OpenMP. Development version is on github, please report package issues on github..
-URL: http://dx.doi.org/10.1016/j.csda.2013.06.004 https://github.com/vincent-dk/msgl
+Description: Multinomial logistic regression with sparse group lasso penalty.
+    Suitable for high dimensional multiclass classification with many classes. The
+    algorithm finds the sparse group lasso penalized maximum likelihood estimator.
+    This result in feature and parameter selection, and parameter estimation. Use
+    of multiple processors for cross validation and subsampling is supported through
+    OpenMP. Development version is on github, please report package issues on
+    github.
+URL: http://dx.doi.org/10.1016/j.csda.2013.06.004 https://github.com/vincent-dk/
+    msgl
 License: GPL (>= 2)
 LazyLoad: yes
 Imports:
-	methods,
-	utils,
-	stats
+    methods,
+    utils,
+    stats
 Depends:
     R (>= 3.0.0),
     Matrix,
     sglOptim (== 1.2.2)
-LinkingTo: 
-	Rcpp,
-	RcppProgress,
-	RcppArmadillo,
-	BH,
-	sglOptim
-Suggests: 
-	knitr
-VignetteBuilder: 
-	knitr
-
-
+LinkingTo: Rcpp,
+    RcppProgress,
+    RcppArmadillo,
+    BH,
+    sglOptim
+Suggests:
+    knitr
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1

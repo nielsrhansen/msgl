@@ -172,7 +172,10 @@ parameters.msgl <- function(object, ...) {
 }
 
 #' @title Returns the number of models in a msgl object
-#'
+#' @description 
+#' Returns the number of models used for fitting. 
+#' Note that cv and subsampling objects does not conating any models even though nmod returns a positiv number.
+#' 
 #' @param object a msgl object
 #' @param ... not used
 #' @return the number of models in \code{object}
@@ -216,7 +219,9 @@ models.msgl <- function(object, index = 1:nmod(object), ...) {
 }
 
 #' @title Extract nonzero coefficients 
-#'
+#' @description 
+#' This function returns the nonzero coefficients (that is the nonzero entries of the \eqn{beta} matrices)
+#' 
 #' @param object a msgl object
 #' @param index indices of the models
 #' @param ... ignored
