@@ -1,44 +1,7 @@
-# msgl
-
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/msgl)](http://cran.r-project.org/package=msgl)
-[![Travis-CI Build Status](https://travis-ci.org/vincent-dk/msgl.svg?branch=master)](https://travis-ci.org/vincent-dk/msgl)
-
-High dimensional multiclass classification using sparse group lasso. The penalized maximum likelihood estimator for multinomial logistic regression is computed using a coordinate gradient descent algorithm.
-
-![alt tag](https://raw.github.com/vincent-dk/msgl/master/fig1.png)
-> Classification of cancer site. Error estimted by 10-fold cross validation on a data set consist of miRNA expression measurements of leaser dissected primary cancers.
-
-**Package features includes**:
-
-* Feature and parameter selection
-
-* Fast
-
-* Suitable for high dimensional multiclass classification
-
-* Support for lasso, group lasso and sparse group lasso
-
-* Custom grouping of features
-
-* Sample weighting
-
-* Individual weighting of the group and parameter penalties
-
-## Installation
-
-Get the released version from CRAN:
-
-```R
-install.packages("msgl")
-```
-
-Or the development version from github:
-
-```R
-# install.packages("devtools")
-devtools::install_github("vincent-dk/sglOptim")
-devtools::install_github("vincent-dk/msgl")
-```
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Quick Start}
+-->
 # Quick Start
 
 ## 1. Load the msgl library in R
@@ -216,4 +179,3 @@ Normal volunteer                        0.920058602 0.9671300490 0.9612278633 0.
 XR Emery Dreifuss muscular dystrophy    0.011500932 0.0062243124 0.0068560276 0.014403048 0.008051732
 ```
 all 5 "Normal volunteer".
-
