@@ -174,7 +174,7 @@ parameters.msgl <- function(object, ...) {
 #' @title Returns the number of models in a msgl object
 #' @description 
 #' Returns the number of models used for fitting. 
-#' Note that cv and subsampling objects does not conating any models even though nmod returns a positiv number.
+#' Note that cv and subsampling objects does not containing any models even though nmod returns a positive number.
 #' 
 #' @param object a msgl object
 #' @param ... not used
@@ -199,7 +199,7 @@ nmod.msgl <- function(object, ...) {
 	return(nmod(object, ...))
 }
 
-#' @title Exstract the fitted models 
+#' @title Extract the fitted models 
 #' 
 #' @description
 #' Returns the fitted models, that is the estimated \eqn{\beta} matrices.
@@ -250,7 +250,7 @@ coef.msgl <- function(object, index = 1:nmod(object), ...) {
 
 #' Print function for msgl
 #'
-#' This funtion will print some general information about the msgl object
+#' This function will print some general information about the msgl object
 #'  
 #' @param x msgl object
 #' @param ... ignored
