@@ -39,14 +39,14 @@ Or the development version from github:
 devtools::install_github("vincent-dk/sglOptim")
 devtools::install_github("vincent-dk/msgl")
 ```
-# Quick Start
+## Quick Start
 
-## 1. Load the msgl library in R
+### 1. Load the msgl library in R
 ```R
 library(msgl)
 ```
 
-## 2. Load your data
+### 2. Load your data
 Load data containing N samples and p features (covariates):
 
 ```R
@@ -54,7 +54,7 @@ x <- # load design matrix (of size N x p)
 classes <- # load class labels (a vector of size N)
 ```
 
-## 3. Compute lambda sequence
+### 3. Compute lambda sequence
 Choose a lambda.min and an alpha. With alpha = 1 for lasso, alpha = 0 for group lasso and alpha in the range (0,1) for spares group lasso. 
 
 ```R
@@ -67,7 +67,7 @@ The user specified lambda.min should be less than the compute lambda.max. Lambda
 lambda[1] # lambda.max
 ```
 
-## 4. Estimate error using cross validation
+### 4. Estimate error using cross validation
 
 Use 'msgl.cv' to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using maximally 5 threads. 
 
@@ -114,7 +114,7 @@ Best model:
 
 Hence, the best model is obtained using lambda index 44 and it has a cross validation error of 0.21. The expected number of features is 116.5 and the expected number of parameters is 1.132k.
 
-## 5. Fit the final model
+### 5. Fit the final model
 
 Use msgl to fit a final model.
 ```R
@@ -181,7 +181,7 @@ XR Emery Dreifuss muscular dystrophy     1.4807772 -1.975693e-02  .           -0
 
 If we count the total number of non-zero parameters in the model we get, in this case, 1.278k, which is slightly higher than the expected based on the cross validation estimate. 
 
-## 6. Use your model for predictions
+### 6. Use your model for predictions
 
 **Load test data** containing M samples and p features.
 ```R
