@@ -27,6 +27,7 @@ public:
 
 	const sgl::natural n_samples;
 	const sgl::natural n_responses; //number of classes
+  const sgl::natural n_variables; // number of parameters in model -- determine size of lineaer preditors
 
 private:
 
@@ -49,22 +50,48 @@ public:
 
 
 	MultinomialLoss() :
-            n_samples(0), n_responses(0), Y(sgl::null_natural_vector), W(sgl::null_vector), prob(n_samples, n_responses), hessian_matrices(), hessians_computed(false) {
+            n_samples(0),
+						n_responses(0),
+						n_variables(0),
+						Y(sgl::null_natural_vector),
+						W(sgl::null_vector),
+						prob(n_samples, n_responses),
+						hessian_matrices(),
+						hessians_computed(false) {
 	}
 
 	MultinomialLoss(data_type const& data) :
 			n_samples(data.get_A().n_samples),
 			n_responses(data.get_B().n_groups),
+			n_variables(n_responses),
 			Y(data.get_B().grouping),
 			W(data.get_C().data),
-			prob(n_samples, n_responses), hessian_matrices(n_samples), hessians_computed(false) {
+			prob(n_samples, n_responses),
+			hessian_matrices(n_samples),
+			hessians_computed(false) {
 
 		set_lp_zero();
 	}
 
-	//template<typename T>
-	void set_lp(sgl::matrix const& link);
-	void set_lp_zero();
+	// size of linear predictors = n_samples x n_variables
+	void set_lp(sgl::matrix const& linp) {
+
+		prob = trunc_exp(linp);
+
+		for (sgl::natural i = 0; i < n_samples; ++i) {
+			prob.row(i) *= 1 / as_scalar(sum(prob.row(i), 1));
+		}
+
+		ASSERT_IS_FINITE(prob);
+		hessians_computed = false;
+	}
+
+	void set_lp_zero() {
+
+		prob.fill(1 / static_cast<sgl::numeric>(n_responses));
+		hessians_computed = false;
+	}
+
 
 	const sgl::matrix gradients() const {
 
@@ -112,28 +139,6 @@ public:
 	}
 
 };
-
-// linp n_samples x n_responses the linear predictors
-template<typename T>
-void MultinomialLoss<T>::set_lp(sgl::matrix const& linp) {
-
-	prob = trunc_exp(linp);
-
-	for (sgl::natural i = 0; i < n_samples; ++i) {
-		prob.row(i) *= 1 / as_scalar(sum(prob.row(i), 1));
-	}
-
-	ASSERT_IS_FINITE(prob);
-	hessians_computed = false;
-}
-
-template<typename T>
-void MultinomialLoss<T>::set_lp_zero() {
-
-	prob.fill(1 / static_cast<sgl::numeric>(n_responses));
-	hessians_computed = false;
-}
-
 
 typedef sgl::ObjectiveFunctionType < sgl::GenralizedLinearLossDense < MultinomialLoss < sgl::matrix > > ,
 		MultinomialLoss < sgl::matrix >::data_type > multinomial;
