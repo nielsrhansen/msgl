@@ -2,6 +2,7 @@
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/msgl)](http://cran.r-project.org/package=msgl)
 [![Travis-CI Build Status](https://travis-ci.org/vincent-dk/msgl.svg?branch=master)](https://travis-ci.org/vincent-dk/msgl)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/vincent-dk/msgl?branch=master&svg=true)](https://ci.appveyor.com/project/vincent-dk/msgl)
 
 High dimensional multiclass classification using sparse group lasso. The penalized maximum likelihood estimator for multinomial logistic regression is computed using a coordinate gradient descent algorithm.
 
@@ -50,12 +51,12 @@ library(msgl)
 Load data containing N samples and p features (covariates):
 
 ```R
-x <- # load design matrix (of size N x p) 
+x <- # load design matrix (of size N x p)
 classes <- # load class labels (a vector of size N)
 ```
 
 ### 3. Compute lambda sequence
-Choose a lambda.min and an alpha. With alpha = 1 for lasso, alpha = 0 for group lasso and alpha in the range (0,1) for spares group lasso. 
+Choose a lambda.min and an alpha. With alpha = 1 for lasso, alpha = 0 for group lasso and alpha in the range (0,1) for spares group lasso.
 
 ```R
 lambda <- msgl.lambda.seq(x, classes, alpha = 0.25, lambda.min = 1e-4)
@@ -69,7 +70,7 @@ lambda[1] # lambda.max
 
 ### 4. Estimate error using cross validation
 
-Use 'msgl.cv' to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using maximally 5 threads. 
+Use 'msgl.cv' to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using maximally 5 threads.
 
 ```R
 fit.cv <- msgl.cv(x, classes, fold = 10, alpha = 0.25, lambda = lambda, max.threads = 5)
@@ -78,7 +79,7 @@ the output (while the algorithm is running) would look something like this:
 ```
 Running msgl 10 fold cross validation (dense design matrix)
 
- Samples:  Features:  Classes:  Groups:  Parameters: 
+ Samples:  Features:  Classes:  Groups:  Parameters:
        119    22.284k        13  22.284k     289.692k
 
 0% 10   20   30   40   50   60   70   80   90   100%
@@ -94,12 +95,12 @@ fit.cv
 this would give something like this:
 ```
 Call:
-msgl.cv(x = x, classes = classes, alpha = 0.25, lambda = lambda, 
+msgl.cv(x = x, classes = classes, alpha = 0.25, lambda = lambda,
     fold = 10, max.threads = 5)
 
 Models:
 
- Index:  Lambda:  Features:  Parameters:  Error: 
+ Index:  Lambda:  Features:  Parameters:  Error:
       20  0.03084       65.5       605.75    0.34
       40  0.00736        111       1.077k    0.23
       60  0.00176        133       1.301k    0.21
@@ -108,7 +109,7 @@ Models:
 
 Best model:
 
- Index:  Lambda:  Features:  Parameters:  Error: 
+ Index:  Lambda:  Features:  Parameters:  Error:
       44   0.0055      116.5       1.132k    0.21
 ```
 
@@ -122,7 +123,7 @@ fit <- msgl(x, classes, alpha = 0.25, lambda = lambda)
 ```
 **Get a summery of the estimated models**
 ```R
-fit 
+fit
 ```
 this would look like this:
 ```
@@ -131,7 +132,7 @@ msgl(x = x, classes = classes, alpha = 0.25, lambda = lambda)
 
 Models:
 
- Index:  Lambda:  Features:  Parameters: 
+ Index:  Lambda:  Features:  Parameters:
       20  0.03084         63          583
       40  0.00736        122        1.18k
       60  0.00176        147       1.444k
@@ -149,12 +150,12 @@ this would look something like this (with the feature names given as the column 
   [1] "Intercept"    "200003_s_at"   "200061_s_at"   "200076_s_at"  "200089_s_at"           
   [6] "200650_s_at"  "200666_s_at"   "201105_at"     "201224_s_at"  "201275_at"             
 
-                                ... 
+                                ...
 
 [126] "37966_at"     "39854_r_at"    "AFFX-BioC-5_at"   "AFFX-r2-Ec-bioC-3_at"   "AFFX-r2-Ec-bioD-3_at"  
 [131] "AFFX-r2-Hs18SrRNA-5_at"
 ```
-Hence 131 features are included in the model, a bit more than expected based on the cross validation estimate. 
+Hence 131 features are included in the model, a bit more than expected based on the cross validation estimate.
 
 We may also take a look at the estimate parameters (or coefficients)
 
@@ -179,13 +180,13 @@ Normal volunteer                         5.9397066 -2.024757e-02  0.030672820 -0
 XR Emery Dreifuss muscular dystrophy     1.4807772 -1.975693e-02  .           -0.140377634 -0.049209029
 ```
 
-If we count the total number of non-zero parameters in the model we get, in this case, 1.278k, which is slightly higher than the expected based on the cross validation estimate. 
+If we count the total number of non-zero parameters in the model we get, in this case, 1.278k, which is slightly higher than the expected based on the cross validation estimate.
 
 ### 6. Use your model for predictions
 
 **Load test data** containing M samples and p features.
 ```R
-x.test <- # load matrix with test data (of size M x p) 
+x.test <- # load matrix with test data (of size M x p)
 ```
 Use the final model to predict the classes of the M samples in x.test.
 ```R
@@ -216,4 +217,3 @@ Normal volunteer                        0.920058602 0.9671300490 0.9612278633 0.
 XR Emery Dreifuss muscular dystrophy    0.011500932 0.0062243124 0.0068560276 0.014403048 0.008051732
 ```
 all 5 "Normal volunteer".
-
