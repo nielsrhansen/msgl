@@ -105,8 +105,8 @@ static const R_CallMethodDef sglCallMethods[] = {
 		SGL_LAMBDA(msgl_dense), SGL_LAMBDA(msgl_sparse),
 		SGL_FIT(msgl_dense), SGL_FIT(msgl_sparse),
 		SGL_PREDICT(msgl_dense), SGL_PREDICT(msgl_sparse),
-        SGL_SUBSAMPLING(msgl_dense), SGL_SUBSAMPLING(msgl_sparse),
-		NULL};
+    SGL_SUBSAMPLING(msgl_dense), SGL_SUBSAMPLING(msgl_sparse),
+		{NULL}};
 
 extern "C" {
 	void R_init_msgl(DllInfo *info);

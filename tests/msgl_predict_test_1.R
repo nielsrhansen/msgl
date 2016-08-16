@@ -11,7 +11,7 @@ classes <- sim.data$classes
 
 ## Lambda sequence
 
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 100L, lambda.min = 0.01, standardize = TRUE)
+lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25L, lambda.min = 0.01, standardize = TRUE)
 
 fit.qwe <- msgl(x, classes, lambda = lambda)
 
@@ -20,3 +20,8 @@ if(min(colSums(res$classes != classes)) > 0) stop()
 
 res <- predict(fit.qwe, x, sparse.data = TRUE)
 if(min(colSums(res$classes != classes)) > 0) stop()
+
+# Test response format
+if( ! all(dim(res$link[[1]]) == c(10, 100))) stop()
+if( ! all(dim(res$response[[1]]) == c(10, 100))) stop()
+if( ! all(dim(res$classes) == c(100, 25))) stop()

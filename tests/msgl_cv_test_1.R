@@ -24,3 +24,8 @@ fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = lambda, standardize = TRUE, m
 err.count <- colSums(fit.cv$classes != classes)
 
 if(err.count[1] < 80 | err.count[25] > 30) stop()
+
+# Test response format
+if( ! all(dim(fit.cv$link[[1]]) == c(10, 100))) stop()
+if( ! all(dim(fit.cv$response[[1]]) == c(10, 100))) stop()
+if( ! all(dim(fit.cv$classes) == c(100, 25))) stop()

@@ -1,6 +1,6 @@
 #' @title Multinomial sparse group lasso generic subsampling procedure
 #'
-#' @description 
+#' @description
 #' Multinomial sparse group lasso generic subsampling procedure using multiple possessors
 #'
 #' @param x design matrix, matrix of size \eqn{N \times p}.
@@ -9,7 +9,7 @@
 #' @param grouping grouping of features (covariates), a vector of length \eqn{p}. Each element of the vector specifying the group of the feature.
 #' @param groupWeights the group weights, a vector of length \eqn{m} (the number of groups).
 #' If \code{groupWeights = NULL} default weights will be used.
-#' Default weights are 0 for the intercept and 
+#' Default weights are 0 for the intercept and
 #' \deqn{\sqrt{K\cdot\textrm{number of features in the group}}}
 #' for all other weights.
 #' @param parameterWeights a matrix of size \eqn{K \times p}.
@@ -36,7 +36,7 @@
 #' \item{features}{number of features used in the models.}
 #' \item{parameters}{number of parameters used in the models.}
 #' \item{classes.true}{ a list of length \code{length(training)}, containing the true classes used for estimation}
-#' 
+#'
 #' @examples
 #' data(SimData)
 #' x <- sim.data$x
@@ -47,13 +47,13 @@
 #'
 #' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
 #' fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test)
-#' 
+#'
 #' # Mean misclassification error of the tests
 #' Err(fit.sub)
-#' 
+#'
 #' # Negative log likelihood error
 #' Err(fit.sub, type="loglike")
-#' 
+#'
 #' @author Martin Vincent
 #' @importFrom utils packageVersion
 #' @importFrom methods is
@@ -61,15 +61,15 @@
 #' @useDynLib msgl, .registration=TRUE
 msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), length(classes)), grouping = NULL, groupWeights = NULL, parameterWeights = NULL, alpha = 0.5, standardize = TRUE,
 		lambda, training, test, intercept = TRUE, sparse.data = is(x, "sparseMatrix"), collapse = FALSE, max.threads = 2L, algorithm.config = msgl.standard.config) {
-	
+
 	# Get call
 	cl <- match.call()
-	
-	#Check dimensions 
+
+	#Check dimensions
 	if(nrow(x) != length(classes)) {
 		stop("the number of rows in x must match the length of classes")
 	}
-	
+
 	# Default values
 	if(is.null(grouping)) {
 		covariateGrouping <- factor(1:ncol(x))
@@ -77,22 +77,22 @@ msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), 
 		# ensure factor
 		covariateGrouping <- factor(grouping)
 	}
-	
+
 	# cast
 	classes <- factor(classes)
 	max.threads <- as.integer(max.threads)
-	
+
 	if(is.null(groupWeights)) {
 		groupWeights <- c(sqrt(length(levels(classes))*table(covariateGrouping)))
 	}
-	
+
 	if(is.null(parameterWeights)) {
 		parameterWeights <-  matrix(1, nrow = length(levels(classes)), ncol = ncol(x))
 	}
-	
+
 	# Standardize
 	if(standardize) {
-		
+
 		if(sparse.data) {
 			x.scale <- sqrt(colMeans(x*x) - colMeans(x)^2)
 			x.center <- rep(0, length(x.scale))
@@ -103,7 +103,7 @@ msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), 
 			x.center <- if(sparse.data) rep(0, length(x.scale)) else attr(x, "scaled:center")
 		}
 	}
-		
+
 	if(intercept) {
 		intercept.value = 1
 	} else {
@@ -115,56 +115,56 @@ msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), 
 	} else {
 		x <- cBind(Intercept = rep(intercept.value, nrow(x)), x)
 	}
-	
+
 	groupWeights <- c(0, groupWeights)
 	parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
 	covariateGrouping <- factor(c("Intercept", as.character(covariateGrouping)), levels = c("Intercept", levels(covariateGrouping)))
-	
+
 	# create data
 	data <- create.sgldata(x, y = NULL, sampleWeights, classes, sparseX = sparse.data)
-	
+
 	# call sglOptim function
 	if(data$sparseX) {
 		if(algorithm.config$verbose) {
-			
+
 			cat(paste("Running msgl subsampling with ", length(training)," subsamples (sparse design matrix)\n\n", sep=""))
-			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)), 
-							'Features: ' = print_with_metric_prefix(data$n.covariate), 
-							'Classes: ' = print_with_metric_prefix(length(levels(classes))), 
-							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))), 
+			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)),
+							'Features: ' = print_with_metric_prefix(data$n.covariate),
+							'Classes: ' = print_with_metric_prefix(length(levels(classes))),
+							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
 							'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
-							check.names = FALSE), 
+							check.names = FALSE),
 					row.names = FALSE, digits = 2, right = TRUE)
 			cat("\n")
 		}
-		
+
 		res <- sgl_subsampling("msgl_sparse", "msgl", data, covariateGrouping, groupWeights, parameterWeights, alpha, lambda, training, test, collapse, max.threads, algorithm.config)
 	} else {
-		
+
 		if(algorithm.config$verbose) {
 			if(algorithm.config$verbose) {
-				
+
 				cat(paste("Running msgl subsampling with ", length(training)," subsamples (dense design matrix)\n\n", sep=""))
-				print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)), 
-								'Features: ' = print_with_metric_prefix(data$n.covariate), 
-								'Classes: ' = print_with_metric_prefix(length(levels(classes))), 
-								'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))), 
+				print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)),
+								'Features: ' = print_with_metric_prefix(data$n.covariate),
+								'Classes: ' = print_with_metric_prefix(length(levels(classes))),
+								'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
 								'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
-								check.names = FALSE), 
+								check.names = FALSE),
 						row.names = FALSE, digits = 2, right = TRUE)
 				cat("\n")
 			}
 		}
-		
+
 		res <- sgl_subsampling("msgl_dense", "msgl", data, covariateGrouping, groupWeights, parameterWeights, alpha, lambda, training, test, collapse, max.threads, algorithm.config)
 	}
-	
+
 	### Responses
-	res$classes <- res$responses$classes
+	res$classes <- lapply(res$responses$classes, t)
 	res$response <- res$responses$response
 	res$link <- res$responses$link
 	res$responses <- NULL
-	
+
 	# Set class names
 	if(!is.null(data$group.names)) {
 		for(i in 1:length(training)) {
@@ -173,11 +173,11 @@ msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), 
 			res$response[[i]] <- lapply(X = res$response[[i]], FUN = function(m) {rownames(m) <- data$group.names; m})
 		}
 	}
-	
+
 	# True classes
 	res$classes.true <- lapply(test, function(sub) classes[sub])
 
-	# Various 
+	# Various
 	res$msgl_version <- packageVersion("msgl")
 	res$call <- cl
 

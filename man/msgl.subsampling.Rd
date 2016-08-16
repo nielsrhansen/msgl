@@ -22,7 +22,7 @@ msgl.subsampling(x, classes, sampleWeights = rep(1/length(classes),
 
 \item{groupWeights}{the group weights, a vector of length \eqn{m} (the number of groups).
 If \code{groupWeights = NULL} default weights will be used.
-Default weights are 0 for the intercept and 
+Default weights are 0 for the intercept and
 \deqn{\sqrt{K\cdot\textrm{number of features in the group}}}
 for all other weights.}
 

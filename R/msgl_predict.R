@@ -1,6 +1,6 @@
 #' @title Predict
 #'
-#' @description 
+#' @description
 #' Computes the linear predictors, the estimated probabilities and the estimated classes for a new data set.
 #'
 #' @param object an object of class msgl, produced with \code{msgl}.
@@ -13,13 +13,13 @@
 #' \item{classes}{the estimated classes -- a matrix of size \eqn{N_\textrm{new} \times d} with \eqn{d=}\code{length(fit$beta)}.}
 #' @examples
 #' data(SimData)
-#' 
+#'
 #' x.1 <- sim.data$x[1:50,]
 #' x.2 <- sim.data$x[51:100,]
-#' 
+#'
 #' classes.1 <- sim.data$classes[1:50]
 #' classes.2 <- sim.data$classes[51:100]
-#' 
+#'
 #' lambda <- msgl.lambda.seq(x.1, classes.1, alpha = .5, d = 50, lambda.min = 0.05)
 #' fit <- msgl(x.1, classes.1, alpha = .5, lambda = lambda)
 #'
@@ -27,11 +27,11 @@
 #' res <- predict(fit, x.2)
 #'
 #' # The error rates of the models
-#' Err(res, classes = classes.2) 
-#' 
+#' Err(res, classes = classes.2)
+#'
 #' # The predicted classes for model 20
 #' res$classes[,20]
-#' 
+#'
 #' @author Martin Vincent
 #' @importFrom utils packageVersion
 #' @importFrom methods is
@@ -40,44 +40,44 @@
 #' @export
 #' @useDynLib msgl, .registration=TRUE
 predict.msgl <- function(object, x, sparse.data = is(x, "sparseMatrix"), ...) {
-	
+
 	# Get call
 	cl <- match.call()
-	
+
 	if(is.null(object$beta)) stop("No models found -- missing beta")
-	
+
 	# add intercept
 	x <- cBind(Intercept = rep(1, nrow(x)), x)
-	
+
 	#Check dimension of x
 	if(dim(object$beta[[2]])[2] != ncol(x)) stop("x has wrong dimension")
-	
+
 	data <- list()
 	data$sparseX <- FALSE
-	
+
 	if(sparse.data) {
-		
+
 		data$X <- as(x, "CsparseMatrix")
 		data$sample.names <- rownames(x)
 		data$sparseX <- TRUE
-		
+
 		res <- sgl_predict("msgl_sparse", "msgl", object, data)
-		
+
 	} else {
-		
+
 		data$X <- as.matrix(x)
 		data$sample.names <- rownames(x)
-		
+
 		res <- sgl_predict("msgl_dense", "msgl", object, data)
-		
+
 	}
-	
+
 	### Responses
-	res$classes <- res$responses$classes
+	res$classes <- t(res$responses$classes)
 	res$response <- res$responses$response
 	res$link <- res$responses$link
 	res$responses <- NULL
-	
+
 	class.names <- rownames(object$beta[[1]])
 	if(!is.null(class.names)) {
 		# Set class names
@@ -85,11 +85,11 @@ predict.msgl <- function(object, x, sparse.data = is(x, "sparseMatrix"), ...) {
 		res$link <- lapply(X = res$link, FUN = function(x) {rownames(x) <- class.names; x})
 		res$response <- lapply(X = res$response, FUN = function(x) {rownames(x) <- class.names; x})
 	}
-	
-	# Various 
+
+	# Various
 	res$msgl_version <- packageVersion("msgl")
-	res$call <- cl		
-	
+	res$call <- cl
+
 	class(res) <- "msgl"
 	return(res)
 }
