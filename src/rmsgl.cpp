@@ -40,6 +40,9 @@
 //Exception handling
 #define SGL_CATCH_EXCEPTIONS
 
+// print information abt convergence
+//#define SGL_DEBUG_INFO_QUADRATIC
+
 //Sgl optimizer
 #include <sgl.h>
 #include "pkg_c_config.h"

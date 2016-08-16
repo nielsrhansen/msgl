@@ -2,5 +2,4 @@
 ^README.md
 ^LICENSE
 ^fig1.png
-^.*\.Rproj$
-^\.Rproj\.user$
+^appveyor\.yml$
