@@ -21,4 +21,8 @@ fit1b <- msgl(x, classes, alpha = 0, lambda = lambda, sparse.data = TRUE, standa
 
 if(max(abs(fit1a$beta[[25]]-fit1b$beta[[25]])) > 1e-5) stop()
 
-#TODO test that sparse module is used when x is sparse
+# test that sparse module is used when x is sparse
+x <- Matrix(x, sparse = TRUE)
+fit1c <- msgl(x, classes, alpha = 0, lambda = lambda, standardize = FALSE)
+
+if( ! fit1c$sparse.data) stop()

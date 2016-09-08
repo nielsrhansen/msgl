@@ -20,7 +20,7 @@
 //#undef NDEBUG
 
 //Should the timers be activated (only needed for profiling the code)
-//#define SGL_TIMING
+//#define DO_TIMING
 
 //Configuration
 //Debugging

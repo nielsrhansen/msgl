@@ -22,7 +22,7 @@ SEXP pkg_c_config() {
 
 	//profiling
 	bool timing = false;
-#ifdef SGL_TIMING
+#ifdef DO_TIMING
 	timing = true;
 #endif
 
