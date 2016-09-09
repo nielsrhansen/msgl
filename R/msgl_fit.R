@@ -21,11 +21,11 @@
 
 #' @title Fit a multinomial sparse group lasso regularization path.
 #'
-#' @description 
+#' @description
 #' Fit a sequence of multinomial logistic regression models using sparse group lasso, group lasso or lasso.
 #' In addition to the standard parameter grouping the algorithm supports further grouping of the features.
 #'
-#' @details 
+#' @details
 #' For a classification problem with  \eqn{K} classes and \eqn{p} features (covariates) dived into \eqn{m} groups.
 #' This function computes a sequence of minimizers (one for each lambda given in the \code{lambda} argument) of
 #' \deqn{\hat R(\beta) + \lambda \left( (1-\alpha) \sum_{J=1}^m \gamma_J \|\beta^{(J)}\|_2 + \alpha \sum_{i=1}^{n} \xi_i |\beta_i| \right)}
@@ -40,7 +40,7 @@
 #' @param grouping grouping of features, a vector of length \eqn{p}. Each element of the vector specifying the group of the feature.
 #' @param groupWeights the group weights, a vector of length \eqn{m} (the number of groups).
 #' If \code{groupWeights = NULL} default weights will be used.
-#' Default weights are 0 for the intercept and 
+#' Default weights are 0 for the intercept and
 #' \deqn{\sqrt{K\cdot\textrm{number of features in the group}}}
 #' for all other weights.
 #' @param parameterWeights a matrix of size \eqn{K \times p}.
@@ -65,21 +65,21 @@
 #' classes <- sim.data$classes
 #' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
 #' fit <- msgl(x, classes, alpha = .5, lambda = lambda)
-#' 
+#'
 #' # Model 10, i.e. the model corresponding to lambda[10]
-#' models(fit)[[10]] 
-#' 
+#' models(fit)[[10]]
+#'
 #' # The nonzero features of model 10
 #' features(fit)[[10]]
-#' 
+#'
 #' # The nonzero parameters of model 10
 #' parameters(fit)[[10]]
-#' 
+#'
 #' # The training errors of the models.
-#' Err(fit, x) 
+#' Err(fit, x)
 #' # Note: For high dimensional models the training errors are almost always over optimistic,
-#' # instead use msgl.cv to estimate the expected errors by cross validation 
-#' 
+#' # instead use msgl.cv to estimate the expected errors by cross validation
+#'
 #' @author Martin Vincent
 #' @importFrom utils packageVersion
 #' @importFrom methods is
@@ -88,15 +88,15 @@
 #' @import Matrix
 msgl <- function(x, classes, sampleWeights = rep(1/length(classes), length(classes)), grouping = NULL, groupWeights = NULL, parameterWeights = NULL, alpha = 0.5, standardize = TRUE,
 		lambda, return = 1:length(lambda), intercept = TRUE, sparse.data = is(x, "sparseMatrix"), algorithm.config = msgl.standard.config) {
-	
+
 	# Get call
 	cl <- match.call()
-	
-	#Check dimensions 
+
+	#Check dimensions
 	if(nrow(x) != length(classes)) {
 		stop("the number of rows in x must match the length of classes")
 	}
-	
+
 	# Default values
 	if(is.null(grouping)) {
 		covariateGrouping <- factor(1:ncol(x))
@@ -104,22 +104,22 @@ msgl <- function(x, classes, sampleWeights = rep(1/length(classes), length(class
 		# ensure factor
 		covariateGrouping <- factor(grouping)
 	}
-	
+
 	# cast
 	classes <- factor(classes)
 	return <- as.integer(return)
-	
+
 	if(is.null(groupWeights)) {
 		groupWeights <- c(sqrt(length(levels(classes))*table(covariateGrouping)))
 	}
-	
+
 	if(is.null(parameterWeights)) {
 		parameterWeights <-  matrix(1, nrow = length(levels(classes)), ncol = ncol(x))
 	}
-	
+
 	# Standardize
 	if(standardize) {
-		
+
 		if(sparse.data) {
 			x.scale <- sqrt(colMeans(x*x) - colMeans(x)^2)
 			x.center <- rep(0, length(x.scale))
@@ -130,7 +130,7 @@ msgl <- function(x, classes, sampleWeights = rep(1/length(classes), length(class
 			x.center <- if(sparse.data) rep(0, length(x.scale)) else attr(x, "scaled:center")
 		}
 	}
-	
+
 	if(intercept) {
 		intercept.value = 1
 	} else {
@@ -142,56 +142,58 @@ msgl <- function(x, classes, sampleWeights = rep(1/length(classes), length(class
 	} else {
 		x <- cBind(Intercept = rep(intercept.value, nrow(x)), x)
 	}
-	
+
 	groupWeights <- c(0, groupWeights)
 	parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
 	covariateGrouping <- factor(c("Intercept", as.character(covariateGrouping)), levels = c("Intercept", levels(covariateGrouping)))
 
 	# create data
 	data <- create.sgldata(x, y = NULL, sampleWeights, classes, sparseX = sparse.data)
-	
+
 	# call sglOptim function
 	if(data$sparseX) {
-		
+
 		if(algorithm.config$verbose) {
-			
+
 			cat("\nRunning msgl (sparse design matrix)\n\n")
-			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)), 
-							'Features: ' = print_with_metric_prefix(data$n.covariate), 
-							'Classes: ' = print_with_metric_prefix(length(levels(classes))), 
-							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))), 
+			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)),
+							'Features: ' = print_with_metric_prefix(data$n.covariate),
+							'Classes: ' = print_with_metric_prefix(length(levels(classes))),
+							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
 							'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
-							check.names = FALSE), 
+							check.names = FALSE),
 					row.names = FALSE, digits = 2, right = TRUE)
 			cat("\n")
 		}
-		
+
 		res <- sgl_fit("msgl_sparse", "msgl", data, covariateGrouping, groupWeights, parameterWeights, alpha, lambda, return = 1:length(lambda), algorithm.config)
 	} else {
-		
+
 		if(algorithm.config$verbose) {
 			cat("\nRunning msgl (dense design matrix) \n\n")
-			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)), 
-							'Features: ' = print_with_metric_prefix(data$n.covariate), 
-							'Classes: ' = print_with_metric_prefix(length(levels(classes))), 
-							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))), 
+			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)),
+							'Features: ' = print_with_metric_prefix(data$n.covariate),
+							'Classes: ' = print_with_metric_prefix(length(levels(classes))),
+							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
 							'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
-							check.names = FALSE), 
+							check.names = FALSE),
 					row.names = FALSE, digits = 2, right = TRUE)
 			cat("\n")
 		}
-		
+
 		res <- sgl_fit("msgl_dense", "msgl", data, covariateGrouping, groupWeights, parameterWeights, alpha, lambda, return = 1:length(lambda), algorithm.config)
 	}
-	
+
 	# Convert beta back to the org scale
 	if(standardize) {
 		res$beta <- .to_org_scale(beta = res$beta, x.scale = x.scale, x.center = x.center)
 	}
-	
+
 	res$classes.true <- classes
 
-	# Various 
+	res$sparse.data <- data$sparseX
+
+	# Various
 	res$msgl_version <- packageVersion("msgl")
 	res$call <- cl
 
@@ -236,11 +238,11 @@ msgl <- function(x, classes, sampleWeights = rep(1/length(classes), length(class
 #' @useDynLib msgl, .registration=TRUE
 msgl.lambda.seq <- function(x, classes, sampleWeights = rep(1/length(classes), length(classes)), grouping = NULL, groupWeights = NULL, parameterWeights = NULL, alpha = 0.5, d = 100L, standardize = TRUE, lambda.min, intercept = TRUE, sparse.data = is(x, "sparseMatrix"), algorithm.config = sgl.standard.config) {
 
-		#Check dimensions 
+		#Check dimensions
 		if(nrow(x) != length(classes)) {
 			stop("the number of rows in x must match the length of classes")
 		}
-	
+
         # cast
         classes <- factor(classes)
 
@@ -262,7 +264,7 @@ msgl.lambda.seq <- function(x, classes, sampleWeights = rep(1/length(classes), l
 
 	    # Standardize
         if(standardize) {
-			
+
 			if(sparse.data) {
 				x.scale <- sqrt(colMeans(x*x) - colMeans(x)^2)
 				x.center <- rep(0, length(x.scale))
@@ -285,11 +287,11 @@ msgl.lambda.seq <- function(x, classes, sampleWeights = rep(1/length(classes), l
 		} else {
 			x <- cBind(Intercept = rep(intercept.value, nrow(x)), x)
 		}
-		
+
 		groupWeights <- c(0, groupWeights)
 		parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
 		covariateGrouping <- factor(c("Intercept", as.character(covariateGrouping)), levels = c("Intercept", levels(covariateGrouping)))
-		
+
         # create data
         data <- create.sgldata(x, y = NULL, sampleWeights, classes, sparseX = sparse.data)
 
@@ -328,4 +330,3 @@ msgl.lambda.seq <- function(x, classes, sampleWeights = rep(1/length(classes), l
 #' @docType data
 #' @keywords data
 NULL
-

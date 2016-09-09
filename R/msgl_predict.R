@@ -53,20 +53,19 @@ predict.msgl <- function(object, x, sparse.data = is(x, "sparseMatrix"), ...) {
 	if(dim(object$beta[[2]])[2] != ncol(x)) stop("x has wrong dimension")
 
 	data <- list()
-	data$sparseX <- FALSE
+	data$sample.names <- rownames(x)
+	data$n.samples <- nrow(x)
+	data$sparseX <- sparse.data
 
 	if(sparse.data) {
 
 		data$X <- as(x, "CsparseMatrix")
-		data$sample.names <- rownames(x)
-		data$sparseX <- TRUE
 
 		res <- sgl_predict("msgl_sparse", "msgl", object, data)
 
 	} else {
 
 		data$X <- as.matrix(x)
-		data$sample.names <- rownames(x)
 
 		res <- sgl_predict("msgl_dense", "msgl", object, data)
 
