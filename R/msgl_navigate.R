@@ -171,6 +171,41 @@ parameters.msgl <- function(object, ...) {
 	return(parameters(object))
 }
 
+
+#' @title Extract feature statistics
+#'
+#' @description
+#' Extracts the number of nonzero features (or group) in each model.
+#'
+#' @param object a msgl object
+#' @param ... ignored
+#' @return a vector of length \code{nmod(x)} or a matrix containing the number of nonzero features (or group) of the models.
+#'
+#' @author Martin Vincent
+#' @export
+features_stat.msgl <- function(object, ...) {
+	class(object) <- "sgl" # Use std function
+	return(features_stat(object, ...))
+}
+
+
+#' @title Extracting parameter statistics
+#'
+#' @description
+#' Extracts the number of nonzero parameters in each model.
+#'
+#' @param object a msgl object
+#' @param ... ignored
+#' @return a vector of length \code{nmod(x)} or a matrix containing the number of nonzero parameters of the models.
+#'
+#' @author Martin Vincent
+#' @export
+parameters_stat.msgl <- function(object, ...) {
+	class(object) <- "sgl" # Use std function
+	return(parameters_stat(object, ...))
+}
+
+
 #' @title Returns the number of models in a msgl object
 #' @description 
 #' Returns the number of models used for fitting. 
