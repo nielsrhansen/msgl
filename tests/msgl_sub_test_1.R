@@ -25,6 +25,6 @@ if(!all(fit.sub$classes[[1]] == fit.sub$classes[[2]])) stop()
 if(min(Err(fit.sub, type="count")) > 15) stop()
 
 # some navigation tests
-feature_stat(fit.sub)
-parameter_stat(fit.sub)
+features_stat(fit.sub)
+parameters_stat(fit.sub)
 

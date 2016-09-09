@@ -28,5 +28,5 @@ fit1c <- msgl(x, classes, alpha = 0, lambda = lambda, standardize = FALSE)
 if( ! fit1c$sparse.data) stop()
 
 # some navigation tests
-feature_stat(fit1a)
-parameter_stat(fit1a)
+features_stat(fit1a)
+parameters_stat(fit1a)
