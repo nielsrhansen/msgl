@@ -2,7 +2,7 @@
 \title{News for Package 'msgl'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in msgl version 2.2.1 (2016-??-??)}{
+\section{Changes in msgl version 2.2.1 (2016-09-10)}{
   \itemize{
   \item added quick-start vignette
   \item added functions for extracting number of nonzero features and parameters (\code{feature_stat} and \code{parameter_stat})
