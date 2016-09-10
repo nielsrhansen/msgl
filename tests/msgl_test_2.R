@@ -30,3 +30,23 @@ if( ! fit1c$sparse.data) stop()
 # some navigation tests
 features_stat(fit1a)
 parameters_stat(fit1a)
+
+
+### Test for errors if X or Y contains NA
+xna <- x
+xna[1,1] <- NA
+
+res <- try(lambda <- msgl.lambda.seq(xna, classes, alpha = 0, d = 25L, lambda.min = 0.05, standardize = FALSE), silent = TRUE)
+if(class(res) != "try-error") stop()
+
+res <- try(fit1a <- msgl(xna, classes, alpha = 0, lambda = lambda, standardize = FALSE), silent = TRUE)
+if(class(res) != "try-error") stop()
+
+classesna <- classes
+classesna[1] <- NA
+
+res <- try(lambda <- msgl.lambda.seq(x, classesna, alpha = 0, d = 25L, lambda.min = 0.05, standardize = FALSE), silent = TRUE)
+if(class(res) != "try-error") stop()
+
+res <- try(fit1a <- msgl(x, classesna, alpha = 0, lambda = lambda, standardize = FALSE), silent = TRUE)
+if(class(res) != "try-error") stop()

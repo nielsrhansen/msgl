@@ -33,4 +33,4 @@ if( ! all(dim(fit.cv$classes) == c(100, 25))) stop()
 # some navigation tests
 features_stat(fit.cv)
 parameters_stat(fit.cv)
-
+best_model(fit.cv)
