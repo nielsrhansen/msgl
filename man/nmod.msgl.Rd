@@ -15,7 +15,7 @@
 the number of models in \code{object}
 }
 \description{
-Returns the number of models used for fitting. 
+Returns the number of models used for fitting.
 Note that cv and subsampling objects does not containing any models even though nmod returns a positive number.
 }
 \examples{

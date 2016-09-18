@@ -24,7 +24,7 @@
 a vector of error rates
 }
 \description{
-Compute error rates. 
+Compute error rates.
 If \code{type = "rate"} then the misclassification rates will be computed.
 If \code{type = "count"} then the misclassification counts will be computed.
 If \code{type = "loglike"} then the negative log likelihood error will be computed.
@@ -52,7 +52,7 @@ Err(fit, x.1, type = "count")
 
 # Negative log likelihood error
 Err(fit, x.1, type="loglike")
- 
+
 # Misclassification rate of x.2
 Err(fit, x.2, classes.2)
 
@@ -71,7 +71,7 @@ Err(fit.cv, type="loglike")
 test <- list(1:20, 21:40)
 train <- lapply(test, function(s) (1:length(classes.all))[-s])
 
-fit.sub <- msgl.subsampling(x.all, classes.all, alpha = .5, 
+fit.sub <- msgl.subsampling(x.all, classes.all, alpha = .5,
  lambda = lambda, training = train, test = test)
 
 # Mean misclassification error of the tests
@@ -79,7 +79,7 @@ Err(fit.sub)
 
 # Negative log likelihood error
 Err(fit.sub, type="loglike")
- 
+
 }
 \author{
 Martin Vincent

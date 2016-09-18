@@ -23,3 +23,8 @@ if(sgl.c.config()$omp.supported) {
 fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test, max.threads = threads)
 if(!all(fit.sub$classes[[1]] == fit.sub$classes[[2]])) stop()
 if(min(Err(fit.sub, type="count")) > 15) stop()
+
+# some navigation tests
+features_stat(fit.sub)
+parameters_stat(fit.sub)
+
