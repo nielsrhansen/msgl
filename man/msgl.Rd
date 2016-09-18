@@ -21,7 +21,7 @@ msgl(x, classes, sampleWeights = rep(1/length(classes), length(classes)),
 
 \item{groupWeights}{the group weights, a vector of length \eqn{m} (the number of groups).
 If \code{groupWeights = NULL} default weights will be used.
-Default weights are 0 for the intercept and 
+Default weights are 0 for the intercept and
 \deqn{\sqrt{K\cdot\textrm{number of features in the group}}}
 for all other weights.}
 
@@ -71,7 +71,7 @@ lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
 fit <- msgl(x, classes, alpha = .5, lambda = lambda)
 
 # Model 10, i.e. the model corresponding to lambda[10]
-models(fit)[[10]] 
+models(fit)[[10]]
 
 # The nonzero features of model 10
 features(fit)[[10]]
@@ -80,9 +80,9 @@ features(fit)[[10]]
 parameters(fit)[[10]]
 
 # The training errors of the models.
-Err(fit, x) 
+Err(fit, x)
 # Note: For high dimensional models the training errors are almost always over optimistic,
-# instead use msgl.cv to estimate the expected errors by cross validation 
+# instead use msgl.cv to estimate the expected errors by cross validation
 
 }
 \author{
