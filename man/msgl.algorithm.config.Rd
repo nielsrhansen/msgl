@@ -60,10 +60,10 @@ classes <- sim.data$classes
 # Create configuration
 config <- msgl.algorithm.config(verbose = FALSE)
 
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, 
+lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50,
  lambda.min = 0.05, algorithm.config = config)
 
-fit <- msgl(x, classes, alpha = .5, lambda = lambda, 
+fit <- msgl(x, classes, alpha = .5, lambda = lambda,
  algorithm.config = config)
 
 }
