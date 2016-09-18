@@ -1,3 +1,17 @@
+# .travis.yml for R projects
+
+compiler:
+  - gcc
+  - clang
+
+os:
+  - linux
+  - osx
+
+before_install:
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2 ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C / ; fi
+
 language: r
 r:
   - oldrel
@@ -7,6 +21,7 @@ r:
 warnings_are_errors: true
 
 sudo: required
+
 
 # install sglOptim
 r_github_packages:
