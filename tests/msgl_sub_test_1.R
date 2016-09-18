@@ -14,13 +14,7 @@ lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25L, lambda.min = 0.05, st
 test <- replicate(2, 1:20, simplify = FALSE)
 train <- lapply(test, function(s) (1:length(classes))[-s])
 
-if(sgl.c.config()$omp.supported) {
-	threads = 2L
-} else {
-	threads = 1L
-}
-
-fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test, max.threads = threads)
+fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test, max.threads = 1)
 if(!all(fit.sub$classes[[1]] == fit.sub$classes[[2]])) stop()
 if(min(Err(fit.sub, type="count")) > 15) stop()
 
@@ -28,3 +22,13 @@ if(min(Err(fit.sub, type="count")) > 15) stop()
 features_stat(fit.sub)
 parameters_stat(fit.sub)
 
+# Parallel tests
+#FIXME use doParallel
+
+fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test, max.threads = 2)
+if(!all(fit.sub$classes[[1]] == fit.sub$classes[[2]])) stop()
+if(min(Err(fit.sub, type="count")) > 15) stop()
+
+# some navigation tests
+features_stat(fit.sub)
+parameters_stat(fit.sub)

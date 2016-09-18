@@ -13,13 +13,7 @@ set.seed(100L)
 
 lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25L, lambda.min = 0.05, standardize = TRUE)
 
-if(sgl.c.config()$omp.supported) {
-	threads = 2L
-} else {
-	threads = 1L
-}
-
-fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = lambda, sparse.data = TRUE, standardize = FALSE, max.threads = threads)
+fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = lambda, sparse.data = TRUE, standardize = FALSE, max.threads = 1)
 
 err.count <- colSums(fit.cv$classes != classes)
 
