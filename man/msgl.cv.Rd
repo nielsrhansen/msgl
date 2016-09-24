@@ -7,8 +7,9 @@
 msgl.cv(x, classes, sampleWeights = NULL, grouping = NULL,
   groupWeights = NULL, parameterWeights = NULL, alpha = 0.5,
   standardize = TRUE, lambda, fold = 10L, cv.indices = list(),
-  intercept = TRUE, sparse.data = is(x, "sparseMatrix"), max.threads = 2L,
-  seed = NULL, algorithm.config = msgl.standard.config)
+  intercept = TRUE, sparse.data = is(x, "sparseMatrix"),
+  max.threads = NULL, use_parallel = FALSE,
+  algorithm.config = msgl.standard.config)
 }
 \arguments{
 \item{x}{design matrix, matrix of size \eqn{N \times p}.}
@@ -46,9 +47,11 @@ If \code{cv.indices = NULL} then a random splitting will be generated using the 
 
 \item{sparse.data}{if TRUE \code{x} will be treated as sparse, if \code{x} is a sparse matrix it will be treated as sparse by default.}
 
-\item{max.threads}{the maximal number of threads to be used}
+\item{max.threads}{Deprecated (will be removed in 2018),
+instead use \code{use_parallel = TRUE} and registre parallel backend (see package 'doParallel').
+The maximal number of threads to be used.}
 
-\item{seed}{deprecated, use \code{set.seed}.}
+\item{use_parallel}{If \code{TRUE} the \code{foreach} loop will use \code{\%dopar\%}. The user must registre the parallel backend.}
 
 \item{algorithm.config}{the algorithm configuration to be used.}
 }

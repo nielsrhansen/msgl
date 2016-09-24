@@ -1,10 +1,11 @@
 \name{NEWS}
 \title{News for Package 'msgl'}
 
-\section{Changes in msgl version 2.2.1 (2016-09-10)}{
+\section{Changes in msgl version 2.3.0 (2016-09-10)}{
   \itemize{
   \item added quick-start vignette
   \item added functions for extracting number of nonzero features and parameters (\code{feature_stat} and \code{parameter_stat})
+  \item seed argument removed
   \item minor fixes and updates
 }
 }

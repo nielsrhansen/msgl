@@ -8,7 +8,7 @@ msgl.subsampling(x, classes, sampleWeights = rep(1/length(classes),
   length(classes)), grouping = NULL, groupWeights = NULL,
   parameterWeights = NULL, alpha = 0.5, standardize = TRUE, lambda,
   training, test, intercept = TRUE, sparse.data = is(x, "sparseMatrix"),
-  collapse = FALSE, max.threads = 2L,
+  collapse = FALSE, max.threads = NULL, use_parallel = FALSE,
   algorithm.config = msgl.standard.config)
 }
 \arguments{
@@ -50,7 +50,11 @@ The length of the list must equal the length of the \code{training} list.}
 
 \item{collapse}{if \code{TRUE} the results for each subsample will be collapse into one result (this is useful if the subsamples are not overlapping)}
 
-\item{max.threads}{the maximal number of threads to be used}
+\item{max.threads}{Deprecated (will be removed in 2018),
+instead use \code{use_parallel = TRUE} and registre parallel backend (see package 'doParallel').
+The maximal number of threads to be used.}
+
+\item{use_parallel}{If \code{TRUE} the \code{foreach} loop will use \code{\%dopar\%}. The user must registre the parallel backend.}
 
 \item{algorithm.config}{the algorithm configuration to be used.}
 }

@@ -27,7 +27,10 @@
 #' @param intercept should the model include intercept parameters
 #' @param sparse.data if TRUE \code{x} will be treated as sparse, if \code{x} is a sparse matrix it will be treated as sparse by default.
 #' @param collapse if \code{TRUE} the results for each subsample will be collapse into one result (this is useful if the subsamples are not overlapping)
-#' @param max.threads the maximal number of threads to be used
+#' @param max.threads Deprecated (will be removed in 2018),
+#' instead use \code{use_parallel = TRUE} and registre parallel backend (see package 'doParallel').
+#' The maximal number of threads to be used.
+#' @param use_parallel If \code{TRUE} the \code{foreach} loop will use \code{\%dopar\%}. The user must registre the parallel backend.
 #' @param algorithm.config the algorithm configuration to be used.
 #' @return
 #' \item{link}{the linear predictors -- a list of length \code{length(test)} with each element of the list another list of length \code{length(lambda)} one item for each lambda value, with each item a matrix of size \eqn{K \times N} containing the linear predictors.}
@@ -59,8 +62,22 @@
 #' @importFrom methods is
 #' @export
 #' @useDynLib msgl, .registration=TRUE
-msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), length(classes)), grouping = NULL, groupWeights = NULL, parameterWeights = NULL, alpha = 0.5, standardize = TRUE,
-		lambda, training, test, intercept = TRUE, sparse.data = is(x, "sparseMatrix"), collapse = FALSE, max.threads = 2L, algorithm.config = msgl.standard.config) {
+msgl.subsampling <- function(x, classes,
+	sampleWeights = rep(1/length(classes), length(classes)),
+	grouping = NULL,
+	groupWeights = NULL,
+	parameterWeights = NULL,
+	alpha = 0.5,
+	standardize = TRUE,
+	lambda,
+	training,
+	test,
+	intercept = TRUE,
+	sparse.data = is(x, "sparseMatrix"),
+	collapse = FALSE,
+	max.threads = NULL,
+	use_parallel = FALSE,
+	algorithm.config = msgl.standard.config) {
 
 	# Get call
 	cl <- match.call()
@@ -80,7 +97,6 @@ msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), 
 
 	# cast
 	classes <- factor(classes)
-	max.threads <- as.integer(max.threads)
 
 	if(is.null(groupWeights)) {
 		groupWeights <- c(sqrt(length(levels(classes))*table(covariateGrouping)))
@@ -138,8 +154,22 @@ msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), 
 			cat("\n")
 		}
 
-		res <- sgl_subsampling("msgl_sparse", "msgl", data, covariateGrouping, groupWeights, parameterWeights, alpha, lambda, training, test, collapse, max.threads, algorithm.config)
-	} else {
+		res <- sgl_subsampling("msgl_sparse", "msgl",
+			data = data,
+			parameterGrouping = covariateGrouping,
+			groupWeights = groupWeights,
+			parameterWeights = parameterWeights,
+			alpha = alpha,
+			lambda = lambda,
+			training = training,
+			test = test,
+			collapse = collapse,
+			max.threads = max.threads,
+			use_parallel = use_parallel,
+			algorithm.config = algorithm.config
+			)
+
+		} else {
 
 		if(algorithm.config$verbose) {
 			if(algorithm.config$verbose) {
@@ -156,7 +186,21 @@ msgl.subsampling <- function(x, classes, sampleWeights = rep(1/length(classes), 
 			}
 		}
 
-		res <- sgl_subsampling("msgl_dense", "msgl", data, covariateGrouping, groupWeights, parameterWeights, alpha, lambda, training, test, collapse, max.threads, algorithm.config)
+		res <- sgl_subsampling("msgl_dense", "msgl",
+		data = data,
+		parameterGrouping = covariateGrouping,
+		groupWeights = groupWeights,
+		parameterWeights = parameterWeights,
+		alpha = alpha,
+		lambda = lambda,
+		training = training,
+		test = test,
+		collapse = collapse,
+		max.threads = max.threads,
+		use_parallel = use_parallel,
+		algorithm.config = algorithm.config
+		)
+
 	}
 
 	### Responses

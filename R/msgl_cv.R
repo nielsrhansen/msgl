@@ -46,8 +46,10 @@
 #' If \code{cv.indices = NULL} then a random splitting will be generated using the \code{fold} argument.
 #' @param intercept should the model include intercept parameters
 #' @param sparse.data if TRUE \code{x} will be treated as sparse, if \code{x} is a sparse matrix it will be treated as sparse by default.
-#' @param max.threads the maximal number of threads to be used
-#' @param seed deprecated, use \code{set.seed}.
+#' @param max.threads Deprecated (will be removed in 2018),
+#' instead use \code{use_parallel = TRUE} and registre parallel backend (see package 'doParallel').
+#' The maximal number of threads to be used.
+#' @param use_parallel If \code{TRUE} the \code{foreach} loop will use \code{\%dopar\%}. The user must registre the parallel backend.
 #' @param algorithm.config the algorithm configuration to be used.
 #' @return
 #' \item{link}{the linear predictors -- a list of length \code{length(lambda)} one item for each lambda value, with each item a matrix of size \eqn{K \times N} containing the linear predictors.}
@@ -79,8 +81,22 @@
 #' @importFrom methods is
 #' @export
 #' @useDynLib msgl, .registration=TRUE
-msgl.cv <- function(x, classes, sampleWeights = NULL, grouping = NULL, groupWeights = NULL, parameterWeights = NULL, alpha = 0.5, standardize = TRUE,
-		lambda, fold = 10L, cv.indices = list(), intercept = TRUE, sparse.data = is(x, "sparseMatrix"), max.threads = 2L, seed = NULL, algorithm.config = msgl.standard.config) {
+
+msgl.cv <- function(x, classes,
+	sampleWeights = NULL,
+	grouping = NULL,
+	groupWeights = NULL,
+	parameterWeights = NULL,
+	alpha = 0.5,
+	standardize = TRUE,
+	lambda,
+	fold = 10L,
+	cv.indices = list(),
+	intercept = TRUE,
+	sparse.data = is(x, "sparseMatrix"),
+	max.threads = NULL,
+	use_parallel = FALSE,
+	algorithm.config = msgl.standard.config) {
 
 	# Get call
 	cl <- match.call()
@@ -88,11 +104,6 @@ msgl.cv <- function(x, classes, sampleWeights = NULL, grouping = NULL, groupWeig
 	#Check dimensions
 	if(nrow(x) != length(classes)) {
 		stop("the number of rows in x must match the length of classes")
-	}
-
-	if(!is.null(seed)) {
-		set.seed(seed)
-		warning("seed argument deprecated use set.seed")
 	}
 
 	if(fold > min(table(classes))) {
@@ -123,7 +134,6 @@ msgl.cv <- function(x, classes, sampleWeights = NULL, grouping = NULL, groupWeig
 	# cast
 	classes <- factor(classes)
 	fold <- as.integer(fold)
-	max.threads <- as.integer(max.threads)
 
 	if(is.null(groupWeights)) {
 		groupWeights <- c(sqrt(length(levels(classes))*table(covariateGrouping)))
@@ -181,13 +191,25 @@ msgl.cv <- function(x, classes, sampleWeights = NULL, grouping = NULL, groupWeig
 			cat("\n")
 		}
 
-		res <- sgl_cv("msgl_sparse", "msgl", data, covariateGrouping, groupWeights, parameterWeights, alpha, lambda, fold, cv.indices, max.threads, algorithm.config)
+		res <- sgl_cv("msgl_sparse", "msgl",
+			data = data,
+			parameterGrouping = covariateGrouping,
+			groupWeights = groupWeights,
+			parameterWeights = parameterWeights,
+			alpha = alpha,
+			lambda = lambda,
+			fold = fold,
+			cv.indices = cv.indices,
+			max.threads = max.threads,
+			use_parallel = use_parallel,
+			algorithm.config = algorithm.config
+			)
 
 	} else {
 
 		if(algorithm.config$verbose) {
 			cat(paste("Running msgl ", max(length(cv.indices), fold)," fold cross validation (dense design matrix)\n\n", sep=""))
-			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)),
+			print(data.frame('Sa = mples: ' = print_with_metric_prefix(length(sampleWeights)),
 							'Features: ' = print_with_metric_prefix(data$n.covariate),
 							'Classes: ' = print_with_metric_prefix(length(levels(classes))),
 							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
@@ -197,7 +219,19 @@ msgl.cv <- function(x, classes, sampleWeights = NULL, grouping = NULL, groupWeig
 			cat("\n")
 		}
 
-		res <- sgl_cv("msgl_dense", "msgl", data, covariateGrouping, groupWeights, parameterWeights, alpha, lambda, fold, cv.indices, max.threads, algorithm.config)
+		res <- sgl_cv("msgl_dense", "msgl",
+			data = data,
+			parameterGrouping = covariateGrouping,
+			groupWeights = groupWeights,
+			parameterWeights = parameterWeights,
+			alpha = alpha,
+			lambda = lambda,
+			fold = fold,
+			cv.indices = cv.indices,
+			max.threads = max.threads,
+			use_parallel = use_parallel,
+			algorithm.config = algorithm.config
+			)
 
 	}
 

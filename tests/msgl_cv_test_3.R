@@ -11,7 +11,7 @@ set.seed(100L)
 lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25L, lambda.min = 0.05, standardize = TRUE)
 
 # This should show a warning
-fit.cv <- msgl.cv(x, classes, alpha = .5, fold = 11L, lambda = lambda, standardize = TRUE, max.threads = 1)
+fit.cv <- msgl.cv(x, classes, alpha = .5, fold = 11L, lambda = lambda, standardize = TRUE)
 
 err.count <- colSums(fit.cv$classes != classes)
 
