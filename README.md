@@ -56,7 +56,7 @@ classes <- # load class labels (a vector of size N)
 ```
 
 ### 3. Compute lambda sequence
-Choose a lambda.min and an alpha. With alpha = 1 for lasso, alpha = 0 for group lasso and alpha in the range (0,1) for spares group lasso.
+Choose 'lambda.min' and 'alpha'. With 'alpha = 1' for lasso, 'alpha = 0' for group lasso and 'alpha' in the range (0,1) for spares group lasso.
 
 ```R
 lambda <- msgl.lambda.seq(x, classes, alpha = 0.25, lambda.min = 1e-4)
@@ -70,7 +70,7 @@ lambda[1] # lambda.max
 
 ### 4. Estimate error using cross validation
 
-Use 'msgl.cv' to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 5 parallel units.
+Use 'msgl.cv' to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 5 parallel units (using the 'foreach' and 'doParallel' packages).
 
 ```R
 cl <- makeCluster(5)
@@ -86,8 +86,8 @@ Running msgl 10 fold cross validation (dense design matrix)
 
  Samples:  Features:  Classes:  Groups:  Parameters:
        119    22.284k        13  22.284k     289.692k
-
 ```
+(for the current version *no progress bar will be shown*)
 
 **Get a summery of the validated models.**
 We have now cross validated the models corresponding to the lambda values, one model for each lambda value. We may get a summery of this validation by doing:
