@@ -70,21 +70,23 @@ lambda[1] # lambda.max
 
 ### 4. Estimate error using cross validation
 
-Use 'msgl.cv' to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using maximally 5 threads.
+Use 'msgl.cv' to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 5 parallel units.
 
 ```R
-fit.cv <- msgl.cv(x, classes, fold = 10, alpha = 0.25, lambda = lambda, max.threads = 5)
+cl <- makeCluster(5)
+registerDoParallel(cl)
+
+fit.cv <- msgl.cv(x, classes, fold = 10, alpha = 0.25, lambda = lambda, use_parallel = TRUE)
+
+stopCluster(cl)
 ```
-the output (while the algorithm is running) would look something like this:
+the output (while the algorithm is running) look something like this:
 ```
 Running msgl 10 fold cross validation (dense design matrix)
 
  Samples:  Features:  Classes:  Groups:  Parameters:
        119    22.284k        13  22.284k     289.692k
 
-0% 10   20   30   40   50   60   70   80   90   100%
-|----|----|----|----|----|----|----|----|----|----|
-********************************************
 ```
 
 **Get a summery of the validated models.**
