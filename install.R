@@ -35,4 +35,12 @@ pkg <- package_name(path)
 roxygenise(path)
 print(warnings())
 
+# build vignettes
+vignettes.path <- file.path(path, "vignettes")
+vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")
+
+for(file in vignettes.files)
+  rmarkdown::render(file.path(vignettes.path, file))
+
+# install
 build_install_local(pkg, file.path(path, ".."))

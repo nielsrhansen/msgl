@@ -56,13 +56,13 @@ classes <- # load class labels (a vector of size N)
 ```
 
 ### 3. Compute lambda sequence
-Choose 'lambda.min' and 'alpha'. With 'alpha = 1' for lasso, 'alpha = 0' for group lasso and 'alpha' in the range (0,1) for spares group lasso.
+Choose `lambda.min` and `alpha`. With `alpha = 1` for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1) for spares group lasso.
 
 ```R
 lambda <- msgl.lambda.seq(x, classes, alpha = 0.25, lambda.min = 1e-4)
 ```
 
-The user specified lambda.min should be less than the compute lambda.max. Lambda max is the lambda at which the first penalized parameter becomes non-zero. A smaller lambda.min will take longer to fit and include more features.
+The user specified lambda min should be less than the compute lambda max. Lambda max is the lambda at which the first penalized parameter becomes non-zero. A smaller `lambda.min` will take longer to fit and include more features.
 
 ```R
 lambda[1] # lambda.max
@@ -70,7 +70,7 @@ lambda[1] # lambda.max
 
 ### 4. Estimate error using cross validation
 
-Use 'msgl.cv' to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 5 parallel units (using the 'foreach' and 'doParallel' packages).
+Use `msgl.cv` to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 5 parallel units (using the [foreach](https://cran.r-project.org/web/packages/foreach/index.html) and [doParallel](https://cran.r-project.org/web/packages/doParallel/index.html) packages.
 
 ```R
 cl <- makeCluster(5)
@@ -98,7 +98,7 @@ this would give something like this:
 ```
 Call:
 msgl.cv(x = x, classes = classes, alpha = 0.25, lambda = lambda,
-    fold = 10, max.threads = 5)
+    fold = 10, use_parallel = TRUE)
 
 Models:
 
