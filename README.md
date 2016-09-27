@@ -70,7 +70,7 @@ lambda[1] # lambda.max
 
 ### 4. Estimate error using cross validation
 
-Use `msgl.cv` to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 5 parallel units (using the [foreach](https://cran.r-project.org/web/packages/foreach/index.html) and [doParallel](https://cran.r-project.org/web/packages/doParallel/index.html) packages.
+Use `msgl.cv` to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 5 parallel units (using the [foreach](https://cran.r-project.org/web/packages/foreach/index.html) and [doParallel](https://cran.r-project.org/web/packages/doParallel/index.html) packages).
 
 ```R
 cl <- makeCluster(5)
