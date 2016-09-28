@@ -209,7 +209,7 @@ msgl.cv <- function(x, classes,
 
 		if(algorithm.config$verbose) {
 			cat(paste("Running msgl ", max(length(cv.indices), fold)," fold cross validation (dense design matrix)\n\n", sep=""))
-			print(data.frame('Sa = mples: ' = print_with_metric_prefix(length(sampleWeights)),
+			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)),
 							'Features: ' = print_with_metric_prefix(data$n.covariate),
 							'Classes: ' = print_with_metric_prefix(length(levels(classes))),
 							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
