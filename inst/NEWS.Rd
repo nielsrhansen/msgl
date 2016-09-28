@@ -1,13 +1,13 @@
 \name{NEWS}
 \title{News for Package 'msgl'}
 
-\section{Changes in msgl version 2.3.0 (2016-09-10)}{
+\section{Changes in msgl version 2.3.0 (2016-09-28)}{
   \itemize{
   \item added quick-start vignette
   \item added functions for extracting number of nonzero features and parameters (\code{feature_stat} and \code{parameter_stat})
   \item seed argument removed
   \item minor fixes and updates
-item Better handling of R memory protection (fewer PROTECT calls)
+  \item Better handling of R memory protection (fewer PROTECT calls)
 	\item subsampling uses foreach and doParallel (showing a progressbar is no longer supported for subsampling and cross validation)
 	\item subsampling now supports different lambda sequences for each subsample
 }
