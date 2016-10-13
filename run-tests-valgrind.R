@@ -34,6 +34,10 @@ run_test_valgrind <- function(file, path) {
   system(run_command)
 }
 
+if( ! "roxygen2" %in% rownames(installed.packages())) {
+  install.packages("roxygen2", repos = "https://cloud.r-project.org")
+}
+
 library("roxygen2")
 
 path <- file.path(getwd(), get_script_path())
