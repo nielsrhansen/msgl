@@ -23,7 +23,7 @@ Imports:
 Depends:
     R (>= 3.0.0),
     Matrix,
-    sglOptim (== 1.3.0), sglOptim (<= 1.4.0),
+    sglOptim (== 1.3.0), sglOptim (<= 1.4.0)
 LinkingTo: Rcpp,
     RcppProgress,
     RcppArmadillo,
