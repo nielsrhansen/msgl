@@ -21,6 +21,11 @@ warnings_are_errors: true
 
 sudo: required
 
+r_packages:
+  - covr
+
+after_success:
+  - Rscript -e 'library(covr); codecov()' Using Wercker CI
 
 # install sglOptim
 r_github_packages:
