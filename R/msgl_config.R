@@ -35,6 +35,7 @@
 #' @param stepsize_opt_penalized_initial_t initial step-size.
 #' @param stepsize_opt_penalized_a step-size optimization parameter.
 #' @param stepsize_opt_penalized_b step-size optimization parameter.
+#' @param max_iterations_outer max iteration of outer loop
 #' @param inner_loop_convergence_limit inner loop convergence limit.
 #' @param verbose If \code{TRUE} some information, regarding the status of the algorithm, will be printed in the R terminal.
 #' @return A configuration.
@@ -66,6 +67,7 @@ msgl.algorithm.config <- function(tolerance_penalized_main_equation_loop = 1e-10
 		stepsize_opt_penalized_initial_t = 1,
 		stepsize_opt_penalized_a = 0.1,
 		stepsize_opt_penalized_b = 0.1,
+		max_iterations_outer = 1e5,
 		inner_loop_convergence_limit = 1e5,
 		verbose = TRUE) {
 
@@ -89,6 +91,7 @@ msgl.algorithm.config <- function(tolerance_penalized_main_equation_loop = 1e-10
 	config$stepsize_opt_penalized_a <- stepsize_opt_penalized_a
 	config$stepsize_opt_penalized_b <- stepsize_opt_penalized_b
 
+	config$max_iterations_outer <- as.integer(max_iterations_outer)
 	config$inner_loop_convergence_limit <- as.integer(inner_loop_convergence_limit)
 
 	config$verbose <- verbose
