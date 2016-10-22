@@ -16,10 +16,11 @@ package_name <- function(path) {
     return(out)
 }
 
-build_install_local <- function(pkg, path) {
+build_install_local <- function(pkg, path, build_vignettes = FALSE) {
   ver <- packageVersion(pkg, lib.loc = path)
 
-  build_command <- paste("R CMD build ", file.path(path, pkg))
+  build_flags <- if(build_vignettes) "" else "--no-build-vignettes"
+  build_command <- paste("R CMD build ", build_flags, file.path(path, pkg))
   system(build_command)
 
   build_name <- paste(pkg, "_", ver, ".tar.gz", sep="")
@@ -40,11 +41,17 @@ roxygenise(path)
 print(warnings())
 
 # build vignettes
-vignettes.path <- file.path(path, "vignettes")
-vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")
+pandoc.installed <- system('pandoc -v')==0
 
-for(file in vignettes.files)
-  rmarkdown::render(file.path(vignettes.path, file))
+if(pandoc.installed) {
+  vignettes.path <- file.path(path, "vignettes")
+  vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")
+
+  for(file in vignettes.files)
+    rmarkdown::render(file.path(vignettes.path, file))
+} else {
+  warning("Not building vignettes")
+}
 
 # install
-build_install_local(pkg, file.path(path, ".."))
+build_install_local(pkg, file.path(path, ".."), build_vignettes = pandoc.installed)

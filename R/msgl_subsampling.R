@@ -139,69 +139,43 @@ msgl.subsampling <- function(x, classes,
 	# create data
 	data <- create.sgldata(x, y = NULL, sampleWeights, classes, sparseX = sparse.data)
 
-	# call sglOptim function
-	if(data$sparseX) {
-		if(algorithm.config$verbose) {
-
+	# print some info
+	if(algorithm.config$verbose) {
+		if(data$sparseX) {
 			cat(paste("Running msgl subsampling with ", length(training)," subsamples (sparse design matrix)\n\n", sep=""))
-			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)),
-							'Features: ' = print_with_metric_prefix(data$n.covariate),
-							'Classes: ' = print_with_metric_prefix(length(levels(classes))),
-							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
-							'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
-							check.names = FALSE),
-					row.names = FALSE, digits = 2, right = TRUE)
+		} else {
+			cat(paste("Running msgl subsampling with ", length(training)," subsamples (dense design matrix)\n\n", sep=""))
+		}
+
+		print( data.frame(
+			'Samples: ' = print_with_metric_prefix(length(sampleWeights)),
+			'Features: ' = print_with_metric_prefix(data$n.covariate),
+			'Classes: ' = print_with_metric_prefix(length(levels(classes))),
+			'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
+			'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
+			check.names = FALSE),
+			row.names = FALSE, digits = 2, right = TRUE)
 			cat("\n")
 		}
 
-		res <- sgl_subsampling("msgl_sparse", "msgl",
-			data = data,
-			parameterGrouping = covariateGrouping,
-			groupWeights = groupWeights,
-			parameterWeights = parameterWeights,
-			alpha = alpha,
-			lambda = lambda,
-			training = training,
-			test = test,
-			collapse = collapse,
-			max.threads = max.threads,
-			use_parallel = use_parallel,
-			algorithm.config = algorithm.config
-			)
-
-		} else {
-
-		if(algorithm.config$verbose) {
-			if(algorithm.config$verbose) {
-
-				cat(paste("Running msgl subsampling with ", length(training)," subsamples (dense design matrix)\n\n", sep=""))
-				print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)),
-								'Features: ' = print_with_metric_prefix(data$n.covariate),
-								'Classes: ' = print_with_metric_prefix(length(levels(classes))),
-								'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
-								'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
-								check.names = FALSE),
-						row.names = FALSE, digits = 2, right = TRUE)
-				cat("\n")
-			}
-		}
-
-		res <- sgl_subsampling("msgl_dense", "msgl",
-		data = data,
-		parameterGrouping = covariateGrouping,
-		groupWeights = groupWeights,
-		parameterWeights = parameterWeights,
-		alpha = alpha,
-		lambda = lambda,
-		training = training,
-		test = test,
-		collapse = collapse,
-		max.threads = max.threads,
-		use_parallel = use_parallel,
-		algorithm.config = algorithm.config
-		)
-
-	}
+	# Do subsampling
+	res <- sgl_subsampling(
+	module_name =	if(data$sparseX) "msgl_sparse" else "msgl_dense",
+	PACKAGE = "msgl",
+	data = data,
+	parameterGrouping = covariateGrouping,
+	groupWeights = groupWeights,
+	parameterWeights = parameterWeights,
+	alpha = alpha,
+	lambda = lambda,
+	training = training,
+	test = test,
+	collapse = collapse,
+	responses = c("link", "response", "classes"),
+	max.threads = max.threads,
+	use_parallel = use_parallel,
+	algorithm.config = algorithm.config
+	)
 
 	### Responses
 	res$classes <- lapply(res$responses$classes, t)

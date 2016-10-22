@@ -140,7 +140,7 @@ msgl.cv <- function(x, classes,
 	}
 
 	if(is.null(parameterWeights)) {
-		parameterWeights <-  matrix(1, nrow = length(levels(classes)), ncol = ncol(x))
+		parameterWeights <- matrix(1, nrow = length(levels(classes)), ncol = ncol(x))
 	}
 
 	# Standardize
@@ -177,63 +177,41 @@ msgl.cv <- function(x, classes,
 	data <- create.sgldata(x, y = NULL, sampleWeights, classes, sparseX = sparse.data)
 
 	# call sglOptim function
-	if(data$sparseX) {
+	if(algorithm.config$verbose) {
 
-		if(algorithm.config$verbose) {
+		if(data$sparseX) {
 			cat(paste("Running msgl ", max(length(cv.indices), fold)," fold cross validation (sparse design matrix)\n\n", sep=""))
-			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)),
-							'Features: ' = print_with_metric_prefix(data$n.covariate),
-							'Classes: ' = print_with_metric_prefix(length(levels(classes))),
-							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
-							'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
-							check.names = FALSE),
-					row.names = FALSE, digits = 2, right = TRUE)
-			cat("\n")
-		}
-
-		res <- sgl_cv("msgl_sparse", "msgl",
-			data = data,
-			parameterGrouping = covariateGrouping,
-			groupWeights = groupWeights,
-			parameterWeights = parameterWeights,
-			alpha = alpha,
-			lambda = lambda,
-			fold = fold,
-			cv.indices = cv.indices,
-			max.threads = max.threads,
-			use_parallel = use_parallel,
-			algorithm.config = algorithm.config
-			)
-
-	} else {
-
-		if(algorithm.config$verbose) {
+		} else {
 			cat(paste("Running msgl ", max(length(cv.indices), fold)," fold cross validation (dense design matrix)\n\n", sep=""))
-			print(data.frame('Samples: ' = print_with_metric_prefix(length(sampleWeights)),
-							'Features: ' = print_with_metric_prefix(data$n.covariate),
-							'Classes: ' = print_with_metric_prefix(length(levels(classes))),
-							'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
-							'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
-							check.names = FALSE),
-					row.names = FALSE, digits = 2, right = TRUE)
+		}
+
+		print(data.frame(
+			'Samples: ' = print_with_metric_prefix(length(sampleWeights)),
+			'Features: ' = print_with_metric_prefix(data$n.covariate),
+			'Classes: ' = print_with_metric_prefix(length(levels(classes))),
+			'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
+			'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
+			check.names = FALSE),
+			row.names = FALSE, digits = 2, right = TRUE)
 			cat("\n")
 		}
 
-		res <- sgl_cv("msgl_dense", "msgl",
-			data = data,
-			parameterGrouping = covariateGrouping,
-			groupWeights = groupWeights,
-			parameterWeights = parameterWeights,
-			alpha = alpha,
-			lambda = lambda,
-			fold = fold,
-			cv.indices = cv.indices,
-			max.threads = max.threads,
-			use_parallel = use_parallel,
-			algorithm.config = algorithm.config
-			)
-
-	}
+	res <- sgl_cv(
+		module_name =	if(sparse.data) "msgl_sparse" else "msgl_dense",
+		PACKAGE = "msgl",
+		data = data,
+		parameterGrouping = covariateGrouping,
+		groupWeights = groupWeights,
+		parameterWeights = parameterWeights,
+		alpha = alpha,
+		lambda = lambda,
+		fold = fold,
+		cv.indices = cv.indices,
+		responses = c("link", "response", "classes"),
+		max.threads = max.threads,
+		use_parallel = use_parallel,
+		algorithm.config = algorithm.config
+		)
 
 	### Responses
 	res$classes <- t(res$responses$classes)

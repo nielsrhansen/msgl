@@ -20,68 +20,43 @@
 #ifndef MSGL_MULTINOMIAL_RESPONSE_H_
 #define MSGL_MULTINOMIAL_RESPONSE_H_
 
-class PredictedClass {};
-class LP {};
-class Probabilities {};
+using namespace sgl;
 
-class MultinomialResponse {
+class MultinomialResponse : public elements < MultinomialResponse > {
+
+private:
+
+	vector const linear_predictors;
 
 public:
-
-	sgl::natural const n_classes;
-
-	sgl::natural const predicted_class; // 1 based, i.e first classes has number 1 (not 0)
-	sgl::vector const linear_predictors;
-	sgl::vector const probabilities;
-
 	MultinomialResponse(sgl::vector const& linear_predictors) :
-			n_classes(linear_predictors.n_elem), predicted_class(argmax(linear_predictors)+1), linear_predictors(
-					linear_predictors), probabilities(exp(linear_predictors) * (1/ sum(exp(linear_predictors)))) {
-	}
+		linear_predictors(linear_predictors) {}
 
 	//Needed so that we can use fields
 	MultinomialResponse() :
-			n_classes(0), predicted_class(0), linear_predictors(), probabilities() {
+			linear_predictors(null_vector) {}
+
+	MultinomialResponse const& operator=(MultinomialResponse const& s) {
+		const_cast < vector & > ( this->linear_predictors ) = s.linear_predictors;
+
+		return * this;
 	}
 
-	MultinomialResponse const& operator=(MultinomialResponse const& s)
-	{
-		const_cast<sgl::natural&>(this->n_classes) = s.n_classes;
-		const_cast<sgl::natural&>(this->predicted_class) = s.predicted_class;
-		const_cast<sgl::vector&>(this->linear_predictors) = s.linear_predictors;
-		const_cast<sgl::vector&>(this->probabilities) = s.probabilities;
+	rList as_rList() const {
 
-		return *this;
+		rList list;
+
+		vector prob = exp(linear_predictors) * (1 / sum(exp(linear_predictors)));
+		natural class_index = linear_predictors.index_max() + 1;
+
+		list.attach(linear_predictors, "link");
+		list.attach(prob, "response");
+		list.attach(class_index, "classes");
+
+		return list;
+
 	}
-
-    sgl::natural const& get(PredictedClass) const {
-        return predicted_class;
-    }
-
-    sgl::vector const& get(LP) const {
-        return linear_predictors;
-    }
-
-    sgl::vector const& get(Probabilities) const {
-        return probabilities;
-    }
-
-    template<typename T>
-    static rList simplify(T const& responses) {
-
-        rList list;
-
-        list.attach(sgl::simplifier<sgl::vector, LP>::simplify(responses), "link");
-        list.attach(sgl::simplifier<sgl::vector, Probabilities>::simplify(responses), "response");
-        list.attach(sgl::simplifier<sgl::natural, PredictedClass>::simplify(responses), "classes");
-
-        return list;
-    }
 
 };
-
-
-
-
 
 #endif /* MSGL_MULTINOMIAL_RESPONSE_H_ */
