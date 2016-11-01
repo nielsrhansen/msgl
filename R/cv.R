@@ -101,80 +101,23 @@ msgl.cv <- function(x, classes,
 	# Get call
 	cl <- match.call()
 
-	#Check dimensions
-	if(nrow(x) != length(classes)) {
-		stop("the number of rows in x must match the length of classes")
-	}
-
 	if(fold > min(table(classes))) {
 		warning("fold larger than the number of samples in the smalest group")
 	}
 
-	if(sum(is.na(classes)) > 0) {
-		stop("classes contains NA values")
-	}
+	setup <- .process_args(
+    x = x,
+    classes = classes,
+		weights = sampleWeights,
+		intercept = intercept,
+		grouping = grouping,
+		groupWeights = groupWeights,
+		parameterWeights = parameterWeights,
+		standardize = standardize,
+		sparse.data = sparse.data
+  )
 
-	# Default values
-	if(is.null(grouping)) {
-		covariateGrouping <- factor(1:ncol(x))
-	} else {
-		# ensure factor
-		covariateGrouping <- factor(grouping)
-	}
-
-	if(is.null(sampleWeights)) {
-		if(length(cv.indices) == 0) {
-			sampleWeights <- rep(fold/(length(classes)*(fold-1)), length(classes))
-		} else {
-			n_train <- sapply(cv.indices, function(x) length(classes)-length(x))
-			sampleWeights <- rep(1/mean(n_train), length(classes))
-		}
-	}
-
-	# cast
-	classes <- factor(classes)
-	fold <- as.integer(fold)
-
-	if(is.null(groupWeights)) {
-		groupWeights <- c(sqrt(length(levels(classes))*table(covariateGrouping)))
-	}
-
-	if(is.null(parameterWeights)) {
-		parameterWeights <- matrix(1, nrow = length(levels(classes)), ncol = ncol(x))
-	}
-
-	# Standardize
-	if(standardize) {
-
-		if(sparse.data) {
-			x.scale <- sqrt(colMeans(x*x) - colMeans(x)^2)
-			x.center <- rep(0, length(x.scale))
-			x <- x%*%Diagonal(x=1/x.scale)
-		} else {
-			x <- scale(x, if(sparse.data) FALSE else TRUE, TRUE)
-			x.scale <- attr(x, "scaled:scale")
-			x.center <- if(sparse.data) rep(0, length(x.scale)) else attr(x, "scaled:center")
-		}
-	}
-
-	if(intercept) {
-		intercept.value = 1
-	} else {
-		intercept.value = 0
-	}
-	# add intercept
-	if(is.null(colnames(x))) {
-		x <- cBind(rep(intercept.value, nrow(x)), x)
-	} else {
-		x <- cBind(Intercept = rep(intercept.value, nrow(x)), x)
-	}
-
-	groupWeights <- c(0, groupWeights)
-	parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
-	covariateGrouping <- factor(c("Intercept", as.character(covariateGrouping)), levels = c("Intercept", levels(covariateGrouping)))
-
-	# create data
-	data <- create.sgldata(x, y = NULL, sampleWeights, classes, sparseX = sparse.data)
+	data <- setup$data
 
 	# call sglOptim function
 	if(algorithm.config$verbose) {
@@ -186,24 +129,25 @@ msgl.cv <- function(x, classes,
 		}
 
 		print(data.frame(
-			'Samples: ' = print_with_metric_prefix(length(sampleWeights)),
+			'Samples: ' = print_with_metric_prefix(length(data$data$G)),
 			'Features: ' = print_with_metric_prefix(data$n.covariate),
-			'Classes: ' = print_with_metric_prefix(length(levels(classes))),
-			'Groups: ' = print_with_metric_prefix(length(unique(covariateGrouping))),
-			'Parameters: ' = print_with_metric_prefix(length(parameterWeights)),
+			'Classes: ' = print_with_metric_prefix(max(data$data$G)+1),
+			'Groups: ' = print_with_metric_prefix(length(unique(setup$grouping))),
+			'Parameters: ' = print_with_metric_prefix(length(setup$parameterWeights)),
 			check.names = FALSE),
 			row.names = FALSE, digits = 2, right = TRUE)
-			cat("\n")
-		}
+		cat("\n")
+	}
+
 
 	res <- sgl_cv(
-		module_name =	if(sparse.data) "msgl_sparse" else "msgl_dense",
+		module_name = setup$callsym,
 		PACKAGE = "msgl",
 		data = data,
-		parameterGrouping = covariateGrouping,
-		groupWeights = groupWeights,
-		parameterWeights = parameterWeights,
-		alpha = alpha,
+		parameterGrouping = setup$grouping,
+		groupWeights = setup$groupWeights,
+		parameterWeights = setup$parameterWeights,
+		alpha =  alpha,
 		lambda = lambda,
 		fold = fold,
 		cv.indices = cv.indices,
@@ -211,16 +155,18 @@ msgl.cv <- function(x, classes,
 		max.threads = max.threads,
 		use_parallel = use_parallel,
 		algorithm.config = algorithm.config
-		)
+	)
+
 
 	### Responses
-	res$classes <- t(res$responses$classes)
-	res$response <- res$responses$response
-	res$link <- res$responses$link
+	res$classes <- res$responses$classes
+	res$response <- transpose_response_elements(res$responses$response)
+	res$link <- transpose_response_elements(res$responses$link)
 	res$responses <- NULL
 
+	#FIXME
 	# Set class names
-	if(!is.null(data$group.names)) {
+	if( ! is.null(data$group.names)) {
 		res$classes <- apply(X = res$classes, MARGIN = c(1,2), FUN = function(x) data$group.names[x])
 		res$link <- lapply(X = res$link, FUN = function(m) {rownames(m) <- data$group.names; m})
 		res$response <- lapply(X = res$response, FUN = function(m) {rownames(m) <- data$group.names; m})

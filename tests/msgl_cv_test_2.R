@@ -11,7 +11,7 @@ classes <- sim.data$classes
 
 set.seed(100L)
 
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25L, lambda.min = 0.05, standardize = TRUE)
+lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25L, lambda.min = 0.02, standardize = FALSE)
 
 fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = lambda, sparse.data = TRUE, standardize = FALSE)
 

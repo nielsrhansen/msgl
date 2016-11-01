@@ -1,6 +1,12 @@
 \name{NEWS}
 \title{News for Package 'msgl'}
 
+\section{Changes in msgl version 2.3.1 (2016-??-??)}{
+\itemize{
+  \item Some code cleanup and refactoring
+  \item Removed special default sampleWeights from cv -- this may imply that the lambda sequence needs adjustment to reach the same results.  
+}
+}
 \section{Changes in msgl version 2.3.0 (2016-09-28)}{
   \itemize{
   \item added quick-start vignette

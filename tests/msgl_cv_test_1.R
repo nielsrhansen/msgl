@@ -11,13 +11,17 @@ classes <- sim.data$classes
 
 set.seed(100L)
 
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25L, lambda.min = 0.05, standardize = TRUE)
+lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25, lambda.min = 0.02, standardize = TRUE)
+
+#TODO test lambda
 
 fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = lambda, standardize = TRUE)
 
-err.count <- colSums(fit.cv$classes != classes)
+err <- Err(fit.cv, type ="count")
 
-if(err.count[1] < 80 | err.count[25] > 30) stop()
+if(err[1] < 80 | err[25] > 30) stop()
+
+#TODO test features and parameters
 
 # Test response format
 if( ! all(dim(fit.cv$link[[1]]) == c(10, 100))) stop()

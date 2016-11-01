@@ -92,23 +92,31 @@
 #' @import sglOptim
 Err.msgl <- function(object, data = NULL, response = object$classes.true, classes = response, type = "rate", ... ) {
 
-	if(is.null(classes)) stop("classes must be specified")
+	if(is.null(classes)) stop("classes or response must be specified")
 
-	if(type=="rate") {
-		return(compute_error(object, data = data, response.name = "classes", response = classes, loss = function(x,y) mean(x != y)))
+	loss <- switch(type,
+
+		rate = list(function(x,y) mean(sapply(1:length(x), function(i) x[[i]] != y[[i]])), "classes", FALSE),
+		count = list(function(x,y) sum(sapply(1:length(x), function(i) x[[i]] != y[[i]])), "classes", FALSE),
+
+		loglike = list(function(x,y) -mean(log(sapply(1:length(x), function(i) y[[i]][as.integer(x[[i]])]))), "response", TRUE),
+
+		stop("Unknown type")
+	)
+
+	true_response <- classes
+
+	if( ! is.null(data) ) {
+		object <- predict(object, data)
 	}
 
-	if(type=="count") {
-		return(compute_error(object, data = data, response.name = "classes", response = classes, loss = function(x,y) sum(x != y)))
-	}
-
-	if(type=="loglike") {
-		loss <- function(x,y) -mean(log(sapply(1:length(y), function(i) x[as.integer(y[i]),i])))
-		return(compute_error(object, data = data, response.name = "response", response = classes, loss = loss))
-	}
-
-	stop("Unknown type")
-
+	return( compute_error(
+		x = object,
+		response_name = loss[[2]],
+		true_response = true_response,
+		loss = loss[[1]],
+		transposed_response = loss[[3]])
+	)
 }
 
 #' @title Nonzero features

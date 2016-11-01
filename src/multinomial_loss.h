@@ -40,7 +40,8 @@ public:
 
 	typedef sgl::hessian_full<false> hessian_type; //general hessian - non constant
 
-	typedef sgl::DataPackage_3< sgl::MatrixData<T>,
+	typedef sgl::DataPackage_3<
+			sgl::MatrixData<T>,
 			sgl::GroupData,
 			sgl::Data<sgl::vector, 'W'> > data_type;
 
@@ -48,27 +49,25 @@ public:
 
 	mutable bool hessians_computed;
 
-
 	MultinomialLoss() :
-            n_samples(0),
-						n_responses(0),
-						n_variables(0),
-						Y(sgl::null_natural_vector),
-						W(sgl::null_vector),
-						prob(n_samples, n_responses),
-						hessian_matrices(),
-						hessians_computed(false) {
-	}
+    n_samples(0),
+		n_responses(0),
+		n_variables(0),
+	  Y(sgl::null_natural_vector),
+		W(sgl::null_vector),
+		prob(n_samples, n_responses),
+		hessian_matrices(),
+		hessians_computed(false) {}
 
 	MultinomialLoss(data_type const& data) :
-			n_samples(data.get_A().n_samples),
-			n_responses(data.get_B().n_groups),
-			n_variables(n_responses),
-			Y(data.get_B().grouping),
-			W(data.get_C().data),
-			prob(n_samples, n_responses),
-			hessian_matrices(n_samples),
-			hessians_computed(false) {
+		n_samples(data.get_A().n_samples),
+		n_responses(data.get_B().n_groups),
+		n_variables(n_responses),
+		Y(data.get_B().grouping),
+		W(data.get_C().data),
+		prob(n_samples, n_responses),
+		hessian_matrices(n_samples),
+		hessians_computed(false) {
 
 		set_lp_zero();
 	}
@@ -90,6 +89,7 @@ public:
 
 		prob.fill(1 / static_cast<sgl::numeric>(n_responses));
 		hessians_computed = false;
+
 	}
 
 
@@ -118,13 +118,14 @@ public:
 		hessians_computed = true;
 	}
 
-    const sgl::matrix& hessians(sgl::natural i) const {
+  const sgl::matrix& hessians(sgl::natural i) const {
 		return  hessian_matrices(i);
 	}
 
-	const sgl::matrix& probabilities() const {
-		return prob;
-	}
+  //TODO remove
+	// const sgl::matrix& probabilities() const {
+	// 	return prob;
+	// }
 
 	const sgl::numeric sum_values() const {
 

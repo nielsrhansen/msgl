@@ -47,8 +47,10 @@ if(pandoc.installed) {
   vignettes.path <- file.path(path, "vignettes")
   vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")
 
-  for(file in vignettes.files)
+  for(file in vignettes.files) {
     rmarkdown::render(file.path(vignettes.path, file))
+  }
+  
 } else {
   warning("Not building vignettes")
 }
