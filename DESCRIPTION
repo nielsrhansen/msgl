@@ -33,4 +33,4 @@ LinkingTo: Rcpp,
 Suggests:
     knitr
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 5.0.1.9000

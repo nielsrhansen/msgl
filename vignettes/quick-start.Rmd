@@ -16,28 +16,19 @@ x <- # load design matrix (of size N x p)
 classes <- # load class labels (a vector of size N)
 ```
 
-### 3. Compute lambda sequence
-Choose `lambda.min` and `alpha`. With `alpha = 1` for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1) for spares group lasso.
+### 3. Estimate error using cross validation
+Choose `lambda` (fraction of lambda.max) and `alpha`. With `alpha = 1` for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1) for spares group lasso.
 
-```R
-lambda <- msgl.lambda.seq(x, classes, alpha = 0.25, lambda.min = 1e-4)
-```
-
-The user specified lambda min should be less than the compute lambda max. Lambda max is the lambda at which the first penalized parameter becomes non-zero. A smaller `lambda.min` will take longer to fit and include more features.
-
-```R
-lambda[1] # lambda.max
-```
-
-### 4. Estimate error using cross validation
-
-Use `msgl.cv` to estimate the error for each lambda value and for finding an optimal lambda. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 5 parallel units (using the [foreach](https://CRAN.R-project.org/package=foreach) and [doParallel](https://CRAN.R-project.org/package=doParallel) packages.
+Use `msgl.cv` to estimate the error for each lambda in a sequence decreasing from the data derived lambda.max to `lambda` * lambda.max.
+Lambda max is the lambda at which the first penalized parameter becomes non-zero.
+A smaller `lambda` will take longer to fit and include more features.
+The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 5 parallel units (using the [foreach](https://CRAN.R-project.org/package=foreach) and [doParallel](https://CRAN.R-project.org/package=doParallel) packages.
 
 ```R
 cl <- makeCluster(5)
 registerDoParallel(cl)
 
-fit.cv <- msgl.cv(x, classes, fold = 10, alpha = 0.25, lambda = lambda, use_parallel = TRUE)
+fit.cv <- msgl.cv(x, classes, fold = 10, alpha = 0.25, lambda = 0.5, use_parallel = TRUE)
 
 stopCluster(cl)
 ```
@@ -78,7 +69,7 @@ Best model:
 
 Hence, the best model is obtained using lambda index 44 and it has a cross validation error of 0.21. The expected number of features is 116.5 and the expected number of parameters is 1.132k.
 
-### 5. Fit the final model
+### 4. Fit the final model
 
 Use msgl to fit a final model.
 ```R

@@ -129,8 +129,8 @@ msgl.cv <- function(x, classes,
 		}
 
 		print(data.frame(
-			'Samples: ' = print_with_metric_prefix(length(data$data$G)),
-			'Features: ' = print_with_metric_prefix(data$n.covariate),
+			'Samples: ' = print_with_metric_prefix(data$n_samples),
+			'Features: ' = print_with_metric_prefix(data$n_covariate),
 			'Classes: ' = print_with_metric_prefix(max(data$data$G)+1),
 			'Groups: ' = print_with_metric_prefix(length(unique(setup$grouping))),
 			'Parameters: ' = print_with_metric_prefix(length(setup$parameterWeights)),

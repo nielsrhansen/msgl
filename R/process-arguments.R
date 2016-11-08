@@ -39,7 +39,7 @@
   if(sum(is.na(classes)) > 0) {
   		stop("classes contains NA values")
   }
-  
+
 	# Default values
 	if(is.null(grouping)) {
 		grouping <- factor(1:ncol(x))
@@ -48,7 +48,7 @@
 		grouping <- factor(grouping)
 	}
 
-  if(is.null(weights)) {
+  if( is.null(weights) ) {
     weights <- rep(1/nrow(x), nrow(x))
   }
 
@@ -78,21 +78,21 @@
 		}
 	}
 
-	if(intercept) {
-		intercept.value = 1
-	} else {
-		intercept.value = 0
-	}
-		# add intercept
-	if(is.null(colnames(x))) {
-		x <- cBind(rep(intercept.value, nrow(x)), x)
-	} else {
-		x <- cBind(Intercept = rep(intercept.value, nrow(x)), x)
-	}
+  if(intercept) {
 
-	groupWeights <- c(0, groupWeights)
-	parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
-	grouping <- factor(c("Intercept", as.character(grouping)), levels = c("Intercept", levels(grouping)))
+    # add intercept
+
+    if( is.null(colnames(x)) ) {
+		  x <- cBind(rep(1, nrow(x)), x)
+	  } else {
+		  x <- cBind(Intercept = rep(1, nrow(x)), x)
+	  }
+
+    groupWeights <- c(0, groupWeights)
+    parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
+    grouping <- factor(c("Intercept", as.character(grouping)), levels = c("Intercept", levels(grouping)))
+
+  }
 
   # create data
 data <- create.sgldata(x, y = NULL, sparseX = sparse.data, sparseY = FALSE)

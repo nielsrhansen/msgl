@@ -16,11 +16,8 @@
 #' The group weights \eqn{\gamma \in [0,\infty)^m} and parameter weights \eqn{\xi \in [0,\infty)^n} may be explicitly specified.
 #'
 #' @author Martin Vincent \email{martin.vincent.dk@gmail.com}
+#' @aliases msgl-package
 #'
-#' @name msgl
-#' @docType package
-#'
-#' @importFrom tools assertWarning
 #' @examples
 #' # Load some data
 #' data(SimData)
@@ -31,17 +28,16 @@
 #' cl <- makeCluster(2)
 #' registerDoParallel(cl)
 #'
-#' # Cross validate on a lambda sequence of length 100.
-#' # The sequence is decreasing from the data derived lambda.max to 0.5*lambda.max
-#' fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = 0.5, use_parallel = TRUE)
+#' # Do 10-fold cross validation on a lambda sequence of length 100.
+#' # The sequence is decreasing from the data derived lambda.max to 0.7*lambda.max
+#' fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = 0.7, use_parallel = TRUE)
 #'
 #' stopCluster(cl)
 #'
-#' # Cross validation errors (estimated expected generalization error)
-#'
-#' # Misclassification rate
-#' Err(fit.cv)
-#'
-#' # Negative log likelihood error
-#' Err(fit.cv, type="loglike")
+#' # Print information about models
+#' # and cross validation errors (estimated expected generalization error)
+#' fit.cv
+"_PACKAGE"
+
+#' @importFrom tools assertWarning
 NULL

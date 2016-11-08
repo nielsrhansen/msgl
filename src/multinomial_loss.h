@@ -141,12 +141,15 @@ public:
 
 };
 
-typedef sgl::ObjectiveFunctionType < sgl::GenralizedLinearLossDense < MultinomialLoss < sgl::matrix > > ,
-		MultinomialLoss < sgl::matrix >::data_type > multinomial;
+typedef sgl::ObjectiveFunctionType <
+	sgl::GenralizedLinearLossDense <
+		MultinomialLoss < sgl::matrix > > > multinomial
+;
 
 typedef sgl::ObjectiveFunctionType <
-		sgl::GenralizedLinearLossSparse < MultinomialLoss < sgl::sparse_matrix > > ,
-		MultinomialLoss < sgl::sparse_matrix >::data_type > multinomial_spx;
+		sgl::GenralizedLinearLossSparse <
+			MultinomialLoss < sgl::sparse_matrix > > > multinomial_spx
+;
 
 
 #endif /* MULTINOMIAL_LOSS_HPP_ */
