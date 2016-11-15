@@ -6,7 +6,7 @@
 \usage{
 msgl.subsampling(x, classes, sampleWeights = NULL, grouping = NULL,
   groupWeights = NULL, parameterWeights = NULL, alpha = 0.5,
-  standardize = TRUE, lambda, training, test, intercept = TRUE,
+  standardize = TRUE, lambda, d = 100, training, test, intercept = TRUE,
   sparse.data = is(x, "sparseMatrix"), collapse = FALSE,
   max.threads = NULL, use_parallel = FALSE,
   algorithm.config = msgl.standard.config)
@@ -34,7 +34,9 @@ Default weights are is 0 for the intercept weights and 1 for all other weights.}
 
 \item{standardize}{if TRUE the features are standardize before fitting the model. The model parameters are returned in the original scale.}
 
-\item{lambda}{the lambda sequence for the regularization path.}
+\item{lambda}{lambda.min relative to lambda.max or the lambda sequence for the regularization path (that is a vector or a list of vectors with the lambda sequence for the subsamples).}
+
+\item{d}{length of lambda sequence (ignored if \code{length(lambda) > 1})}
 
 \item{training}{a list of training samples, each item of the list corresponding to a subsample.
 Each item in the list must be a vector with the indices of the training samples for the corresponding subsample.
@@ -77,8 +79,10 @@ classes <- sim.data$classes
 test <- list(1:20, 21:40)
 train <- lapply(test, function(s) (1:length(classes))[-s])
 
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test)
+fit.sub <- msgl.subsampling(x, classes, alpha = 0.5, lambda = 0.5, training = train, test = test)
+
+# Print some information
+fit.sub
 
 # Mean misclassification error of the tests
 Err(fit.sub)

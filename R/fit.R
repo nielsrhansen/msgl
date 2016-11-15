@@ -48,7 +48,8 @@
 #' Default weights are is 0 for the intercept weights and 1 for all other weights.
 #' @param alpha the \eqn{\alpha} value 0 for group lasso, 1 for lasso, between 0 and 1 gives a sparse group lasso penalty.
 #' @param standardize if TRUE the features are standardize before fitting the model. The model parameters are returned in the original scale.
-#' @param lambda the lambda sequence for the regularization path.
+#' @param lambda lambda.min relative to lambda.max or the lambda sequence for the regularization path.
+#' @param d length of lambda sequence (ignored if \code{length(lambda) > 1})
 #' @param return_indices the indices of lambda values for which to return a the fitted parameters.
 #' @param intercept should the model fit include intercept parameters (note that due to standardization the returned beta matrix will always have an intercept column)
 #' @param sparse.data if TRUE \code{x} will be treated as sparse, if \code{x} is a sparse matrix it will be treated as sparse by default.
@@ -63,8 +64,11 @@
 #' data(SimData)
 #' x <- sim.data$x
 #' classes <- sim.data$classes
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-#' fit <- msgl(x, classes, alpha = .5, lambda = lambda)
+#'
+#' fit <- msgl(x, classes, alpha = 0.5, lambda = 0.5)
+#'
+#' # Print some information about the fit
+#' fit
 #'
 #' # Model 10, i.e. the model corresponding to lambda[10]
 #' models(fit)[[10]]
@@ -96,7 +100,8 @@ msgl <- function(
 	alpha = 0.5,
 	standardize = TRUE,
 	lambda,
-	return_indices = 1:length(lambda),
+	d = 100,
+	return_indices = NULL,
 	intercept = TRUE,
 	sparse.data = is(x, "sparseMatrix"),
 	algorithm.config = msgl.standard.config) {
@@ -113,9 +118,8 @@ msgl <- function(
 		groupWeights = groupWeights,
 		parameterWeights = parameterWeights,
 		standardize = standardize,
-		sparse.data = sparse.data,
-		return_indices = return_indices
-  )
+		sparse.data = sparse.data
+	)
 
 	data <- setup$data
 
@@ -149,7 +153,8 @@ res <- sgl_fit(
 	parameterWeights = setup$parameterWeights,
 	alpha = alpha,
 	lambda = lambda,
-	return_indices = setup$return_indices,
+	d = d,
+	return_indices = return_indices,
 	algorithm.config = algorithm.config
 )
 

@@ -3,7 +3,6 @@
 \docType{package}
 \name{msgl-package}
 \alias{msgl-package}
-\alias{_PACKAGE}
 \title{Multinomial logistic regression with sparse group lasso penalty.}
 \description{
 Simultaneous feature selection and parameter estimation for classification.
@@ -40,15 +39,6 @@ stopCluster(cl)
 # Print information about models
 # and cross validation errors (estimated expected generalization error)
 fit.cv
-}
-\seealso{
-Useful links:
-\itemize{
-  \item \url{http://dx.doi.org/10.1016/j.csda.2013.06.004}
-  \item \url{https://github.com/vincent-dk/msgl}
-  \item Report bugs at \url{https://github.com/vincent-dk/msgl/issues}
-}
-
 }
 \author{
 Martin Vincent \email{martin.vincent.dk@gmail.com}

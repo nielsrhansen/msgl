@@ -6,7 +6,7 @@
 \usage{
 msgl.cv(x, classes, sampleWeights = NULL, grouping = NULL,
   groupWeights = NULL, parameterWeights = NULL, alpha = 0.5,
-  standardize = TRUE, lambda, fold = 10L, cv.indices = list(),
+  standardize = TRUE, lambda, d = 100, fold = 10L, cv.indices = list(),
   intercept = TRUE, sparse.data = is(x, "sparseMatrix"),
   max.threads = NULL, use_parallel = FALSE,
   algorithm.config = msgl.standard.config)
@@ -34,7 +34,9 @@ Default weights are is 0 for the intercept weights and 1 for all other weights.#
 
 \item{standardize}{if TRUE the features are standardize before fitting the model. The model parameters are returned in the original scale.}
 
-\item{lambda}{the lambda sequence for the regularization path.}
+\item{lambda}{lambda.min relative to lambda.max or the lambda sequence for the regularization path.}
+
+\item{d}{length of lambda sequence (ignored if \code{length(lambda) > 1})}
 
 \item{fold}{the fold of the cross validation, an integer larger than \eqn{1} and less than \eqn{N+1}. Ignored if \code{cv.indices != NULL}.
 If \code{fold}\eqn{\le}\code{max(table(classes))} then the data will be split into \code{fold} disjoint subsets keeping the ration of classes approximately equal.
@@ -72,11 +74,12 @@ data(SimData)
 x <- sim.data$x
 classes <- sim.data$classes
 
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = lambda)
+fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = 0.5)
+
+# Print some information
+fit.cv
 
 # Cross validation errors (estimated expected generalization error)
-
 # Misclassification rate
 Err(fit.cv)
 

@@ -16,7 +16,6 @@
 #' The group weights \eqn{\gamma \in [0,\infty)^m} and parameter weights \eqn{\xi \in [0,\infty)^n} may be explicitly specified.
 #'
 #' @author Martin Vincent \email{martin.vincent.dk@gmail.com}
-#' @aliases msgl-package
 #'
 #' @examples
 #' # Load some data
@@ -37,7 +36,7 @@
 #' # Print information about models
 #' # and cross validation errors (estimated expected generalization error)
 #' fit.cv
-"_PACKAGE"
-
+#' @docType package
+#' @name msgl-package
 #' @importFrom tools assertWarning
 NULL

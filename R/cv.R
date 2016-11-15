@@ -38,7 +38,8 @@
 #' Default weights are is 0 for the intercept weights and 1 for all other weights.#'
 #' @param alpha the \eqn{\alpha} value 0 for group lasso, 1 for lasso, between 0 and 1 gives a sparse group lasso penalty.
 #' @param standardize if TRUE the features are standardize before fitting the model. The model parameters are returned in the original scale.
-#' @param lambda the lambda sequence for the regularization path.
+#' @param lambda lambda.min relative to lambda.max or the lambda sequence for the regularization path.
+#' @param d length of lambda sequence (ignored if \code{length(lambda) > 1})
 #' @param fold the fold of the cross validation, an integer larger than \eqn{1} and less than \eqn{N+1}. Ignored if \code{cv.indices != NULL}.
 #' If \code{fold}\eqn{\le}\code{max(table(classes))} then the data will be split into \code{fold} disjoint subsets keeping the ration of classes approximately equal.
 #' Otherwise the data will be split into \code{fold} disjoint subsets without keeping the ration fixed.
@@ -65,11 +66,12 @@
 #' x <- sim.data$x
 #' classes <- sim.data$classes
 #'
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-#' fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = lambda)
+#' fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = 0.5)
+#'
+#' # Print some information
+#' fit.cv
 #'
 #' # Cross validation errors (estimated expected generalization error)
-#'
 #' # Misclassification rate
 #' Err(fit.cv)
 #'
@@ -90,6 +92,7 @@ msgl.cv <- function(x, classes,
 	alpha = 0.5,
 	standardize = TRUE,
 	lambda,
+	d = 100,
 	fold = 10L,
 	cv.indices = list(),
 	intercept = TRUE,
@@ -149,6 +152,7 @@ msgl.cv <- function(x, classes,
 		parameterWeights = setup$parameterWeights,
 		alpha =  alpha,
 		lambda = lambda,
+		d = d,
 		fold = fold,
 		cv.indices = cv.indices,
 		responses = c("link", "response", "classes"),

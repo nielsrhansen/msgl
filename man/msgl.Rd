@@ -6,7 +6,7 @@
 \usage{
 msgl(x, classes, sampleWeights = NULL, grouping = NULL,
   groupWeights = NULL, parameterWeights = NULL, alpha = 0.5,
-  standardize = TRUE, lambda, return_indices = 1:length(lambda),
+  standardize = TRUE, lambda, d = 100, return_indices = NULL,
   intercept = TRUE, sparse.data = is(x, "sparseMatrix"),
   algorithm.config = msgl.standard.config)
 }
@@ -33,7 +33,9 @@ Default weights are is 0 for the intercept weights and 1 for all other weights.}
 
 \item{standardize}{if TRUE the features are standardize before fitting the model. The model parameters are returned in the original scale.}
 
-\item{lambda}{the lambda sequence for the regularization path.}
+\item{lambda}{lambda.min relative to lambda.max or the lambda sequence for the regularization path.}
+
+\item{d}{length of lambda sequence (ignored if \code{length(lambda) > 1})}
 
 \item{return_indices}{the indices of lambda values for which to return a the fitted parameters.}
 
@@ -67,8 +69,11 @@ The group weights \eqn{\gamma \in [0,\infty)^m} and parameter weights \eqn{\xi \
 data(SimData)
 x <- sim.data$x
 classes <- sim.data$classes
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-fit <- msgl(x, classes, alpha = .5, lambda = lambda)
+
+fit <- msgl(x, classes, alpha = 0.5, lambda = 0.5)
+
+# Print some information about the fit
+fit
 
 # Model 10, i.e. the model corresponding to lambda[10]
 models(fit)[[10]]

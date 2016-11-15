@@ -17,7 +17,8 @@
 #' Default weights are is 0 for the intercept weights and 1 for all other weights.
 #' @param alpha the \eqn{\alpha} value 0 for group lasso, 1 for lasso, between 0 and 1 gives a sparse group lasso penalty.
 #' @param standardize if TRUE the features are standardize before fitting the model. The model parameters are returned in the original scale.
-#' @param lambda the lambda sequence for the regularization path.
+#' @param lambda lambda.min relative to lambda.max or the lambda sequence for the regularization path (that is a vector or a list of vectors with the lambda sequence for the subsamples).
+#' @param d length of lambda sequence (ignored if \code{length(lambda) > 1})
 #' @param training a list of training samples, each item of the list corresponding to a subsample.
 #' Each item in the list must be a vector with the indices of the training samples for the corresponding subsample.
 #' The length of the list must equal the length of the \code{test} list.
@@ -48,8 +49,10 @@
 #' test <- list(1:20, 21:40)
 #' train <- lapply(test, function(s) (1:length(classes))[-s])
 #'
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-#' fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test)
+#' fit.sub <- msgl.subsampling(x, classes, alpha = 0.5, lambda = 0.5, training = train, test = test)
+#'
+#' # Print some information
+#' fit.sub
 #'
 #' # Mean misclassification error of the tests
 #' Err(fit.sub)
@@ -70,6 +73,7 @@ msgl.subsampling <- function(x, classes,
 	alpha = 0.5,
 	standardize = TRUE,
 	lambda,
+	d = 100,
 	training,
 	test,
 	intercept = TRUE,
@@ -125,6 +129,7 @@ msgl.subsampling <- function(x, classes,
 		parameterWeights = setup$parameterWeights,
 		alpha =  alpha,
 		lambda = lambda,
+		d = d,
 		training = training,
 		test = test,
 		collapse = collapse,

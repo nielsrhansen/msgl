@@ -28,8 +28,7 @@
   groupWeights,
   parameterWeights,
   standardize,
-  sparse.data,
-  return_indices = NULL) {
+  sparse.data) {
 
 	#Check dimensions
 	if(nrow(x) != length(classes)) {
@@ -54,7 +53,6 @@
 
 	# cast
 	classes <- factor(classes)
-	return_indices <- as.integer(return_indices)
 
 	if(is.null(groupWeights)) {
 		groupWeights <- c(sqrt(length(levels(classes))*table(grouping)))
@@ -108,7 +106,6 @@ setup$callsym <- callsym
 setup$grouping <- grouping
 setup$groupWeights <- groupWeights
 setup$parameterWeights <- parameterWeights
-setup$return_indices <- return_indices
 
 if(standardize) {
   setup$x.scale <- x.scale
