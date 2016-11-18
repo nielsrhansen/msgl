@@ -67,14 +67,6 @@ predict.msgl <- function(object, x, sparse.data = is(x, "sparseMatrix"), ...) {
 	res$link <- transpose_response_elements(res$responses$link)
 	res$responses <- NULL
 
-	class.names <- rownames(object$beta[[1]])
-	if(!is.null(class.names)) {
-		# Set class names
-		res$classes <- apply(X = res$classes, MARGIN = c(1,2), FUN = function(x) class.names[x])
-		res$link <- lapply(X = res$link, FUN = function(x) {rownames(x) <- class.names; x})
-		res$response <- lapply(X = res$response, FUN = function(x) {rownames(x) <- class.names; x})
-	}
-
 	# Various
 	res$msgl_version <- packageVersion("msgl")
 	res$call <- cl

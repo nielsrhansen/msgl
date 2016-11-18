@@ -58,9 +58,13 @@
 		groupWeights <- c(sqrt(length(levels(classes))*table(grouping)))
 	}
 
-	if(is.null(parameterWeights)) {
+	if( is.null(parameterWeights) ) {
 		parameterWeights <-  matrix(1, nrow = length(levels(classes)), ncol = ncol(x))
 	}
+
+  if( is.null(dimnames(parameterWeights)) ) {
+    dimnames(parameterWeights) <- list(levels(classes), colnames(x))
+  }
 
 	# Standardize
 	if(standardize) {
@@ -87,15 +91,23 @@
 	  }
 
     groupWeights <- c(0, groupWeights)
+
     parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
+    colnames(parameterWeights)[1] <- "Intercept"
+
     grouping <- factor(c("Intercept", as.character(grouping)), levels = c("Intercept", levels(grouping)))
 
   }
 
   # create data
-data <- create.sgldata(x, y = NULL, sparseX = sparse.data, sparseY = FALSE)
+data <- create.sgldata(
+  x = x,
+  y = classes,
+  sparseX = sparse.data,
+  sparseY = FALSE
+)
+
 data <- add_data(data, weights, "W")
-data <- add_data(data, as.integer(classes)-1L, "G")
 
 # Call sglOptim function
 callsym <- .get_callsym(data)

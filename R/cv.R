@@ -19,10 +19,10 @@
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 
-#' @title Multinomial sparse group lasso cross validation
+#' @title Cross Validation
 #'
 #' @description
-#' Multinomial sparse group lasso cross validation using multiple possessors.
+#' Multinomial sparse group lasso cross validation, with or without parallel backend.
 #'
 #' @param x design matrix, matrix of size \eqn{N \times p}.
 #' @param classes classes, factor of length \eqn{N}.
@@ -66,7 +66,15 @@
 #' x <- sim.data$x
 #' classes <- sim.data$classes
 #'
-#' fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = 0.5)
+#' # Setup clusters
+#' cl <- makeCluster(2)
+#' registerDoParallel(cl)
+#'
+#' # Run cross validation using 2 clusters
+#' fit.cv <- msgl.cv(x, classes, alpha = 0.5, lambda = 0.5, use_parallel = TRUE)
+#'
+#' # Stop clusters
+#' stopCluster(cl)
 #'
 #' # Print some information
 #' fit.cv
@@ -134,7 +142,7 @@ msgl.cv <- function(x, classes,
 		print(data.frame(
 			'Samples: ' = print_with_metric_prefix(data$n_samples),
 			'Features: ' = print_with_metric_prefix(data$n_covariate),
-			'Classes: ' = print_with_metric_prefix(max(data$data$G)+1),
+			'Classes: ' = print_with_metric_prefix(data$response_dimension),
 			'Groups: ' = print_with_metric_prefix(length(unique(setup$grouping))),
 			'Parameters: ' = print_with_metric_prefix(length(setup$parameterWeights)),
 			check.names = FALSE),
@@ -167,14 +175,6 @@ msgl.cv <- function(x, classes,
 	res$response <- transpose_response_elements(res$responses$response)
 	res$link <- transpose_response_elements(res$responses$link)
 	res$responses <- NULL
-
-	#FIXME
-	# Set class names
-	if( ! is.null(data$group.names)) {
-		res$classes <- apply(X = res$classes, MARGIN = c(1,2), FUN = function(x) data$group.names[x])
-		res$link <- lapply(X = res$link, FUN = function(m) {rownames(m) <- data$group.names; m})
-		res$response <- lapply(X = res$response, FUN = function(m) {rownames(m) <- data$group.names; m})
-	}
 
 	# True classes
 	res$classes.true <- classes

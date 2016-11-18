@@ -111,7 +111,7 @@ msgl.subsampling <- function(x, classes,
 	print( data.frame(
 		'Samples: ' = print_with_metric_prefix(data$n_samples),
 		'Features: ' = print_with_metric_prefix(data$n_covariate),
-		'Classes: ' = print_with_metric_prefix(max(data$data$G)+1),
+		'Classes: ' = print_with_metric_prefix(data$response_dimension),
 		'Groups: ' = print_with_metric_prefix(length(unique(setup$grouping))),
 		'Parameters: ' = print_with_metric_prefix(length(setup$parameterWeights)),
 		check.names = FALSE),
@@ -144,16 +144,6 @@ msgl.subsampling <- function(x, classes,
 	res$response <- transpose_response_elements(res$responses$response)
 	res$link <- transpose_response_elements(res$responses$link)
 	res$responses <- NULL
-
- 	#FIXME
-	# Set class names
-	if( ! is.null(data$group.names) ) {
-		for(i in 1:length(training)) {
-			res$classes[[i]] <- apply(X = res$classes[[i]], MARGIN = c(1,2), FUN = function(x) data$group.names[x])
-			res$link[[i]] <- lapply(X = res$link[[i]], FUN = function(m) {rownames(m) <- data$group.names; m})
-			res$response[[i]] <- lapply(X = res$response[[i]], FUN = function(m) {rownames(m) <- data$group.names; m})
-		}
-	}
 
 	# True classes
 	res$classes.true <- lapply(test, function(sub) classes[sub])

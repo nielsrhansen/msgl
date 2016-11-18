@@ -20,3 +20,9 @@ fit1a <- msgl(x, classes, alpha = 1, lambda = lambda, standardize = FALSE)
 fit1b <- msgl(x, classes, alpha = 1, lambda = lambda, sparse.data = TRUE, standardize = FALSE)
 
 if(max(abs(fit1a$beta[[25]]-fit1b$beta[[25]])) > 1e-5) stop()
+
+
+### Check names on models
+beta <- models(fit)[[10]]
+stopifnot(all(rownames(beta) == levels(factor(classes))))
+stopifnot(all(colnames(beta) == c("Intercept", colnames(x))))

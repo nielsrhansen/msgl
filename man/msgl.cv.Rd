@@ -2,7 +2,7 @@
 % Please edit documentation in R/cv.R
 \name{msgl.cv}
 \alias{msgl.cv}
-\title{Multinomial sparse group lasso cross validation}
+\title{Cross Validation}
 \usage{
 msgl.cv(x, classes, sampleWeights = NULL, grouping = NULL,
   groupWeights = NULL, parameterWeights = NULL, alpha = 0.5,
@@ -67,14 +67,22 @@ The maximal number of threads to be used.}
 \item{classes.true}{the true classes used for estimation, this is equal to the \code{classes} argument}
 }
 \description{
-Multinomial sparse group lasso cross validation using multiple possessors.
+Multinomial sparse group lasso cross validation, with or without parallel backend.
 }
 \examples{
 data(SimData)
 x <- sim.data$x
 classes <- sim.data$classes
 
-fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = 0.5)
+# Setup clusters
+cl <- makeCluster(2)
+registerDoParallel(cl)
+
+# Run cross validation using 2 clusters
+fit.cv <- msgl.cv(x, classes, alpha = 0.5, lambda = 0.5, use_parallel = TRUE)
+
+# Stop clusters
+stopCluster(cl)
 
 # Print some information
 fit.cv

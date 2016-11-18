@@ -42,7 +42,7 @@ public:
 
 	typedef sgl::DataPackage_3<
 			sgl::MatrixData<T>,
-			sgl::GroupData,
+			sgl::GroupData<'Y'>,
 			sgl::Data<sgl::vector, 'W'> > data_type;
 
 	mutable sgl::matrix_field hessian_matrices;
