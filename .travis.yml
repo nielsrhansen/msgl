@@ -15,6 +15,7 @@ sudo: required
 
 r_packages:
   - covr
+  - knitr
 
 after_success:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then Rscript -e 'library(covr); codecov(type="all")' Using Wercker CI ; fi
