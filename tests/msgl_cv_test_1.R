@@ -8,6 +8,7 @@ options(warn=2)
 data(SimData)
 x <- sim.data$x
 classes <- sim.data$classes
+classes <- LETTERS[1:10][classes]
 
 set.seed(100L)
 
@@ -33,4 +34,15 @@ features_stat(fit.cv)
 parameters_stat(fit.cv)
 best_model(fit.cv)
 
-# Check names 
+# Check names
+link <- fit.cv$link[[10]]
+stopifnot(all(rownames(link) == levels(factor(classes))))
+stopifnot(all(colnames(link) == rownames(x)))
+
+res <- fit.cv$response[[10]]
+stopifnot(all(rownames(res) == levels(factor(classes))))
+stopifnot(all(colnames(res) == rownames(x)))
+
+cls <- fit.cv$classes
+stopifnot(all(sort(unique(as.vector(cls))) == levels(factor(classes))))
+stopifnot(all(rownames(cls)  == rownames(x)))

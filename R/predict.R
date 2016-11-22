@@ -59,10 +59,14 @@ predict.msgl <- function(object, x, sparse.data = is(x, "sparseMatrix"), ...) {
 		PACKAGE = "msgl",
 		object = object,
 		data = data,
-		responses = c("link", "response", "classes"))
+		responses = c("link", "response", "classes")
+	)
 
 	### Responses
-	res$classes <- res$responses$classes
+	res$classes <- apply(res$responses$classes, 2, function(x) levels(object$classes.true)[x])
+	dimnames(res$classes) <- dimnames(res$responses$classes)
+	attr(res$classes, "type") <- attr(res$responses$classes, "type")
+
 	res$response <- transpose_response_elements(res$responses$response)
 	res$link <- transpose_response_elements(res$responses$link)
 	res$responses <- NULL

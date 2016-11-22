@@ -118,6 +118,8 @@ setup$callsym <- callsym
 setup$grouping <- grouping
 setup$groupWeights <- groupWeights
 setup$parameterWeights <- parameterWeights
+setup$class_names <- levels(classes)
+
 
 if(standardize) {
   setup$x.scale <- x.scale

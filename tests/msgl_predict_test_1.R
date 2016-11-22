@@ -8,6 +8,7 @@ options(warn=2)
 data(SimData)
 x <- sim.data$x
 classes <- sim.data$classes
+classes <- LETTERS[1:10][classes]
 
 ## Lambda sequence
 

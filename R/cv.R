@@ -71,7 +71,8 @@
 #' registerDoParallel(cl)
 #'
 #' # Run cross validation using 2 clusters
-#' fit.cv <- msgl.cv(x, classes, alpha = 0.5, lambda = 0.5, use_parallel = TRUE)
+#' # Using a lambda sequence ranging from the maximal lambda to 0.7 * maximal lambda
+#' fit.cv <- msgl.cv(x, classes, alpha = 0.5, lambda = 0.7, use_parallel = TRUE)
 #'
 #' # Stop clusters
 #' stopCluster(cl)
@@ -169,9 +170,11 @@ msgl.cv <- function(x, classes,
 		algorithm.config = algorithm.config
 	)
 
+  ### Responses
+	res$classes <- apply(res$responses$classes, 2, function(x) setup$class_names[x])
+	dimnames(res$classes) <- dimnames(res$responses$classes)
+	attr(res$classes, "type") <- attr(res$responses$classes, "type")
 
-	### Responses
-	res$classes <- res$responses$classes
 	res$response <- transpose_response_elements(res$responses$response)
 	res$link <- transpose_response_elements(res$responses$link)
 	res$responses <- NULL

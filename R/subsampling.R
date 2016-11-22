@@ -49,6 +49,8 @@
 #' test <- list(1:20, 21:40)
 #' train <- lapply(test, function(s) (1:length(classes))[-s])
 #'
+#' # Run subsampling
+#' # Using a lambda sequence ranging from the maximal lambda to 0.5 * maximal lambda
 #' fit.sub <- msgl.subsampling(x, classes, alpha = 0.5, lambda = 0.5, training = train, test = test)
 #'
 #' # Print some information
@@ -140,7 +142,16 @@ msgl.subsampling <- function(x, classes,
 	)
 
 	### Responses
-	res$classes <- res$responses$classes
+
+	res$classes <- lapply(res$responses$classes, function(cls) {
+		newcls <- apply(cls, 2, function(x) setup$class_names[x])
+		dimnames(newcls) <- dimnames(cls)
+		attr(newcls, "type") <- attr(cls, "type")
+
+		return(newcls)
+	})
+	attr(res$classes, "type") <- attr(res$responses$classes, "type")
+
 	res$response <- transpose_response_elements(res$responses$response)
 	res$link <- transpose_response_elements(res$responses$link)
 	res$responses <- NULL

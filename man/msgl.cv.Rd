@@ -79,7 +79,8 @@ cl <- makeCluster(2)
 registerDoParallel(cl)
 
 # Run cross validation using 2 clusters
-fit.cv <- msgl.cv(x, classes, alpha = 0.5, lambda = 0.5, use_parallel = TRUE)
+# Using a lambda sequence ranging from the maximal lambda to 0.7 * maximal lambda
+fit.cv <- msgl.cv(x, classes, alpha = 0.5, lambda = 0.7, use_parallel = TRUE)
 
 # Stop clusters
 stopCluster(cl)

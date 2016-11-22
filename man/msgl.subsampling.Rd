@@ -79,6 +79,8 @@ classes <- sim.data$classes
 test <- list(1:20, 21:40)
 train <- lapply(test, function(s) (1:length(classes))[-s])
 
+# Run subsampling
+# Using a lambda sequence ranging from the maximal lambda to 0.5 * maximal lambda
 fit.sub <- msgl.subsampling(x, classes, alpha = 0.5, lambda = 0.5, training = train, test = test)
 
 # Print some information
