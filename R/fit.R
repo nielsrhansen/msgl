@@ -93,81 +93,80 @@
 #' @useDynLib msgl, .registration=TRUE
 #' @import Matrix
 msgl <- function(
-	x,
-	classes,
-	sampleWeights = NULL,
-	grouping = NULL,
-	groupWeights = NULL,
-	parameterWeights = NULL,
-	alpha = 0.5,
-	standardize = TRUE,
-	lambda,
-	d = 100,
-	return_indices = NULL,
-	intercept = TRUE,
-	sparse.data = is(x, "sparseMatrix"),
-	algorithm.config = msgl.standard.config) {
+  x,
+  classes,
+  sampleWeights = NULL,
+  grouping = NULL,
+  groupWeights = NULL,
+  parameterWeights = NULL,
+  alpha = 0.5,
+  standardize = TRUE,
+  lambda,
+  d = 100,
+  return_indices = NULL,
+  intercept = TRUE,
+  sparse.data = is(x, "sparseMatrix"),
+  algorithm.config = msgl.standard.config) {
 
-	# Get call
-	cl <- match.call()
+  # Get call
+  cl <- match.call()
 
-	setup <- .process_args(
+  setup <- .process_args(
     x = x,
     classes = classes,
-		weights = sampleWeights,
-		intercept = intercept,
-		grouping = grouping,
-		groupWeights = groupWeights,
-		parameterWeights = parameterWeights,
-		standardize = standardize,
-		sparse.data = sparse.data
-	)
+    weights = sampleWeights,
+    intercept = intercept,
+    grouping = grouping,
+    groupWeights = groupWeights,
+    parameterWeights = parameterWeights,
+    standardize = standardize,
+    sparse.data = sparse.data
+  )
 
-	data <- setup$data
+  data <- setup$data
 
-	# call sglOptim function
-	if(algorithm.config$verbose) {
-		if(data$sparseX) {
-			cat("\nRunning msgl (sparse design matrix)\n\n")
-		} else {
-			cat("\nRunning msgl (dense design matrix) \n\n")
-		}
+  # call sglOptim function
+  if(algorithm.config$verbose) {
+    if(data$sparseX) {
+      cat("\nRunning msgl (sparse design matrix)\n\n")
+    } else {
+      cat("\nRunning msgl (dense design matrix) \n\n")
+    }
 
-		print(data.frame(
-			'Samples: ' = print_with_metric_prefix(data$n_samples),
-			'Features: ' = print_with_metric_prefix(data$n_covariate),
-			'Classes: ' = print_with_metric_prefix(data$response_dimension),
-			'Groups: ' = print_with_metric_prefix(length(unique(setup$grouping))),
-			'Parameters: ' = print_with_metric_prefix(length(setup$parameterWeights)),
-			check.names = FALSE),
-			row.names = FALSE, digits = 2, right = TRUE)
-		cat("\n")
+    print(data.frame(
+      'Samples: ' = print_with_metric_prefix(data$n_samples),
+      'Features: ' = print_with_metric_prefix(data$n_covariate),
+      'Classes: ' = print_with_metric_prefix(data$response_dimension),
+      'Groups: ' = print_with_metric_prefix(length(unique(setup$grouping))),
+      'Parameters: ' = print_with_metric_prefix(length(setup$parameterWeights)),
+      check.names = FALSE),
+      row.names = FALSE, digits = 2, right = TRUE)
+    cat("\n")
+  }
 
-	}
+  # Call sglOptim
+  res <- sgl_fit(
+    module_name = setup$callsym,
+    PACKAGE = "msgl",
+    data = data,
+    parameterGrouping = setup$grouping,
+    groupWeights = setup$groupWeights,
+    parameterWeights = setup$parameterWeights,
+    alpha = alpha,
+    lambda = lambda,
+    d = d,
+    return_indices = return_indices,
+    algorithm.config = algorithm.config
+  )
 
-# Call sglOptim
-res <- sgl_fit(
-	module_name = setup$callsym,
-	PACKAGE = "msgl",
-	data = data,
-	parameterGrouping = setup$grouping,
-	groupWeights = setup$groupWeights,
-	parameterWeights = setup$parameterWeights,
-	alpha = alpha,
-	lambda = lambda,
-	d = d,
-	return_indices = return_indices,
-	algorithm.config = algorithm.config
-)
-
-# Convert beta back to the org scale
-if(standardize) {
-	res$beta <- .to_org_scale(
-		beta = res$beta,
-		x.scale = setup$x.scale,
-		x.center = setup$x.center
-	)
-}
+  # Convert beta back to the org scale
+  if(standardize) {
+    res$beta <- .to_org_scale(
+      beta = res$beta,
+      x.scale = setup$x.scale,
+      x.center = setup$x.center
+	  )
+  }
 
 res$intercept <- intercept
 res$classes.true <- factor(classes)
@@ -184,25 +183,13 @@ return(res)
 
 .to_org_scale <- function(beta, x.scale, x.center) {
 
-	for(l in 1:length(beta)) {
+  for(l in 1:length(beta)) {
 
     beta.org <- t(t(beta[[l]])*c(1,1/x.scale))
     beta.org[,1] <- beta.org[,1] - rowSums(t(t(beta[[l]][,-1])*(x.center/x.scale)))
-
     beta[[l]] <- beta.org
-	}
 
-	return(beta)
+  }
+
+  return(beta)
 }
-
-
-#' Simulated data set
-#'
-#' The use of this data set is only intended for testing and examples.
-#' The data set contains 100 simulated samples grouped into 10 classes.
-#' For each sample 400 features have been simulated.
-#'
-#' @name sim.data
-#' @docType data
-#' @keywords data
-NULL

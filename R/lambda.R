@@ -75,30 +75,30 @@ msgl.lambda.seq <- function(
   setup <- .process_args(
     x = x,
     classes = classes,
-		weights = sampleWeights,
-		intercept = intercept,
-		grouping = grouping,
-		groupWeights = groupWeights,
-		parameterWeights = parameterWeights,
+    weights = sampleWeights,
+    intercept = intercept,
+    grouping = grouping,
+    groupWeights = groupWeights,
+    parameterWeights = parameterWeights,
     standardize = standardize,
     sparse.data = sparse.data
   )
 
-	data <- setup$data
+  data <- setup$data
 
-	lambda <- sgl_lambda_sequence(
-		module_name = setup$callsym,
-		PACKAGE = "msgl",
-		data = data,
-		parameterGrouping = setup$grouping,
-		groupWeights = setup$groupWeights,
-		parameterWeights = setup$parameterWeights,
-		alpha = alpha,
-		d = d,
-		lambda.min = lambda.min,
-		algorithm.config = algorithm.config,
-		lambda.min.rel = lambda.min.rel
-	)
+  lambda <- sgl_lambda_sequence(
+    module_name = setup$callsym,
+    PACKAGE = "msgl",
+    data = data,
+    parameterGrouping = setup$grouping,
+    groupWeights = setup$groupWeights,
+    parameterWeights = setup$parameterWeights,
+    alpha = alpha,
+    d = d,
+    lambda.min = lambda.min,
+    algorithm.config = algorithm.config,
+    lambda.min.rel = lambda.min.rel
+  )
 
   return(lambda)
 }

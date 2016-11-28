@@ -40,3 +40,14 @@
 #' @name msgl-package
 #' @importFrom tools assertWarning
 NULL
+
+#' Simulated data set
+#'
+#' The use of this data set is only intended for testing and examples.
+#' The data set contains 100 simulated samples grouped into 10 classes.
+#' For each sample 400 features have been simulated.
+#'
+#' @name sim.data
+#' @docType data
+#' @keywords data
+NULL
