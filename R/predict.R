@@ -46,8 +46,10 @@ predict.msgl <- function(object, x, sparse.data = is(x, "sparseMatrix"), ...) {
 
 	if(is.null(object$beta)) stop("No models found -- missing beta")
 
-	# add intercept
-	x <- cBind(Intercept = rep(1, nrow(x)), x)
+	if(object$intercept) {
+		# add intercept
+		x <- cBind(Intercept = rep(1, nrow(x)), x)
+	}
 
 	#Check dimension of x
 	if(dim(object$beta[[2]])[2] != ncol(x)) stop("x has wrong dimension")

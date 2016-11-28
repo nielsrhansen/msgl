@@ -169,8 +169,8 @@ if(standardize) {
 	)
 }
 
+res$intercept <- intercept
 res$classes.true <- factor(classes)
-
 res$sparse.data <- data$sparseX
 
 # Various
