@@ -34,7 +34,8 @@ if( ! "roxygen2" %in% rownames(installed.packages())) {
 
 library("roxygen2")
 
-path <- file.path(getwd(), get_script_path())
+script.path <- get_script_path()
+path <- file.path(getwd(), script.path)
 pkg <- package_name(path)
 
 roxygenise(path)
@@ -44,13 +45,14 @@ print(warnings())
 pandoc.installed <- system('pandoc -v')==0
 
 if(pandoc.installed) {
-  vignettes.path <- file.path(path, "vignettes")
+
+  vignettes.path <- file.path(script.path, "vignettes")
   vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")
 
   for(file in vignettes.files) {
     rmarkdown::render(file.path(vignettes.path, file))
   }
-  
+
 } else {
   warning("Not building vignettes")
 }
