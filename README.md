@@ -44,4 +44,4 @@ devtools::install_github("vincent-dk/msgl")
 ```
 ## Documentation
 
-[Quick Start](vignettes/quick-start.html).
+[Quick Start](quick-start.md).

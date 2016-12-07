@@ -1,5 +1,6 @@
 ^\.travis\.yml$
 ^README.md
+^quick-start.md
 ^LICENSE
 ^fig1.png
 ^appveyor\.yml$

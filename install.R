@@ -52,7 +52,11 @@ if(pandoc.installed) {
   vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")
 
   for(file in vignettes.files) {
-    rmarkdown::render(file.path(vignettes.path, file))
+    rmarkdown::render(
+      input = file.path(vignettes.path, file),
+      output_format = rmarkdown::md_document(variant = "markdown_github"),
+      output_dir = script.path
+    )
   }
 
 } else {
