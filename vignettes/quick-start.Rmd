@@ -10,14 +10,13 @@ vignette: >
 ---
 
 ```{r, echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 set.seed(150)
 ```
 
 ## Quick Start
 
 ### 1. Load the msgl library in R
-```{r echo = FALSE}
+```{r results="hide"}
 library(msgl)
 ```
 
