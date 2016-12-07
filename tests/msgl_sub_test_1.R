@@ -6,16 +6,16 @@ options(warn=2)
 ### Basic tests
 
 data(SimData)
-x <- sim.data$x
-classes <- sim.data$classes
+
+
 classes <- LETTERS[1:10][classes]
 
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25L, lambda.min = 0.05, standardize = TRUE)
+lambda <- msgl::lambda(x, classes, alpha = .5, d = 25L, lambda.min = 0.05, standardize = TRUE)
 
 test <- list(1:20, 21:40)
 train <- lapply(test, function(s) (1:length(classes))[-s])
 
-fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test)
+fit.sub <- msgl::subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test)
 if(min(Err(fit.sub, type="count")) > 15) stop()
 
 # some navigation tests
@@ -31,7 +31,7 @@ x <- Matrix(x, sparse = TRUE)
 cl <- makeCluster(2)
 registerDoParallel(cl)
 
-fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test, use_parallel = TRUE)
+fit.sub <- msgl::subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test, use_parallel = TRUE)
 
 if(min(Err(fit.sub, type="count")) > 15) stop()
 

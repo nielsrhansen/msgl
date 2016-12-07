@@ -41,16 +41,18 @@
 #' @return A configuration.
 #' @examples
 #' data(SimData)
-#' x <- sim.data$x
-#' classes <- sim.data$classes
+#'
+#' # A quick look at the data
+#' dim(x)
+#' table(classes)
 #'
 #' # Create configuration
 #' config <- msgl.algorithm.config(verbose = FALSE)
 #'
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50,
+#' lambda <- msgl::lambda(x, classes, alpha = .5, d = 50,
 #'  lambda.min = 0.05, algorithm.config = config)
 #'
-#' fit <- msgl(x, classes, alpha = .5, lambda = lambda,
+#' fit <- msgl::fit(x, classes, alpha = .5, lambda = lambda,
 #'  algorithm.config = config)
 #'
 #' @author Martin Vincent

@@ -46,6 +46,8 @@ pandoc.installed <- system('pandoc -v')==0
 
 if(pandoc.installed) {
 
+  build_install_local(pkg, file.path(path, ".."), build_vignettes = FALSE)
+
   vignettes.path <- file.path(script.path, "vignettes")
   vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")
 

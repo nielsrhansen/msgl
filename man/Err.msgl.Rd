@@ -31,16 +31,17 @@ If \code{type = "loglike"} then the negative log likelihood error will be comput
 }
 \examples{
 data(SimData)
-x.all <- sim.data$x
-x.1 <- sim.data$x[1:50,]
-x.2 <- sim.data$x[51:100,]
-classes.all <- sim.data$classes
-classes.1 <- sim.data$classes[1:50]
-classes.2 <- sim.data$classes[51:100]
+
+x.all <- x
+x.1 <- x[1:50,]
+x.2 <- x[51:100,]
+classes.all <- classes
+classes.1 <- classes[1:50]
+classes.2 <- classes[51:100]
 
 #### Fit models using x.1
-lambda <- msgl.lambda.seq(x.1, classes.1, alpha = .5, d = 25, lambda.min = 0.075)
-fit <- msgl(x.1, classes.1, alpha = .5, lambda = lambda)
+lambda <- msgl::lambda(x.1, classes.1, alpha = .5, d = 25, lambda.min = 0.075)
+fit <- msgl::fit(x.1, classes.1, alpha = .5, lambda = lambda)
 
 #### Training errors:
 
@@ -57,7 +58,7 @@ Err(fit, x.1, type="loglike")
 Err(fit, x.2, classes.2)
 
 #### Do cross validation
-fit.cv <- msgl.cv(x.all, classes.all, alpha = .5, lambda = lambda)
+fit.cv <- msgl::cv(x.all, classes.all, alpha = .5, lambda = lambda)
 
 #### Cross validation errors (estimated expected generalization error)
 
@@ -71,7 +72,7 @@ Err(fit.cv, type="loglike")
 test <- list(1:20, 21:40)
 train <- lapply(test, function(s) (1:length(classes.all))[-s])
 
-fit.sub <- msgl.subsampling(x.all, classes.all, alpha = .5,
+fit.sub <- msgl::subsampling(x.all, classes.all, alpha = .5,
  lambda = lambda, training = train, test = test)
 
 # Mean misclassification error of the tests

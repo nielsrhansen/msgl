@@ -47,15 +47,17 @@
 #' @return a vector of length \code{d} containing the computed lambda sequence.
 #' @examples
 #' data(SimData)
-#' x <- sim.data$x
-#' classes <- sim.data$classes
 #'
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 100, lambda.min = 0.01)
+#' # A quick look at the data
+#' dim(x)
+#' table(classes)
+#'
+#' lambda <- msgl::lambda(x, classes, alpha = .5, d = 100, lambda.min = 0.01)
 #' @author Martin Vincent
 #' @importFrom methods is
 #' @export
 #' @useDynLib msgl, .registration=TRUE
-msgl.lambda.seq <- function(
+lambda <- function(
   x,
   classes,
   sampleWeights = NULL,
@@ -102,3 +104,39 @@ msgl.lambda.seq <- function(
 
   return(lambda)
 }
+
+msgl.lambda.seq <- function(
+  x,
+  classes,
+  sampleWeights = NULL,
+  grouping = NULL,
+  groupWeights = NULL,
+  parameterWeights = NULL,
+  alpha = 0.5,
+  d = 100L,
+  standardize = TRUE,
+  lambda.min,
+  intercept = TRUE,
+  sparse.data = is(x, "sparseMatrix"),
+  lambda.min.rel = FALSE,
+  algorithm.config = sgl.standard.config) {
+
+  warning("msgl.lambda.seq is deprecated, use msgl::lambda")
+
+  msgl::lambda(
+    x,
+    classes,
+    sampleWeights,
+    grouping,
+    groupWeights,
+    parameterWeights,
+    alpha,
+    d,
+    standardize,
+    lambda.min,
+    intercept,
+    sparse.data,
+    lambda.min.rel,
+    algorithm.config
+  )
+  }

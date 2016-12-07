@@ -6,15 +6,15 @@ options(warn=2)
 ### Basic tests
 
 data(SimData)
-x <- sim.data$x
-classes <- sim.data$classes
+
+
 classes <- LETTERS[1:10][classes]
 
 ## Lambda sequence
 
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25L, lambda.min = 0.01, standardize = TRUE)
+lambda <- msgl::lambda(x, classes, alpha = .5, d = 25L, lambda.min = 0.01, standardize = TRUE)
 
-fit.qwe <- msgl(x, classes, lambda = lambda)
+fit.qwe <- msgl::fit(x, classes, lambda = lambda)
 
 res <- predict(fit.qwe, x)
 if(min(colSums(res$classes != classes)) > 0) stop()

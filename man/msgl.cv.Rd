@@ -2,7 +2,7 @@
 % Please edit documentation in R/cv.R
 \name{msgl.cv}
 \alias{msgl.cv}
-\title{Cross Validation}
+\title{Deprecated cv function}
 \usage{
 msgl.cv(x, classes, sampleWeights = NULL, grouping = NULL,
   groupWeights = NULL, parameterWeights = NULL, alpha = 0.5,
@@ -11,92 +11,8 @@ msgl.cv(x, classes, sampleWeights = NULL, grouping = NULL,
   max.threads = NULL, use_parallel = FALSE,
   algorithm.config = msgl.standard.config)
 }
-\arguments{
-\item{x}{design matrix, matrix of size \eqn{N \times p}.}
-
-\item{classes}{classes, factor of length \eqn{N}.}
-
-\item{sampleWeights}{sample weights, a vector of length \eqn{N}.}
-
-\item{grouping}{grouping of features (covariates), a vector of length \eqn{p}. Each element of the vector specifying the group of the feature.}
-
-\item{groupWeights}{the group weights, a vector of length \eqn{m} (the number of groups).
-If \code{groupWeights = NULL} default weights will be used.
-Default weights are 0 for the intercept and
-\deqn{\sqrt{K\cdot\textrm{number of features in the group}}}
-for all other weights.}
-
-\item{parameterWeights}{a matrix of size \eqn{K \times p}.
-If \code{parameterWeights = NULL} default weights will be used.
-Default weights are is 0 for the intercept weights and 1 for all other weights.#'}
-
-\item{alpha}{the \eqn{\alpha} value 0 for group lasso, 1 for lasso, between 0 and 1 gives a sparse group lasso penalty.}
-
-\item{standardize}{if TRUE the features are standardize before fitting the model. The model parameters are returned in the original scale.}
-
-\item{lambda}{lambda.min relative to lambda.max or the lambda sequence for the regularization path.}
-
-\item{d}{length of lambda sequence (ignored if \code{length(lambda) > 1})}
-
-\item{fold}{the fold of the cross validation, an integer larger than \eqn{1} and less than \eqn{N+1}. Ignored if \code{cv.indices != NULL}.
-If \code{fold}\eqn{\le}\code{max(table(classes))} then the data will be split into \code{fold} disjoint subsets keeping the ration of classes approximately equal.
-Otherwise the data will be split into \code{fold} disjoint subsets without keeping the ration fixed.}
-
-\item{cv.indices}{a list of indices of a cross validation splitting.
-If \code{cv.indices = NULL} then a random splitting will be generated using the \code{fold} argument.}
-
-\item{intercept}{should the model include intercept parameters}
-
-\item{sparse.data}{if TRUE \code{x} will be treated as sparse, if \code{x} is a sparse matrix it will be treated as sparse by default.}
-
-\item{max.threads}{Deprecated (will be removed in 2018),
-instead use \code{use_parallel = TRUE} and registre parallel backend (see package 'doParallel').
-The maximal number of threads to be used.}
-
-\item{use_parallel}{If \code{TRUE} the \code{foreach} loop will use \code{\%dopar\%}. The user must registre the parallel backend.}
-
-\item{algorithm.config}{the algorithm configuration to be used.}
-}
-\value{
-\item{link}{the linear predictors -- a list of length \code{length(lambda)} one item for each lambda value, with each item a matrix of size \eqn{K \times N} containing the linear predictors.}
-\item{response}{the estimated probabilities - a list of length \code{length(lambda)} one item for each lambda value, with each item a matrix of size \eqn{K \times N} containing the probabilities.}
-\item{classes}{the estimated classes - a matrix of size \eqn{N \times d} with \eqn{d=}\code{length(lambda)}.}
-\item{cv.indices}{the cross validation splitting used.}
-\item{features}{number of features used in the models.}
-\item{parameters}{number of parameters used in the models.}
-\item{classes.true}{the true classes used for estimation, this is equal to the \code{classes} argument}
-}
 \description{
-Multinomial sparse group lasso cross validation, with or without parallel backend.
+Deprecated cv function
 }
-\examples{
-data(SimData)
-x <- sim.data$x
-classes <- sim.data$classes
-
-# Setup clusters
-cl <- makeCluster(2)
-registerDoParallel(cl)
-
-# Run cross validation using 2 clusters
-# Using a lambda sequence ranging from the maximal lambda to 0.7 * maximal lambda
-fit.cv <- msgl.cv(x, classes, alpha = 0.5, lambda = 0.7, use_parallel = TRUE)
-
-# Stop clusters
-stopCluster(cl)
-
-# Print some information
-fit.cv
-
-# Cross validation errors (estimated expected generalization error)
-# Misclassification rate
-Err(fit.cv)
-
-# Negative log likelihood error
-Err(fit.cv, type="loglike")
-
-}
-\author{
-Martin Vincent
-}
+\keyword{internal}
 

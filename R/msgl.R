@@ -19,17 +19,19 @@
 #'
 #' @examples
 #' # Load some data
-#' data(SimData)
-#' x <- sim.data$x
-#' classes <- sim.data$classes
+#' data(PrimaryCancers)
+#'
+#' # A quick look at the data
+#' dim(x)
+#' table(classes)
 #'
 #' #Do cross validation using 2 parallel units
 #' cl <- makeCluster(2)
 #' registerDoParallel(cl)
 #'
 #' # Do 10-fold cross validation on a lambda sequence of length 100.
-#' # The sequence is decreasing from the data derived lambda.max to 0.7*lambda.max
-#' fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = 0.7, use_parallel = TRUE)
+#' # The sequence is decreasing from the data derived lambda.max to 0.5*lambda.max
+#' fit.cv <- msgl::cv(x, classes, alpha = .5, lambda = 0.5, use_parallel = TRUE)
 #'
 #' stopCluster(cl)
 #'
@@ -41,13 +43,45 @@
 #' @importFrom tools assertWarning
 NULL
 
+#' Primary cancer samples.
+#'
+#' Data set consisting of microRNA normalized expression measurements of primary cancer samples.
+#'
+#' @format A design matrix and a class vector
+#' \describe{
+#'   \item{x}{design matrix}
+#'   \item{classes}{class vector}
+#' }
+#' @name PrimaryCancers
+#' @docType data
+#' @keywords data
+NULL
+
 #' Simulated data set
 #'
 #' The use of this data set is only intended for testing and examples.
 #' The data set contains 100 simulated samples grouped into 10 classes.
 #' For each sample 400 features have been simulated.
 #'
-#' @name sim.data
+#' @format A design matrix and a class vector
+#' \describe{
+#'   \item{x}{design matrix}
+#'   \item{classes}{class vector}
+#'   ...
+#' }
+#' @name SimData
+#' @docType data
+#' @keywords data
+NULL
+
+#' Design matrix
+#' @name x
+#' @docType data
+#' @keywords data
+NULL
+
+#' Class vector
+#' @name classes
 #' @docType data
 #' @keywords data
 NULL

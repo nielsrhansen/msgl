@@ -63,8 +63,10 @@
 #'
 #' @examples
 #' data(SimData)
-#' x <- sim.data$x
-#' classes <- sim.data$classes
+#'
+#' # A quick look at the data
+#' dim(x)
+#' table(classes)
 #'
 #' # Setup clusters
 #' cl <- makeCluster(2)
@@ -72,7 +74,7 @@
 #'
 #' # Run cross validation using 2 clusters
 #' # Using a lambda sequence ranging from the maximal lambda to 0.7 * maximal lambda
-#' fit.cv <- msgl.cv(x, classes, alpha = 0.5, lambda = 0.7, use_parallel = TRUE)
+#' fit.cv <- msgl::cv(x, classes, alpha = 0.5, lambda = 0.7, use_parallel = TRUE)
 #'
 #' # Stop clusters
 #' stopCluster(cl)
@@ -93,7 +95,7 @@
 #' @export
 #' @useDynLib msgl, .registration=TRUE
 
-msgl.cv <- function(x, classes,
+cv <- function(x, classes,
 	sampleWeights = NULL,
 	grouping = NULL,
 	groupWeights = NULL,
@@ -189,3 +191,46 @@ msgl.cv <- function(x, classes,
 	class(res) <- "msgl"
 	return(res)
 }
+
+#' Deprecated cv function
+#'
+#' @keywords internal
+#' @export
+msgl.cv <- function(x, classes,
+	sampleWeights = NULL,
+	grouping = NULL,
+	groupWeights = NULL,
+	parameterWeights = NULL,
+	alpha = 0.5,
+	standardize = TRUE,
+	lambda,
+	d = 100,
+	fold = 10L,
+	cv.indices = list(),
+	intercept = TRUE,
+	sparse.data = is(x, "sparseMatrix"),
+	max.threads = NULL,
+	use_parallel = FALSE,
+	algorithm.config = msgl.standard.config) {
+
+	warning("msgl::cv is deprecated, use msgl::cv")
+
+	msgl::cv(
+		x,
+		classes,
+		sampleWeights,
+		grouping,
+		groupWeights,
+		parameterWeights,
+		alpha,
+		standardize,
+		lambda,
+		d,
+		fold,
+		cv.indices,
+		intercept,
+		sparse.data,
+		max.threads,
+		use_parallel,
+		algorithm.config)
+	}

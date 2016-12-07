@@ -6,14 +6,14 @@ options(warn=2)
 ### Basic tests
 
 data(SimData)
-x <- sim.data$x
-classes <- sim.data$classes
+
+
 
 set.seed(100L)
 
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25L, lambda.min = 0.02, standardize = FALSE)
+lambda <- msgl::lambda(x, classes, alpha = .5, d = 25L, lambda.min = 0.02, standardize = FALSE)
 
-fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = lambda, sparse.data = TRUE, standardize = FALSE)
+fit.cv <- msgl::cv(x, classes, alpha = .5, lambda = lambda, sparse.data = TRUE, standardize = FALSE)
 
 err.count <- colSums(fit.cv$classes != classes)
 

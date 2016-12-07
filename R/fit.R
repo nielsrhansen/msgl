@@ -62,12 +62,14 @@
 #' \item{classes.true}{the true classes used for estimation, this is equal to the \code{classes} argument}
 #' @examples
 #' data(SimData)
-#' x <- sim.data$x
-#' classes <- sim.data$classes
+#'
+#' # A quick look at the data
+#' dim(x)
+#' table(classes)
 #
 #' # Fit multinomial sparse group lasso regularization path
 #' # Using a lambda sequence ranging from the maximal lambda to 0.5 * maximal lambda
-#' fit <- msgl(x, classes, alpha = 0.5, lambda = 0.5)
+#' fit <- msgl::fit(x, classes, alpha = 0.5, lambda = 0.5)
 #'
 #' # Print some information about the fit
 #' fit
@@ -84,7 +86,7 @@
 #' # The training errors of the models.
 #' Err(fit, x)
 #' # Note: For high dimensional models the training errors are almost always over optimistic,
-#' # instead use msgl.cv to estimate the expected errors by cross validation
+#' # instead use msgl::cv to estimate the expected errors by cross validation
 #'
 #' @author Martin Vincent
 #' @importFrom utils packageVersion
@@ -92,7 +94,7 @@
 #' @export
 #' @useDynLib msgl, .registration=TRUE
 #' @import Matrix
-msgl <- function(
+fit <- function(
   x,
   classes,
   sampleWeights = NULL,
@@ -179,6 +181,46 @@ res$call <- cl
 class(res) <- "msgl"
 return(res)
 
+}
+
+#' Deprecated fit function
+#'
+#' @keywords internal
+#' @export
+msgl <- function(
+  x,
+  classes,
+  sampleWeights = NULL,
+  grouping = NULL,
+  groupWeights = NULL,
+  parameterWeights = NULL,
+  alpha = 0.5,
+  standardize = TRUE,
+  lambda,
+  d = 100,
+  return_indices = NULL,
+  intercept = TRUE,
+  sparse.data = is(x, "sparseMatrix"),
+  algorithm.config = msgl.standard.config) {
+
+  warning("msgl is deprecated, use msgl::fit")
+
+  fit(
+    x,
+    classes,
+    sampleWeights,
+    grouping,
+    groupWeights,
+    parameterWeights,
+    alpha,
+    standardize,
+    lambda,
+    d,
+    return_indices,
+    intercept,
+    sparse.data,
+    algorithm.config
+  )
 }
 
 .to_org_scale <- function(beta, x.scale, x.center) {

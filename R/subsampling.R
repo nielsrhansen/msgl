@@ -43,15 +43,17 @@
 #'
 #' @examples
 #' data(SimData)
-#' x <- sim.data$x
-#' classes <- sim.data$classes
+#'
+#' # A quick look at the data
+#' dim(x)
+#' table(classes)
 #'
 #' test <- list(1:20, 21:40)
 #' train <- lapply(test, function(s) (1:length(classes))[-s])
 #'
 #' # Run subsampling
 #' # Using a lambda sequence ranging from the maximal lambda to 0.5 * maximal lambda
-#' fit.sub <- msgl.subsampling(x, classes, alpha = 0.5, lambda = 0.5, training = train, test = test)
+#' fit.sub <- msgl::subsampling(x, classes, alpha = 0.5, lambda = 0.5, training = train, test = test)
 #'
 #' # Print some information
 #' fit.sub
@@ -67,7 +69,7 @@
 #' @importFrom methods is
 #' @export
 #' @useDynLib msgl, .registration=TRUE
-msgl.subsampling <- function(x, classes,
+subsampling <- function(x, classes,
 	sampleWeights = NULL,
 	grouping = NULL,
 	groupWeights = NULL,
@@ -166,3 +168,49 @@ msgl.subsampling <- function(x, classes,
 	class(res) <- "msgl"
 	return(res)
 }
+
+#' Deprecated subsampling function
+#'
+#' @keywords internal
+#' @export
+msgl.subsampling <- function(x, classes,
+	sampleWeights = NULL,
+	grouping = NULL,
+	groupWeights = NULL,
+	parameterWeights = NULL,
+	alpha = 0.5,
+	standardize = TRUE,
+	lambda,
+	d = 100,
+	training,
+	test,
+	intercept = TRUE,
+	sparse.data = is(x, "sparseMatrix"),
+	collapse = FALSE,
+	max.threads = NULL,
+	use_parallel = FALSE,
+	algorithm.config = msgl.standard.config) {
+
+	warning("msgl::subsampling( is deprecated, use msgl::subsampling")
+
+	msgl::subsampling(
+		x,
+		classes,
+		sampleWeights,
+		grouping,
+		groupWeights,
+		parameterWeights,
+		alpha,
+		standardize,
+		lambda,
+		d,
+		training,
+		test,
+		intercept,
+		sparse.data,
+		collapse,
+		max.threads,
+		use_parallel,
+		algorithm.config
+	)
+	}

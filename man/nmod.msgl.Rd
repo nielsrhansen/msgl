@@ -20,10 +20,10 @@ Note that cv and subsampling objects does not containing any models even though 
 }
 \examples{
 data(SimData)
-x <- sim.data$x
-classes <- sim.data$classes
-lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-fit <- msgl(x, classes, alpha = .5, lambda = lambda)
+
+
+lambda <- msgl::lambda(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
+fit <- msgl::fit(x, classes, alpha = .5, lambda = lambda)
 
 # the number of models
 nmod(fit)

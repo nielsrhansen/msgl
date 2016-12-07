@@ -71,8 +71,8 @@
 
 		if(sparse.data) {
 			x.scale <- sqrt(colMeans(x*x) - colMeans(x)^2)
-			x.center <- rep(0, length(x.scale))
-			x <- x%*%Diagonal(x=1/x.scale)
+      x.center <- rep(0, length(x.scale))
+      x <- x%*%Diagonal(x=1/x.scale)
 		} else {
 			x <- scale(x, if(sparse.data) FALSE else TRUE, TRUE)
 			x.scale <- attr(x, "scaled:scale")

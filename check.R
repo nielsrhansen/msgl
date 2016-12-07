@@ -19,7 +19,7 @@ package_name <- function(path) {
 build_check_local <- function(pkg, path) {
   ver <- packageVersion(pkg, lib.loc = path)
 
-  build_command <- paste("R CMD build --no-build-vignettes", file.path(path, pkg))
+  build_command <- paste("R CMD build ", file.path(path, pkg))
   system(build_command)
 
   build_name <- paste(pkg, "_", ver, ".tar.gz", sep="")

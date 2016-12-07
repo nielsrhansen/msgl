@@ -22,17 +22,19 @@ The group weights \eqn{\gamma \in [0,\infty)^m} and parameter weights \eqn{\xi \
 }
 \examples{
 # Load some data
-data(SimData)
-x <- sim.data$x
-classes <- sim.data$classes
+data(PrimaryCancers)
+
+# A quick look at the data
+dim(x)
+table(classes)
 
 #Do cross validation using 2 parallel units
 cl <- makeCluster(2)
 registerDoParallel(cl)
 
 # Do 10-fold cross validation on a lambda sequence of length 100.
-# The sequence is decreasing from the data derived lambda.max to 0.7*lambda.max
-fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = 0.7, use_parallel = TRUE)
+# The sequence is decreasing from the data derived lambda.max to 0.5*lambda.max
+fit.cv <- msgl::cv(x, classes, alpha = .5, lambda = 0.5, use_parallel = TRUE)
 
 stopCluster(cl)
 

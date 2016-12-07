@@ -32,6 +32,6 @@ LinkingTo: Rcpp,
     BH,
     sglOptim
 Suggests:
-    knitr
+    knitr, rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1

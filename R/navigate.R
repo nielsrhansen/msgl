@@ -38,16 +38,17 @@
 #' @author Martin Vincent
 #' @examples
 #' data(SimData)
-#' x.all <- sim.data$x
-#' x.1 <- sim.data$x[1:50,]
-#' x.2 <- sim.data$x[51:100,]
-#' classes.all <- sim.data$classes
-#' classes.1 <- sim.data$classes[1:50]
-#' classes.2 <- sim.data$classes[51:100]
+#'
+#' x.all <- x
+#' x.1 <- x[1:50,]
+#' x.2 <- x[51:100,]
+#' classes.all <- classes
+#' classes.1 <- classes[1:50]
+#' classes.2 <- classes[51:100]
 #'
 #' #### Fit models using x.1
-#' lambda <- msgl.lambda.seq(x.1, classes.1, alpha = .5, d = 25, lambda.min = 0.075)
-#' fit <- msgl(x.1, classes.1, alpha = .5, lambda = lambda)
+#' lambda <- msgl::lambda(x.1, classes.1, alpha = .5, d = 25, lambda.min = 0.075)
+#' fit <- msgl::fit(x.1, classes.1, alpha = .5, lambda = lambda)
 #'
 #' #### Training errors:
 #'
@@ -64,7 +65,7 @@
 #' Err(fit, x.2, classes.2)
 #'
 #' #### Do cross validation
-#' fit.cv <- msgl.cv(x.all, classes.all, alpha = .5, lambda = lambda)
+#' fit.cv <- msgl::cv(x.all, classes.all, alpha = .5, lambda = lambda)
 #'
 #' #### Cross validation errors (estimated expected generalization error)
 #'
@@ -78,7 +79,7 @@
 #' test <- list(1:20, 21:40)
 #' train <- lapply(test, function(s) (1:length(classes.all))[-s])
 #'
-#' fit.sub <- msgl.subsampling(x.all, classes.all, alpha = .5,
+#' fit.sub <- msgl::subsampling(x.all, classes.all, alpha = .5,
 #'  lambda = lambda, training = train, test = test)
 #'
 #' # Mean misclassification error of the tests
@@ -99,7 +100,7 @@ Err.msgl <- function(object, data = NULL, response = object$classes.true, classe
 		rate = list(function(x,y) mean(sapply(1:length(x), function(i) x[[i]] != y[[i]])), "classes", FALSE),
 		count = list(function(x,y) sum(sapply(1:length(x), function(i) x[[i]] != y[[i]])), "classes", FALSE),
 
-		loglike = list(function(x,y) -mean(log(sapply(1:length(x), function(i) y[[i]][as.integer(x[[i]])]))), "response", TRUE),
+		loglike = list(function(x,y) -mean(log(sapply(1:length(x), function(i) y[[i]][x[[i]]]))), "response", TRUE),
 
 		stop("Unknown type")
 	)
@@ -107,7 +108,7 @@ Err.msgl <- function(object, data = NULL, response = object$classes.true, classe
 	true_response <- classes
 
 	if( ! is.null(data) ) {
-		object <- predict(object, data)
+		object <- predict.msgl(object, data)
 	}
 
 	return( compute_error(
@@ -130,10 +131,10 @@ Err.msgl <- function(object, data = NULL, response = object$classes.true, classe
 #'
 #' @examples
 #' data(SimData)
-#' x <- sim.data$x
-#' classes <- sim.data$classes
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-#' fit <- msgl(x, classes, alpha = .5, lambda = lambda)
+#'
+#'
+#' lambda <- msgl::lambda(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
+#' fit <- msgl::fit(x, classes, alpha = .5, lambda = lambda)
 #'
 #' # the nonzero features of model 1, 10 and 25
 #' features(fit)[c(1,10,25)]
@@ -161,10 +162,10 @@ features.msgl <- function(object, ...) {
 #'
 #' @examples
 #' data(SimData)
-#' x <- sim.data$x
-#' classes <- sim.data$classes
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-#' fit <- msgl(x, classes, alpha = .5, lambda = lambda)
+#'
+#'
+#' lambda <- msgl::lambda(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
+#' fit <- msgl::fit(x, classes, alpha = .5, lambda = lambda)
 #'
 #' # the nonzero parameters of model 1, 10 and 25
 #' parameters(fit)[c(1,10,25)]
@@ -227,10 +228,10 @@ parameters_stat.msgl <- function(object, ...) {
 #'
 #' @examples
 #' data(SimData)
-#' x <- sim.data$x
-#' classes <- sim.data$classes
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-#' fit <- msgl(x, classes, alpha = .5, lambda = lambda)
+#'
+#'
+#' lambda <- msgl::lambda(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
+#' fit <- msgl::fit(x, classes, alpha = .5, lambda = lambda)
 #'
 #' # the number of models
 #' nmod(fit)
@@ -290,10 +291,10 @@ models.msgl <- function(object, index = 1:nmod(object), ...) {
 #'
 #' @examples
 #' data(SimData)
-#' x <- sim.data$x
-#' classes <- sim.data$classes
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-#' fit <- msgl(x, classes, alpha = .5, lambda = lambda)
+#'
+#'
+#' lambda <- msgl::lambda(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
+#' fit <- msgl::fit(x, classes, alpha = .5, lambda = lambda)
 #'
 #' # the nonzero coefficients of the models 1, 10 and 20
 #' coef(fit, index = c(1,10,20))
@@ -318,18 +319,16 @@ coef.msgl <- function(object, index = 1:nmod(object), ...) {
 #'
 #' @examples
 #' data(SimData)
-#' x <- sim.data$x
-#' classes <- sim.data$classes
 #'
 #' ### Estimation
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25, lambda.min = 0.075)
-#' fit <- msgl(x, classes, alpha = .5, lambda = lambda)
+#' lambda <- msgl::lambda(x, classes, alpha = .5, d = 25, lambda.min = 0.075)
+#' fit <- msgl::fit(x, classes, alpha = .5, lambda = lambda)
 #'
 #' # Print some information about the estimated models
 #' fit
 #'
 #' ### Cross validation
-#' fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = lambda)
+#' fit.cv <- msgl::cv(x, classes, alpha = .5, lambda = lambda)
 #'
 #' # Print some information
 #' fit.cv
@@ -338,8 +337,8 @@ coef.msgl <- function(object, index = 1:nmod(object), ...) {
 #' test <- list(1:20, 21:40)
 #' train <- lapply(test, function(s) (1:length(classes))[-s])
 #'
-#' lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
-#' fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test)
+#' lambda <- msgl::lambda(x, classes, alpha = .5, d = 50, lambda.min = 0.05)
+#' fit.sub <- msgl::subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test)
 #'
 #' # Print some information
 #' fit.sub
