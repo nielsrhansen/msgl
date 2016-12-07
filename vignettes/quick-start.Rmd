@@ -52,10 +52,10 @@ Choose `lambda` (fraction of lambda.max) and `alpha`. With `alpha = 1` for lasso
 Use `msgl::cv` to estimate the error for each lambda in a sequence decreasing from the data derived lambda.max to `lambda` * lambda.max.
 Lambda max is the lambda at which the first penalized parameter becomes non-zero.
 A smaller `lambda` will take longer to fit and include more features.
-The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 5 parallel units (using the [foreach](https://CRAN.R-project.org/package=foreach) and [doParallel](https://CRAN.R-project.org/package=doParallel) packages.
+The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 2 parallel units (using the [foreach](https://CRAN.R-project.org/package=foreach) and [doParallel](https://CRAN.R-project.org/package=doParallel) packages.
 
 ```{r}
-cl <- makeCluster(5)
+cl <- makeCluster(2)
 registerDoParallel(cl)
 
 fit.cv <- msgl::cv(x, classes, fold = 10, alpha = 0.5, lambda = 0.1, use_parallel = TRUE)
