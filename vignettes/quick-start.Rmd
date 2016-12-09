@@ -90,7 +90,7 @@ As we saw in the previous step the model with index `r best_model(fit.cv)` had t
 features(fit)[[best_model(fit.cv)]] # Non-zero features in best model
 ```
 
-Hence `r length(features(fit)[[best_model(fit.cv)]])` features are included in the model, a close to the expected number based on the cross validation estimate.
+Hence `r length(features(fit)[[best_model(fit.cv)]])` features are included in the model, this is close to the expected number based on the cross validation estimate.
 
 The sparsity structure of the parameters belonging to these `r length(features(fit)[[best_model(fit.cv)]])` features may be viewed using  
 ```{r}
@@ -102,7 +102,7 @@ We may also take a look at the estimate parameters (or coefficients)
 coef(fit, best_model(fit.cv))[,1:5] # First 5 non-zero parameters of best model
 ```
 
-If we count the total number of non-zero parameters in the model we get, in this case, `r sum(parameters(fit)[[best_model(fit.cv)]])`, which is close to the expected based on the cross validation estimate.
+If we count the total number of non-zero parameters in the model we get, in this case `r sum(parameters(fit)[[best_model(fit.cv)]])` which is close to the expected based on the cross validation estimate.
 
 ### 6. Use your model for predictions
 

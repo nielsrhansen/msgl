@@ -44,7 +44,23 @@ print(warnings())
 # build vignettes
 pandoc.installed <- system('pandoc -v')==0
 
-if( ! pandoc.installed) {
+if(pandoc.installed) {
+
+  build_install_local(pkg, file.path(path, ".."), build_vignettes = FALSE)
+
+  vignettes.path <- file.path(script.path, "vignettes")
+  vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")
+
+  for(file in vignettes.files) {
+
+    rmarkdown::render(
+      input = file.path(vignettes.path, file),
+      output_format = rmarkdown::md_document(variant = "markdown_github"),
+      output_dir = script.path
+    )
+  }
+
+} else {
   warning("Not building vignettes")
 }
 
