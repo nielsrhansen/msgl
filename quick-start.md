@@ -1,5 +1,5 @@
-Quick Start
------------
+Quick Start (for msgl version 2.3.1)
+------------------------------------
 
 ### 1. Load the msgl library in R
 
@@ -48,7 +48,7 @@ table(classes)
 
 Hence, p = 384, N = 165 and the number of classes K = 9, this implies that the multinomial classification model has 9\*(384+1) = 3465 parameters.
 
-Let us take out a small test set
+Let us take out a small test set:
 
 ``` r
 idx <- 1:10
@@ -60,12 +60,12 @@ classes <- classes[-idx]
 
 ### 3. Estimate error using cross validation
 
-Choose `lambda` (fraction of lambda.max) and `alpha`. With `alpha = 1` for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1) for spares group lasso.
+Choose `lambda` (fraction of lambda.max) and `alpha`, with `alpha = 1` for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1) for spares group lasso.
 
-Use `msgl::cv` to estimate the error for each lambda in a sequence decreasing from the data derived lambda.max to `lambda` \* lambda.max. Lambda max is the lambda at which the first penalized parameter becomes non-zero. A smaller `lambda` will take longer to fit and include more features. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 5 parallel units (using the [foreach](https://CRAN.R-project.org/package=foreach) and [doParallel](https://CRAN.R-project.org/package=doParallel) packages.
+Use `msgl::cv` to estimate the error for each lambda in a sequence decreasing from the data derived *lambda max* to `lambda` \* *lambda max*. Lambda max is the lambda at which the first penalized parameter becomes non-zero. A smaller `lambda` will take longer to fit and include more features. The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 2 parallel units (using the [foreach](https://CRAN.R-project.org/package=foreach) and [doParallel](https://CRAN.R-project.org/package=doParallel) packages.
 
 ``` r
-cl <- makeCluster(5)
+cl <- makeCluster(2)
 registerDoParallel(cl)
 
 fit.cv <- msgl::cv(x, classes, fold = 10, alpha = 0.5, lambda = 0.1, use_parallel = TRUE)
@@ -161,7 +161,7 @@ features(fit)[[best_model(fit.cv)]] # Non-zero features in best model
     ## [41] "miR.526b"    "miR.532.3p"  "miR.548d.3p" "miR.615.5p"  "miR.625"    
     ## [46] "miR.628.5p"  "miR.885.5p"  "miR.891a"
 
-Hence 48 features are included in the model, a close to the expected number based on the cross validation estimate.
+Hence 48 features are included in the model, this is close to the expected number based on the cross validation estimate.
 
 The sparsity structure of the parameters belonging to these 48 features may be viewed using
 
@@ -212,7 +212,7 @@ coef(fit, best_model(fit.cv))[,1:5] # First 5 non-zero parameters of best model
     ## Pancreas   2.2165935 -0.4771551 -0.86238089  1.49733450 -0.02583901
     ## Squamous   3.2212960  .          .          -0.01105621  .
 
-If we count the total number of non-zero parameters in the model we get, in this case, 250, which is close to the expected based on the cross validation estimate.
+If we count the total number of non-zero parameters in the model we get, in this case 250 which is close to the expected based on the cross validation estimate.
 
 ### 6. Use your model for predictions
 

@@ -13,7 +13,7 @@ vignette: >
 set.seed(150)
 ```
 
-## Quick Start (for msgl version `packageVersion("msgl")`)
+## Quick Start (for msgl version `r packageVersion("msgl")`)
 
 ### 1. Load the msgl library in R
 ```{r results="hide"}
