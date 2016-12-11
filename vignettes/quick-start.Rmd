@@ -13,7 +13,7 @@ vignette: >
 set.seed(150)
 ```
 
-## Quick Start
+## Quick Start (for msgl version `packageVersion("msgl")`)
 
 ### 1. Load the msgl library in R
 ```{r results="hide"}
@@ -37,7 +37,7 @@ table(classes)
 ```
 Hence, p = 384, N = 165 and the number of classes K = 9, this implies that the multinomial classification model has 9*(384+1) = 3465 parameters.
 
-Let us take out a small test set
+Let us take out a small test set:
 ```{r}
 idx <- 1:10
 x.test <- x[idx,]
@@ -47,9 +47,9 @@ classes <- classes[-idx]
 ```
 
 ### 3. Estimate error using cross validation
-Choose `lambda` (fraction of lambda.max) and `alpha`. With `alpha = 1` for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1) for spares group lasso.
+Choose `lambda` (fraction of lambda.max) and `alpha`, with `alpha = 1` for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1) for spares group lasso.
 
-Use `msgl::cv` to estimate the error for each lambda in a sequence decreasing from the data derived lambda.max to `lambda` * lambda.max.
+Use `msgl::cv` to estimate the error for each lambda in a sequence decreasing from the data derived *lambda max* to `lambda` * *lambda max*.
 Lambda max is the lambda at which the first penalized parameter becomes non-zero.
 A smaller `lambda` will take longer to fit and include more features.
 The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 2 parallel units (using the [foreach](https://CRAN.R-project.org/package=foreach) and [doParallel](https://CRAN.R-project.org/package=doParallel) packages.

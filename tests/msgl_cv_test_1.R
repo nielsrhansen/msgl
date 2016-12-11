@@ -1,6 +1,5 @@
 library(msgl)
-
-#TODO test deprecated warnings for cv, fit and subsampling
+library(tools)
 
 # warnings = errors
 options(warn=2)
@@ -48,3 +47,12 @@ stopifnot(all(colnames(res) == rownames(x)))
 cls <- fit.cv$classes
 stopifnot(all(sort(unique(as.vector(cls))) == levels(factor(classes))))
 stopifnot(all(rownames(cls)  == rownames(x)))
+
+# test deprecated warnings
+
+assertWarning(
+  lambda <- msgl.lambda.seq(x, classes, alpha = .5, d = 25, lambda.min = 0.02, standardize = TRUE)
+)
+assertWarning(
+  fit.cv <- msgl.cv(x, classes, alpha = .5, lambda = lambda, standardize = TRUE)
+)

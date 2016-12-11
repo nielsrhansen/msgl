@@ -1,4 +1,5 @@
 library(msgl)
+library(tools)
 
 # warnings = errors
 options(warn=2)
@@ -50,3 +51,9 @@ if(class(res) != "try-error") stop()
 
 res <- try(fit1a <- msgl::fit(x, classesna, alpha = 0, lambda = lambda, standardize = FALSE), silent = TRUE)
 if(class(res) != "try-error") stop()
+
+# test deprecated warnings
+
+assertWarning(
+  fit1c <- msgl(x, classes, alpha = 0, lambda = lambda, standardize = FALSE)
+)

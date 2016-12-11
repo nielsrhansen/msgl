@@ -1,4 +1,5 @@
 library(msgl)
+library(tools)
 
 # warnings = errors
 options(warn=2)
@@ -6,8 +7,6 @@ options(warn=2)
 ### Basic tests
 
 data(SimData)
-
-
 
 ## Lambda sequence
 lambda <- msgl::lambda(x, classes, alpha = .5, d = 100L, lambda.min = 0.01, standardize = FALSE)

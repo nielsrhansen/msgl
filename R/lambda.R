@@ -105,6 +105,10 @@ lambda <- function(
   return(lambda)
 }
 
+#' Deprecated lambda function
+#'
+#' @keywords internal
+#' @export
 msgl.lambda.seq <- function(
   x,
   classes,

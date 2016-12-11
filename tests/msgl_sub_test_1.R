@@ -1,4 +1,5 @@
 library(msgl)
+library(tools)
 
 # warnings = errors
 options(warn=2)
@@ -60,3 +61,9 @@ stopifnot(all(sort(unique(as.vector(cls[[1]]))) %in% levels(factor(classes))))
 stopifnot(all(rownames(cls[[1]])  == rownames(x)[test[[1]]]))
 stopifnot(all(sort(unique(as.vector(cls[[2]]))) %in% levels(factor(classes))))
 stopifnot(all(rownames(cls[[2]])  == rownames(x)[test[[2]]]))
+
+# test deprecated warnings
+
+assertWarning(
+  fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test)
+)
