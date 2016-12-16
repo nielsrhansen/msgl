@@ -205,7 +205,7 @@ msgl <- function(
 
   warning("msgl is deprecated, use msgl::fit")
 
-  fit(
+  msgl::fit(
     x,
     classes,
     sampleWeights,
