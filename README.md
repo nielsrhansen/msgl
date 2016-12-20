@@ -44,4 +44,4 @@ devtools::install_github("vincent-dk/msgl")
 ```
 ## Documentation
 
-[Quick Start](quick-start.md)
+[Quick Start (Predict primary cancer site based on microRNA measurements) ](quick-start.md)
