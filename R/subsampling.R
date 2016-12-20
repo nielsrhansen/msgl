@@ -191,7 +191,7 @@ msgl.subsampling <- function(x, classes,
 	use_parallel = FALSE,
 	algorithm.config = msgl.standard.config) {
 
-	warning("msgl::subsampling( is deprecated, use msgl::subsampling")
+	warning("msgl.subsampling( is deprecated, use msgl::subsampling")
 
 	msgl::subsampling(
 		x,

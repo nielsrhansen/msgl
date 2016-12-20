@@ -213,7 +213,7 @@ msgl.cv <- function(x, classes,
 	use_parallel = FALSE,
 	algorithm.config = msgl.standard.config) {
 
-	warning("msgl::cv is deprecated, use msgl::cv")
+	warning("msgl.cv is deprecated, use msgl::cv")
 
 	msgl::cv(
 		x,
