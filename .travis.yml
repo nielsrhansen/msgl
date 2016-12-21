@@ -6,7 +6,7 @@ os:
 
 language: r
 r:
-  - oldrel
+  - 3.1
   - release
 
 warnings_are_errors: true
