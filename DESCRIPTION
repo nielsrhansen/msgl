@@ -1,7 +1,7 @@
 Package: msgl
 Type: Package
 Title: High Dimensional Multiclass Classification Using Sparse Group Lasso
-Version: 2.3.1
+Version: 2.3.5
 Date: 2016-10-13
 Author: Martin Vincent
 Maintainer: Martin Vincent <martin.vincent.dk@gmail.com>
@@ -23,7 +23,7 @@ Imports:
     utils,
     stats
 Depends:
-    R (>= 3.0.0),
+    R (>= 3.2.4),
     Matrix,
     sglOptim (== 1.3.5)
 LinkingTo: Rcpp,
