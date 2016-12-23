@@ -1,4 +1,5 @@
-# High dimensional multiclass classification
+## High Dimensional Multiclass Classification
+### CRAN R package 
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/msgl)](http://cran.r-project.org/package=msgl)
 [![Travis-CI Build Status](https://travis-ci.org/vincent-dk/msgl.svg?branch=master)](https://travis-ci.org/vincent-dk/msgl)
