@@ -59,7 +59,13 @@ registerDoParallel(cl)
 
 # Do 10-fold cross validation on 100 models with increasing complexity, using the 2 parallel units
 
-fit.cv <- msgl::cv(x, classes, alpha = .5, lambda = 0.5, use_parallel = TRUE)
+fit.cv <- msgl::cv(
+  x = x, 
+  classes = classes, 
+  alpha = .5, 
+  lambda = 0.5, 
+  use_parallel = TRUE
+)
 
 stopCluster(cl)
 
