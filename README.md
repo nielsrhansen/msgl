@@ -75,8 +75,9 @@ fit.cv
 ```
 
 ### Documentation
-
-[Quick Start (Predict primary cancer site based on microRNA measurements) ](quick-start.md)
+* R package documentation
+* [Quick Start (Predict primary cancer site based on microRNA measurements) ](quick-start.md)
+* [Sparse group lasso and high dimensional multinomial classification](http://dx.doi.org/10.1016/j.csda.2013.06.004) paper in Computational Statistics & Data Analysis
 
 ### Author
 
