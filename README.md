@@ -24,7 +24,7 @@ This package contains procedures for doing multinomial logistic regression using
 * Supports sample weighting
 * Supports individual weighting of the group and parameter penalties
 
-The penalized maximum likelihood estimator for multinomial logistic regression is computed using a coordinate gradient descent algorithm via the [sglOptim](https://github.com/vincent-dk/sglOptim) optimizer. 
+The penalized maximum likelihood estimator for multinomial logistic regression is computed using a coordinate gradient descent algorithm via the [sglOptim](https://github.com/vincent-dk/sglOptim) optimizer. Use of parallel computing for cross validation and subsampling is supported through the [foreach](https://cran.r-project.org/package=foreach) and [doParallel](https://cran.r-project.org/package=doParallel) packages.
 
 
 ### Status
