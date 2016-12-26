@@ -53,6 +53,7 @@ NULL
 #'   \item{x}{design matrix}
 #'   \item{classes}{class vector}
 #' }
+#' @references \url{http://www.ncbi.nlm.nih.gov/pubmed/24463184}
 #' @name PrimaryCancers
 #' @docType data
 #' @keywords data

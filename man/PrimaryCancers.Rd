@@ -12,5 +12,8 @@
 \description{
 Data set consisting of microRNA normalized expression measurements of primary cancer samples.
 }
+\references{
+\url{http://www.ncbi.nlm.nih.gov/pubmed/24463184}
+}
 \keyword{data}
 
