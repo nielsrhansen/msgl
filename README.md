@@ -5,30 +5,31 @@
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/vincent-dk/msgl?branch=master&svg=true)](https://ci.appveyor.com/project/vincent-dk/msgl)
 [![Coverage Status](https://codecov.io/github/vincent-dk/msgl/coverage.svg?branch=master)](https://codecov.io/github/vincent-dk/msgl?branch=master)
 
-High dimensional multiclass classification using sparse group lasso. The penalized maximum likelihood estimator for multinomial logistic regression is computed using a coordinate gradient descent algorithm.
+Multi-class classification with feature and parameter selection using sparse group lasso. Suitable for high dimensional problems.
 
-### R Package Overview 
+### R-package Overview
+
+This package contains procedures for doing multinomial logistic regression using sparse group lasso. This includes procedures for fitting and cross validating sparse models in a high dimensional setup. See the [Quick Start (Predict primary cancer site based on microRNA measurements) ](quick-start.md) for an example of a traditional workflow consisting of model selection and assessment using cross validation, estimation of a final model and using the selected model for carrying out predictions on new data.  
 
 ![alt tag](https://raw.github.com/vincent-dk/msgl/master/fig1.png)
 > Classification of cancer site. Error estimted by 10-fold cross validation on a data set consist of miRNA expression measurements of leaser dissected primary cancers.
 
-**Package features includes**:
+**Package highlights:**
 
 * Feature and parameter selection
-
-* Fast
-
+* Fast coordinate gradient descent algorithm
 * Suitable for high dimensional multiclass classification
-
 * Support for lasso, group lasso and sparse group lasso
+* Supports custom grouping of features
+* Supports sample weighting
+* Supports individual weighting of the group and parameter penalties
 
-* Custom grouping of features
+The penalized maximum likelihood estimator for multinomial logistic regression is computed using a coordinate gradient descent algorithm via the [sglOptim](https://github.com/vincent-dk/sglOptim) optimizer. 
 
-* Sample weighting
-
-* Individual weighting of the group and parameter penalties
 
 ### Status
+
+The package is under active development with releases to CRAN about ones or twice each year.
 
 ### Installation
 
@@ -47,7 +48,6 @@ devtools::install_github("vincent-dk/msgl")
 ```
 
 ### Minimal Example
-
 
 ```R
 # Load some data
@@ -74,12 +74,12 @@ stopCluster(cl)
 fit.cv
 ```
 
-
 ### Documentation
 
 [Quick Start (Predict primary cancer site based on microRNA measurements) ](quick-start.md)
 
 ### Author
+
 Martin Vincent
 
 ### License
