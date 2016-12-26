@@ -84,3 +84,5 @@ fit.cv
 Martin Vincent
 
 ### License
+
+GPL (>=2)
