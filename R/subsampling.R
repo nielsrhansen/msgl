@@ -66,9 +66,11 @@
 #'
 #' @author Martin Vincent
 #' @importFrom utils packageVersion
+#' @importFrom utils packageVersion
+#' @importFrom sglOptim sgl_subsampling
+#' @importFrom sglOptim transpose_response_elements
 #' @importFrom methods is
 #' @export
-#' @useDynLib msgl, .registration=TRUE
 subsampling <- function(x, classes,
 	sampleWeights = NULL,
 	grouping = NULL,

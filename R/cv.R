@@ -92,9 +92,9 @@
 #' @author Martin Vincent
 #' @importFrom utils packageVersion
 #' @importFrom methods is
+#' @importFrom sglOptim sgl_cv
+#' @importFrom sglOptim transpose_response_elements
 #' @export
-#' @useDynLib msgl, .registration=TRUE
-
 cv <- function(x, classes,
 	sampleWeights = NULL,
 	grouping = NULL,

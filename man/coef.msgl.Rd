@@ -2,7 +2,7 @@
 % Please edit documentation in R/navigate.R
 \name{coef.msgl}
 \alias{coef.msgl}
-\title{Extract nonzero coefficients}
+\title{Nonzero coefficients}
 \usage{
 \method{coef}{msgl}(object, index = 1:nmod(object), ...)
 }

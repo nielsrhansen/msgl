@@ -89,11 +89,12 @@
 #' # instead use msgl::cv to estimate the expected errors by cross validation
 #'
 #' @author Martin Vincent
+#' @import Matrix
 #' @importFrom utils packageVersion
 #' @importFrom methods is
+#' @importFrom sglOptim sgl_fit
+#' @importFrom sglOptim print_with_metric_prefix
 #' @export
-#' @useDynLib msgl, .registration=TRUE
-#' @import Matrix
 fit <- function(
   x,
   classes,

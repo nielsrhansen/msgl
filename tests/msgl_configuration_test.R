@@ -2,7 +2,7 @@ library(msgl)
 # warnings = errors
 options(warn=2)
 
-c_config <- sgl.c.config()
+c_config <- msgl.c.config()
 
 if(c_config$timing) stop()
 

@@ -88,9 +88,10 @@
 #' # Negative log likelihood error
 #' Err(fit.sub, type="loglike")
 #'
-#' @method Err msgl
+#' @importFrom stats predict
+#' @importFrom sglOptim Err
+#' @importFrom sglOptim compute_error
 #' @export
-#' @import sglOptim
 Err.msgl <- function(object, data = NULL, response = object$classes.true, classes = response, type = "rate", ... ) {
 
 	if(is.null(classes)) stop("classes or response must be specified")
@@ -108,7 +109,7 @@ Err.msgl <- function(object, data = NULL, response = object$classes.true, classe
 	true_response <- classes
 
 	if( ! is.null(data) ) {
-		object <- predict.msgl(object, data)
+		object <- predict(object, data)
 	}
 
 	return( compute_error(
@@ -143,8 +144,7 @@ Err.msgl <- function(object, data = NULL, response = object$classes.true, classe
 #' sapply(features(fit), length)
 #'
 #' @author Martin Vincent
-#' @method features msgl
-#' @import sglOptim
+#' @importFrom sglOptim features
 #' @export
 features.msgl <- function(object, ...) {
 	class(object) <- "sgl" # Use std function
@@ -174,8 +174,7 @@ features.msgl <- function(object, ...) {
 #' sapply(parameters(fit), sum)
 #'
 #' @author Martin Vincent
-#' @method parameters msgl
-#' @import sglOptim
+#' @importFrom sglOptim parameters
 #' @export
 parameters.msgl <- function(object, ...) {
 	class(object) <- "sgl" # Use std function
@@ -193,6 +192,7 @@ parameters.msgl <- function(object, ...) {
 #' @return a vector of length \code{nmod(x)} or a matrix containing the number of nonzero features (or group) of the models.
 #'
 #' @author Martin Vincent
+#' @importFrom sglOptim features_stat
 #' @export
 features_stat.msgl <- function(object, ...) {
 	class(object) <- "sgl" # Use std function
@@ -210,6 +210,7 @@ features_stat.msgl <- function(object, ...) {
 #' @return a vector of length \code{nmod(x)} or a matrix containing the number of nonzero parameters of the models.
 #'
 #' @author Martin Vincent
+#' @importFrom sglOptim parameters_stat
 #' @export
 parameters_stat.msgl <- function(object, ...) {
 	class(object) <- "sgl" # Use std function
@@ -217,7 +218,7 @@ parameters_stat.msgl <- function(object, ...) {
 }
 
 
-#' @title Returns the number of models in a msgl object
+#' @title Number of models used for fitting
 #' @description
 #' Returns the number of models used for fitting.
 #' Note that cv and subsampling objects does not containing any models even though nmod returns a positive number.
@@ -237,8 +238,7 @@ parameters_stat.msgl <- function(object, ...) {
 #' nmod(fit)
 #'
 #' @author Martin Vincent
-#' @method nmod msgl
-#' @import sglOptim
+#' @importFrom sglOptim nmod
 #' @export
 nmod.msgl <- function(object, ...) {
 	class(object) <- "sgl" # Use std function
@@ -254,6 +254,7 @@ nmod.msgl <- function(object, ...) {
 #' @return index of the best model.
 #'
 #' @author Martin Vincent
+#' @importFrom sglOptim best_model
 #' @export
 best_model.msgl <- function(object, ...) {
 	class(object) <- "sgl" # Use std function
@@ -272,15 +273,14 @@ best_model.msgl <- function(object, ...) {
 #' @return a list of \eqn{\beta} matrices.
 #'
 #' @author Martin Vincent
-#' @method models msgl
-#' @import sglOptim
+#' @importFrom sglOptim models
 #' @export
 models.msgl <- function(object, index = 1:nmod(object), ...) {
 	class(object) <- "sgl" # Use std function
 	return(models(object, ...))
 }
 
-#' @title Extract nonzero coefficients
+#' @title Nonzero coefficients
 #' @description
 #' This function returns the nonzero coefficients (that is the nonzero entries of the \eqn{beta} matrices)
 #'
@@ -301,8 +301,6 @@ models.msgl <- function(object, index = 1:nmod(object), ...) {
 #'
 #' @author Martin Vincent
 #' @importFrom stats coef
-#' @method coef msgl
-#' @import sglOptim
 #' @export
 coef.msgl <- function(object, index = 1:nmod(object), ...) {
 	class(object) <- "sgl" # Use std function
@@ -343,9 +341,9 @@ coef.msgl <- function(object, index = 1:nmod(object), ...) {
 #' # Print some information
 #' fit.sub
 #'
-#' @method print msgl
 #' @author Martin Vincent
-#' @import sglOptim
+#' @importFrom sglOptim sgl_print
+#' @method print msgl
 #' @export
 print.msgl <- function(x, ...) {
 	sgl_print(x)

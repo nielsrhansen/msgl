@@ -36,9 +36,10 @@
 #' @importFrom utils packageVersion
 #' @importFrom methods is
 #' @importFrom methods as
-#' @method predict msgl
+#' @importFrom sglOptim sgl_predict
+#' @importFrom sglOptim create.sgldata
+#' @importFrom sglOptim transpose_response_elements
 #' @export
-#' @useDynLib msgl, .registration=TRUE
 predict.msgl <- function(object, x, sparse.data = is(x, "sparseMatrix"), ...) {
 
 	# Get call

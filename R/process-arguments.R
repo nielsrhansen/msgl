@@ -19,6 +19,8 @@
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 
+#' @keywords internal
+#' @importFrom sglOptim add_data
 .process_args <- function(
   x,
   classes,

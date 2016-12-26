@@ -2,7 +2,7 @@
 % Please edit documentation in R/navigate.R
 \name{nmod.msgl}
 \alias{nmod.msgl}
-\title{Returns the number of models in a msgl object}
+\title{Number of models used for fitting}
 \usage{
 \method{nmod}{msgl}(object, ...)
 }

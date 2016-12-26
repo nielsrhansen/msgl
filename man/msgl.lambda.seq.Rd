@@ -8,7 +8,7 @@ msgl.lambda.seq(x, classes, sampleWeights = NULL, grouping = NULL,
   groupWeights = NULL, parameterWeights = NULL, alpha = 0.5, d = 100L,
   standardize = TRUE, lambda.min, intercept = TRUE, sparse.data = is(x,
   "sparseMatrix"), lambda.min.rel = FALSE,
-  algorithm.config = sgl.standard.config)
+  algorithm.config = msgl.standard.config)
 }
 \description{
 Deprecated lambda function

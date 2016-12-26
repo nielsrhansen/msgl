@@ -55,8 +55,9 @@
 #' lambda <- msgl::lambda(x, classes, alpha = .5, d = 100, lambda.min = 0.01)
 #' @author Martin Vincent
 #' @importFrom methods is
+#' @importFrom sglOptim sgl_lambda_sequence
+#' @importFrom sglOptim transpose_response_elements
 #' @export
-#' @useDynLib msgl, .registration=TRUE
 lambda <- function(
   x,
   classes,
@@ -71,7 +72,7 @@ lambda <- function(
   intercept = TRUE,
   sparse.data = is(x, "sparseMatrix"),
   lambda.min.rel = FALSE,
-  algorithm.config = sgl.standard.config) {
+  algorithm.config = msgl.standard.config) {
 
 
   setup <- .process_args(
@@ -123,7 +124,7 @@ msgl.lambda.seq <- function(
   intercept = TRUE,
   sparse.data = is(x, "sparseMatrix"),
   lambda.min.rel = FALSE,
-  algorithm.config = sgl.standard.config) {
+  algorithm.config = msgl.standard.config) {
 
   warning("msgl.lambda.seq is deprecated, use msgl::lambda")
 

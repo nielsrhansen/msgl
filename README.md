@@ -1,4 +1,4 @@
-## High Dimensional Multiclass Classification 
+## High Dimensional Multiclass Classification
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/msgl)](http://cran.r-project.org/package=msgl)
 [![Travis-CI Build Status](https://travis-ci.org/vincent-dk/msgl.svg?branch=master)](https://travis-ci.org/vincent-dk/msgl)
@@ -50,6 +50,8 @@ devtools::install_github("vincent-dk/msgl")
 ### Minimal Example
 
 ```R
+library(msgl)
+
 # Load some data
 data(PrimaryCancers)
 
@@ -58,12 +60,11 @@ cl <- makeCluster(2)
 registerDoParallel(cl)
 
 # Do 10-fold cross validation on 100 models with increasing complexity, using the 2 parallel units
-
 fit.cv <- msgl::cv(
-  x = x, 
-  classes = classes, 
-  alpha = 0.5, 
-  lambda = 0.5, 
+  x = x,
+  classes = classes,
+  alpha = 0.5,
+  lambda = 0.5,
   use_parallel = TRUE
 )
 

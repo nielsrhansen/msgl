@@ -41,6 +41,7 @@
 #' @docType package
 #' @name msgl-package
 #' @importFrom tools assertWarning
+#' @useDynLib msgl, .registration=TRUE
 NULL
 
 #' Primary cancer samples.
