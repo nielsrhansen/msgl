@@ -62,7 +62,7 @@ registerDoParallel(cl)
 fit.cv <- msgl::cv(
   x = x, 
   classes = classes, 
-  alpha = .5, 
+  alpha = 0.5, 
   lambda = 0.5, 
   use_parallel = TRUE
 )
