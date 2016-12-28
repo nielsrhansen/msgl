@@ -9,7 +9,7 @@ Multi-class classification with feature and parameter selection using sparse gro
 
 ### R-package Overview
 
-This package contains procedures for doing multinomial logistic regression using sparse group lasso. This includes procedures for fitting and cross validating sparse models in a high dimensional setup. See the [Quick Start (Predict primary cancer site based on microRNA measurements) ](quick-start.md) for an example of a traditional workflow consisting of model selection and assessment using cross validation, estimation of a final model and using the selected model for carrying out predictions on new data.  
+This package implements procedures for working with multinomial logistic regression models using sparse group lasso. This includes procedures for fitting and cross validating sparse models in a high dimensional setup. See the [Quick Start (Predict primary cancer site based on microRNA measurements) ](quick-start.md) for an example of a traditional workflow consisting of 1) model selection and assessment using cross validation, 2) estimation of a final model and 3) using the selected model for carrying out predictions on new data.  
 
 ![alt tag](https://raw.github.com/vincent-dk/msgl/master/fig1.png)
 > Classification of cancer site. Error estimted by 10-fold cross validation on a data set consist of miRNA expression measurements of leaser dissected primary cancers.
