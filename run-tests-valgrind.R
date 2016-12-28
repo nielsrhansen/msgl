@@ -30,7 +30,7 @@ build_install_local <- function(pkg, path) {
 run_test_valgrind <- function(file, path) {
 
   script <- file.path(path, file)
-  run_command <- paste("R -d \"valgrind --leak-check=full --show-reachable=yes\" -f", script)
+  run_command <- paste("R -d \"valgrind --leak-check=full\" -f", script)
   system(run_command)
 }
 
@@ -49,5 +49,6 @@ print(warnings())
 test.path <- file.path(path, "tests")
 test.files <- list.files(test.path)
 
+setwd(test.path)
 for(file in test.files)
  run_test_valgrind(file, test.path)
