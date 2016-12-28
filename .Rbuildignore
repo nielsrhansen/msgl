@@ -8,3 +8,4 @@
 ^install\.R$
 ^build_docs\.R$
 ^run-tests-valgrind\.R$
+^run-tests\.R$
