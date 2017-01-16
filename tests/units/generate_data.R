@@ -1,9 +1,7 @@
 
 create_test_data <- function() {
 
-  data(SimData)
-
-  classes <- LETTERS[1:10][classes]
+  data(PrimaryCancers)
 
   data <- list()
   data$X <- x

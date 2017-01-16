@@ -25,7 +25,7 @@ lambda_test <- function(data, values, consistency, i, j) {
     d = values$d[i],
     standardize = values$standardize[i],
     intercept = values$intercept[i],
-    sparse.data = consistency$sparseX[j]
+    sparse.data = values$sparseX[i]
   )
 
   return( lambda )

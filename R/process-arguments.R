@@ -41,12 +41,23 @@
   		stop("classes contains NA values")
   }
 
-	# Default values
-	if(is.null(grouping)) {
-		grouping <- factor(1:ncol(x))
-	} else {
-		# ensure factor
-		grouping <- factor(grouping)
+  # Default values
+  if( is.null(grouping) ) {
+
+    grouping <- factor(1:ncol(x))
+
+  } else {
+
+    # ensure factor
+    if( any(is.na(grouping)) ) {
+      stop("grouping contains NA values")
+    }
+
+    if( length(grouping) != ncol(x) ) {
+      stop("the length of grouping must be equal to the number of covariates")
+    }
+
+    grouping <- factor(grouping)
 	}
 
   if( is.null(weights) ) {

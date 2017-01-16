@@ -166,12 +166,13 @@ fit <- function(
   if(standardize) {
     res$beta <- .to_org_scale(
       beta = res$beta,
+      intercept = intercept,
       x.scale = setup$x.scale,
       x.center = setup$x.center
 	  )
   }
 
-res$intercept <- intercept
+res$intercept <- intercept || standardize
 res$classes.true <- factor(classes)
 res$sparse.data <- data$sparseX
 
@@ -224,13 +225,37 @@ msgl <- function(
   )
 }
 
-.to_org_scale <- function(beta, x.scale, x.center) {
+.to_org_scale <- function(beta, intercept, x.scale, x.center) {
+
+  if( ! intercept) {
+    message("Note (msgl): standardization intercept added to models. \n")
+  }
 
   for(l in 1:length(beta)) {
 
+  if( intercept ) {
+
     beta.org <- t(t(beta[[l]])*c(1,1/x.scale))
-    beta.org[,1] <- beta.org[,1] - rowSums(t(t(beta[[l]][,-1])*(x.center/x.scale)))
-    beta[[l]] <- beta.org
+    beta.org[,1] <- beta.org[,1] - colSums(t(beta[[l]][,-1])*(x.center/x.scale))
+
+  } else {
+
+    beta.org <- t(t(beta[[l]])*1/x.scale)
+
+    if( is.null(colnames(beta.org)) ) {
+      beta.org <- cBind(
+        -colSums(t(beta[[l]])*(x.center/x.scale)),
+        beta.org
+      )
+    } else {
+      beta.org <- cBind(
+        Intercept =  -colSums(t(beta[[l]])*(x.center/x.scale)),
+        beta.org
+      )
+    }
+  }
+
+  beta[[l]] <- beta.org
 
   }
 

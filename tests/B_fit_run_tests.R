@@ -2,7 +2,7 @@ library(msgl)
 
 source("units/run_tests.R")
 source("units/generate_data.R")
-source("units/lambda_test.R")
+source("units/fit_test.R")
 
 # warnings = errors
 options(warn=2)
@@ -17,14 +17,14 @@ data <- create_test_data()
 values <- expand.grid(
   grouping = list(
     NULL,
-    factor(1:ncol(data$X) %% 3)
+    factor(1:ncol(data$X) %% 100)
     ),
   groupWeights = list(NULL),
   parameterWeights = list(NULL),
   alpha = c(0, 0.5, 1),
-  d = 100,
+  d = 50,
   lambda = 0.8,
-  intercept = c(TRUE, FALSE),
+  intercept = c(FALSE, TRUE),
   sparseX = c(TRUE, FALSE),
   standardize  = c(TRUE, FALSE)
 )
@@ -39,8 +39,8 @@ run_tests(
   data = data,
   args_values = values,
   args_consistency = consistency,
-  test = lambda_test,
-  check_consistency = check_lambda_consistency
+  test = fit_test,
+  check_consistency = check_fit_consistency
 )
 
 data$X <- Matrix(data$X, sparse = TRUE)
@@ -49,6 +49,6 @@ run_tests(
   data = data,
   args_values = values,
   args_consistency = consistency,
-  test = lambda_test,
-  check_consistency = check_lambda_consistency
+  test = fit_test,
+  check_consistency = check_fit_consistency
 )
