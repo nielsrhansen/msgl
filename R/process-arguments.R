@@ -94,8 +94,12 @@
 
     groupWeights <- c(0, groupWeights)
 
-    parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
-    colnames(parameterWeights)[1] <- "Intercept"
+
+    if( is.null(colnames(parameterWeights)) ) {
+      parameterWeights <- cBind(rep(0, length(levels(classes))), parameterWeights)
+    } else {
+      parameterWeights <- cBind(Intercept = rep(0, length(levels(classes))), parameterWeights)
+    }
 
     grouping <- factor(c("Intercept", as.character(grouping)), levels = c("Intercept", levels(grouping)))
 
