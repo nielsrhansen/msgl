@@ -2,6 +2,7 @@ library(msgl)
 library(tools)
 
 data(SimData)
+set.seed(200)
 
 # This should show a warning
 assertWarning(
