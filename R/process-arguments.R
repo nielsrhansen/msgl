@@ -62,6 +62,7 @@
 
   if( is.null(weights) ) {
     weights <- rep(1/nrow(x), nrow(x))
+    names(weights) <- rownames(x)
   }
 
 	# cast
