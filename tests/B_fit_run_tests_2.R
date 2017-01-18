@@ -2,7 +2,7 @@ library(msgl)
 
 source("units/run_tests.R")
 source("units/generate_data.R")
-source("units/cv_test.R")
+source("units/fit_test.R")
 
 # warnings = errors
 options(warn=2)
@@ -23,11 +23,10 @@ values <- expand.grid(
   parameterWeights = list(NULL),
   alpha = c(0, 0.5, 1),
   d = 50,
-  lambda = 0.8,
-  fold = c(5,10),
+  lambda = 0.9,
   intercept = c(FALSE, TRUE),
-  standardize  = c(TRUE, FALSE),
-  sparseX = c(TRUE, FALSE)
+  sparseX = c(TRUE, FALSE),
+  standardize  = FALSE
 )
 
 ## consistency args values
@@ -40,8 +39,8 @@ run_tests(
   data = data,
   args_values = values,
   args_consistency = consistency,
-  test = cv_test,
-  check_consistency = check_cv_consistency
+  test = fit_test,
+  check_consistency = check_fit_consistency
 )
 
 data$X <- Matrix(data$X, sparse = TRUE)
@@ -50,6 +49,6 @@ run_tests(
   data = data,
   args_values = values,
   args_consistency = consistency,
-  test = cv_test,
-  check_consistency = check_cv_consistency
+  test = fit_test,
+  check_consistency = check_fit_consistency
 )

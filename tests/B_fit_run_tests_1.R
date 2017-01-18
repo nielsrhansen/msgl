@@ -23,10 +23,10 @@ values <- expand.grid(
   parameterWeights = list(NULL),
   alpha = c(0, 0.5, 1),
   d = 50,
-  lambda = 0.8,
+  lambda = 0.9,
   intercept = c(FALSE, TRUE),
   sparseX = c(TRUE, FALSE),
-  standardize  = c(TRUE, FALSE)
+  standardize  = TRUE
 )
 
 ## consistency args values

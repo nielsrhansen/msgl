@@ -148,7 +148,7 @@ subsampling <- function(x, classes,
 	### Responses
 
 	res$classes <- lapply(res$responses$classes, function(cls) {
-		newcls <- apply(cls, 2, function(x) setup$class_names[x])
+		newcls <- t(apply(cls, 1, function(x) setup$class_names[x]))
 		dimnames(newcls) <- dimnames(cls)
 		attr(newcls, "type") <- attr(cls, "type")
 
