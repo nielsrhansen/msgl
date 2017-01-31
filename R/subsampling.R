@@ -92,6 +92,11 @@ subsampling <- function(x, classes,
 	# Get call
 	cl <- match.call()
 
+  # Check training samples
+  if(any(sapply(training, function(x) length(unique(classes[x])) != length(unique(classes))))) {
+    stop("all class labels must be present in each training set")
+  }
+
 	setup <- .process_args(
 		x = x,
 		classes = classes,

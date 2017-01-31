@@ -37,8 +37,13 @@
 		stop("the number of rows in x must match the length of classes")
 	}
 
+ # Check for NA values
   if(sum(is.na(classes)) > 0) {
-  		stop("classes contains NA values")
+    stop("classes contains NA values")
+  }
+
+  if(sum(is.na(x)) > 0) {
+    stop("x contains NA values")
   }
 
   # Default values
@@ -83,15 +88,19 @@
 	# Standardize
 	if(standardize) {
 
-		if(sparse.data) {
-			x.scale <- sqrt(colMeans(x*x) - colMeans(x)^2)
+    if(sparse.data) {
+      x.scale <- sqrt(colMeans(x*x) - colMeans(x)^2)
       x.center <- rep(0, length(x.scale))
       x <- x%*%Diagonal(x=1/x.scale)
-		} else {
-			x <- scale(x, if(sparse.data) FALSE else TRUE, TRUE)
-			x.scale <- attr(x, "scaled:scale")
-			x.center <- if(sparse.data) rep(0, length(x.scale)) else attr(x, "scaled:center")
-		}
+    } else {
+      x <- scale(x, TRUE, TRUE)
+      x.scale <- attr(x, "scaled:scale")
+      x.center <- attr(x, "scaled:center")
+    }
+
+    if(sum(is.na(x)) > 0) {
+      stop("x contains NA values after standardization, try 'standardize = FALSE'")
+    }
 	}
 
   if(intercept) {

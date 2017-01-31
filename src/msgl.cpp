@@ -19,9 +19,6 @@
 //Uncomment to turn on debuging
 //#undef NDEBUG
 
-//Should the timers be activated (only needed for profiling the code)
-//#define DO_TIMING
-
 //Configuration
 //Debugging
 #ifndef NDEBUG
@@ -42,6 +39,12 @@
 
 // print information abt convergence
 //#define SGL_DEBUG_INFO_QUADRATIC
+
+//Should the timers be activated (only needed for profiling the code)
+//#define DO_TIMING
+
+// Show function entering/leaving
+//#define FUNC_ENTER
 
 //Sgl optimizer
 #include <sgl.h>

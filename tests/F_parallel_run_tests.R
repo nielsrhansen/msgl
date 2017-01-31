@@ -9,20 +9,6 @@ options(warn=2)
 data(SimData)
 
 
-classes <- LETTERS[1:10][classes]
-
-lambda <- msgl::lambda(x, classes, alpha = .5, d = 25L, lambda.min = 0.05, standardize = TRUE)
-
-test <- list(1:20, 21:40)
-train <- lapply(test, function(s) (1:length(classes))[-s])
-
-fit.sub <- msgl::subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test)
-if(min(Err(fit.sub, type="count")) > 15) stop()
-
-# some navigation tests
-features_stat(fit.sub)
-parameters_stat(fit.sub)
-
 ###
 ### Parallel tests
 ###
