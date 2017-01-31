@@ -17,6 +17,11 @@ subsampling_test <- function(data, values, consistency, i, j) {
     rownames(X) <- NULL
   }
 
+  # Skip tests
+  if(is.null(rownames(X)) && values$test_train[i] == "C" ) {
+    return( NULL )
+  }
+
   if( values$test_train[i] == "A" ) {
 
     test <- replicate(2, 1:(nrow(X)/2), simplify = FALSE)
@@ -29,7 +34,7 @@ subsampling_test <- function(data, values, consistency, i, j) {
 
   } else if( values$test_train[i] == "C" ) {
 
-    test <- as.list(nrow(X)) # Test single tests
+    test <- as.list(rownames(X)) # Test single tests
     train <- replicate(nrow(X), 1:nrow(X), simplify = FALSE)
 
   } else {
@@ -63,20 +68,21 @@ subsampling_test <- function(data, values, consistency, i, j) {
   # Check names
   link <- val$link[[1]][[2]]
   stopifnot(all(rownames(link) == levels(classes)))
+
   if( ! is.null(rownames(x)) ) {
-    stopifnot(all(colnames(link) == rownames(x)))
+    stopifnot(all(colnames(link) == rownames(x)[test[[1]]]))
   }
 
   r <- val$response[[1]][[2]]
   stopifnot(all(rownames(r) == levels(classes)))
   if( ! is.null(rownames(x)) ) {
-    stopifnot(all(colnames(r) == rownames(x)))
+    stopifnot(all(colnames(r) == rownames(x)[test[[1]]]))
   }
 
   cls <- val$classes[[1]]
   stopifnot(all(as.vector(cls) %in% levels(classes)))
   if( ! is.null(rownames(x)) ) {
-    stopifnot(all(rownames(cls)  == rownames(x)))
+    stopifnot(all(rownames(cls)  == rownames(x)[test[[1]]]))
   }
 
   # print
@@ -88,6 +94,6 @@ subsampling_test <- function(data, values, consistency, i, j) {
   return( NULL )
 }
 
-check_cv_consistency <- function(consistency_list) {
+check_subsampling_consistency <- function(consistency_list) {
   #NOTE implement consistency tests if needed
 }
