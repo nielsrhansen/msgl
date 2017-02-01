@@ -22,6 +22,3 @@ after_success:
 # install sglOptim
 r_github_packages:
  - vincent-dk/sglOptim
-
-before_install:
-  Rscript -e 'update.packages(ask = FALSE)'
