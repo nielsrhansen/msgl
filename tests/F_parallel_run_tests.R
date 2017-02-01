@@ -57,7 +57,8 @@ stopifnot(all(sort(unique(as.vector(cls[[2]]))) %in% levels(factor(classes))))
 stopifnot(all(rownames(cls[[2]])  == rownames(x)[test[[2]]]))
 
 # test deprecated warnings
+options(warn=1)
 
 assertWarning(
-  fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = lambda, training = train, test = test)
+  fit.sub <- msgl.subsampling(x, classes, alpha = .5, lambda = 0.95, training = train, test = test)
 )

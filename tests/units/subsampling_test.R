@@ -29,13 +29,13 @@ subsampling_test <- function(data, values, consistency, i, j) {
 
   } else if( values$test_train[i] == "B" ) {
 
-    test <- as.list(1:nrow(X)) # Test single tests
-    train <- replicate(nrow(X), 1:nrow(X), simplify = FALSE)
+    test <- as.list(1:5) # Test single tests
+    train <- replicate(5, 1:nrow(X), simplify = FALSE)
 
   } else if( values$test_train[i] == "C" ) {
 
-    test <- as.list(rownames(X)) # Test single tests
-    train <- replicate(nrow(X), 1:nrow(X), simplify = FALSE)
+    test <- as.list(rownames(X)[1:5]) # Test single tests
+    train <- replicate(5, 1:nrow(X), simplify = FALSE)
 
   } else {
     stop("unkown test_train")
@@ -67,22 +67,29 @@ subsampling_test <- function(data, values, consistency, i, j) {
 
   # Check names
   link <- val$link[[1]][[2]]
+
+  if(is.numeric(test[[1]])) {
+    sample_names <- rownames(x)[test[[1]]]
+  } else {
+    sample_names <- test[[1]]
+  }
+
   stopifnot(all(rownames(link) == levels(classes)))
 
   if( ! is.null(rownames(x)) ) {
-    stopifnot(all(colnames(link) == rownames(x)[test[[1]]]))
+    stopifnot(all(colnames(link) == sample_names))
   }
 
   r <- val$response[[1]][[2]]
   stopifnot(all(rownames(r) == levels(classes)))
   if( ! is.null(rownames(x)) ) {
-    stopifnot(all(colnames(r) == rownames(x)[test[[1]]]))
+    stopifnot(all(colnames(r) == sample_names))
   }
 
   cls <- val$classes[[1]]
   stopifnot(all(as.vector(cls) %in% levels(classes)))
   if( ! is.null(rownames(x)) ) {
-    stopifnot(all(rownames(cls)  == rownames(x)[test[[1]]]))
+    stopifnot(all(rownames(cls)  == sample_names))
   }
 
   # print

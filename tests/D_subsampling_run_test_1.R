@@ -23,7 +23,7 @@ values <- expand.grid(
   parameterWeights = list(NULL),
   alpha = c(0, 0.5, 1),
   d = 50,
-  lambda = 0.9,
+  lambda = 0.95,
   test_train = c("A", "B", "C"),
   intercept = c(FALSE, TRUE),
   standardize = TRUE,
