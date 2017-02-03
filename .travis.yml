@@ -17,7 +17,7 @@ r_packages:
   - knitr
 
 after_success:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then Rscript -e 'install.packages("covr"); library(covr); codecov(type="all")' Using Wercker CI ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then Rscript -e 'install.packages("covr"); library(covr); codecov(type="all", quite = FALSE)' Using Wercker CI ; fi
 
 # install sglOptim
 r_github_packages:
