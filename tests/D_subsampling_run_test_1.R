@@ -21,7 +21,7 @@ values <- expand.grid(
     ),
   groupWeights = list(NULL),
   parameterWeights = list(NULL),
-  alpha = c(0, 0.5, 1),
+  alpha = 0.5,
   d = 50,
   lambda = 0.95,
   test_train = c("A", "B", "C"),

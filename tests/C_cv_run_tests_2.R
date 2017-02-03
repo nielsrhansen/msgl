@@ -21,10 +21,10 @@ values <- expand.grid(
     ),
   groupWeights = list(NULL),
   parameterWeights = list(NULL),
-  alpha = c(0, 0.5, 1),
+  alpha = c(0, 0.5),
   d = 50,
-  lambda = 0.9,
-  fold = c(5,10),
+  lambda = 0.95,
+  fold = 10,
   intercept = c(FALSE, TRUE),
   standardize = FALSE,
   sparseX = c(TRUE, FALSE)

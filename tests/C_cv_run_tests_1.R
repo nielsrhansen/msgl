@@ -21,13 +21,13 @@ values <- expand.grid(
     ),
   groupWeights = list(NULL),
   parameterWeights = list(NULL),
-  alpha = c(0, 0.5, 1),
+  alpha = c(0.5, 1),
   d = 50,
-  lambda = 0.9,
-  fold = c(5,10),
-  intercept = c(FALSE, TRUE),
+  lambda = 0.95,
+  fold = 5,
+  intercept = TRUE,
   standardize = TRUE,
-  sparseX = c(TRUE, FALSE)
+  sparseX = TRUE
 )
 
 ## consistency args values

@@ -10,6 +10,11 @@ get_script_path <- function() {
     return(script.dir)
 }
 
+get_git_branch <- function(path) {
+  git_branch_cmd <- paste("cd", path, ";",  "git  branch | grep '^\\*' | cut -d' ' -f2")
+  system(git_branch_cmd, intern = TRUE)
+}
+
 package_name <- function(path) {
     out <- c(read.dcf(list.files(path, pattern="DESCRIPTION",
         recursive=TRUE, full.names=TRUE), "Package"))
@@ -51,12 +56,16 @@ if(pandoc.installed) {
   vignettes.path <- file.path(script.path, "vignettes")
   vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")
 
+  branch <- get_git_branch(script.path)
+  print(branch)
+
   for(file in vignettes.files) {
 
     rmarkdown::render(
       input = file.path(vignettes.path, file),
       output_format = rmarkdown::md_document(variant = "markdown_github"),
-      output_dir = script.path
+      output_dir = script.path,
+      params = list(branch = branch)
     )
   }
 
