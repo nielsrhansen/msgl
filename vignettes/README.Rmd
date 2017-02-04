@@ -22,7 +22,7 @@ params:
 
 Multi-class classification with feature and parameter selection using sparse group lasso. Suitable for high dimensional problems.
 
-This is the **`r params$version_type`** of R package **sglOptim version `r params$pkg_version`**.
+This is the **`r params$version_type`** of R package **msgl version `r params$pkg_version`**.
 
 ### R-package Overview
 
