@@ -12,7 +12,7 @@ Description: Multinomial logistic regression with sparse group lasso penalty.
     Use of parallel computing for cross validation and subsampling is supported
     through the 'foreach' and 'doParallel' packages. Development version is on
     GitHub, please report package issues on GitHub.
-URL:
+URL: 
     http://dx.doi.org/10.1016/j.csda.2013.06.004,
     https://github.com/vincent-dk/msgl
 BugReports: https://github.com/vincent-dk/msgl/issues
