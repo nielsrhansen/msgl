@@ -1,7 +1,7 @@
 Package: msgl
 Type: Package
 Title: High Dimensional Multiclass Classification Using Sparse Group Lasso
-Version: 2.3.6
+Version: 2.3.7
 Date: 2017-01-16
 Author: Martin Vincent
 Maintainer: Martin Vincent <martin.vincent.dk@gmail.com>
@@ -12,8 +12,9 @@ Description: Multinomial logistic regression with sparse group lasso penalty.
     Use of parallel computing for cross validation and subsampling is supported
     through the 'foreach' and 'doParallel' packages. Development version is on
     GitHub, please report package issues on GitHub.
-URL: http://dx.doi.org/10.1016/j.csda.2013.06.004, https://github.com/vincent-
-    dk/msgl
+URL:
+  http://dx.doi.org/10.1016/j.csda.2013.06.004
+  https://github.com/vincent-dk/msgl
 BugReports: https://github.com/vincent-dk/msgl/issues
 License: GPL (>= 2)
 LazyLoad: yes

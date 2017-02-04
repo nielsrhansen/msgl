@@ -75,7 +75,7 @@ devtools::install_github("vincent-dk/msgl", ref = "develop")
 
 ### Minimal Example
 
-```{r eval = FALSE}
+```{r}
 library(msgl)
 
 # Load some data
