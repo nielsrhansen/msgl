@@ -75,13 +75,40 @@ fit.cv <- msgl::cv(
   lambda = 0.5,
   use_parallel = TRUE
 )
+```
 
+    ## Running msgl 10 fold cross validation (dense design matrix)
+    ## 
+    ##  Samples:  Features:  Classes:  Groups:  Parameters: 
+    ##        165        372         9      372       3.348k
+
+``` r
 stopCluster(cl)
 
 # Print information about models
 # and cross validation errors
 fit.cv
 ```
+
+    ## 
+    ## Call:
+    ## msgl::cv(x = x, classes = classes, alpha = 0.5, lambda = 0.5, 
+    ##     use_parallel = TRUE)
+    ## 
+    ## Models:
+    ## 
+    ##  Index:  Lambda:  Features:  Parameters:  Error: 
+    ##        1     1.00        1.5         11.1    0.93
+    ##       20     0.88        4.8         32.4    0.74
+    ##       40     0.76        8.8         51.4    0.62
+    ##       60     0.66       11.2         64.8    0.50
+    ##       80     0.58       15.2         87.1    0.41
+    ##      100     0.50       20.5        113.1    0.37
+    ## 
+    ## Best model:
+    ## 
+    ##  Index:  Lambda:  Features:  Parameters:  Error: 
+    ##       95     0.52       18.8          105    0.37
 
 ### Documentation
 
