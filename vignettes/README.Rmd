@@ -9,6 +9,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 params:
   branch: master
+  version_type: unknown
+  pkg_version: ?.?.?
 ---
 
 ## High Dimensional Multiclass Classification
@@ -19,6 +21,8 @@ params:
 [![Coverage Status](https://codecov.io/github/vincent-dk/msgl/coverage.svg?branch=master)](https://codecov.io/github/vincent-dk/msgl?branch=master)
 
 Multi-class classification with feature and parameter selection using sparse group lasso. Suitable for high dimensional problems.
+
+This is the **`r params$version_type`** of R package **sglOptim version `r params$pkg_version`**.
 
 ### R-package Overview
 
@@ -47,18 +51,26 @@ The package is under active development with releases to CRAN about ones or twic
 
 ### Installation
 
-Get the released version from CRAN:
+Install the released version from CRAN:
 
 ```{r eval = FALSE}
 install.packages("msgl")
 ```
 
-Or the development version from github:
+Install the release candidate from GitHub:
 
 ```{r eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("vincent-dk/sglOptim")
 devtools::install_github("vincent-dk/msgl")
+```
+
+Install the development version from GitHub:
+
+```{r eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("vincent-dk/sglOptim", ref = "develop")
+devtools::install_github("vincent-dk/msgl", ref = "develop")
 ```
 
 ### Minimal Example

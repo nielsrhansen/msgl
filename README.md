@@ -5,6 +5,8 @@ High Dimensional Multiclass Classification
 
 Multi-class classification with feature and parameter selection using sparse group lasso. Suitable for high dimensional problems.
 
+This is the **release candidate** of R package **sglOptim version 2.3.6**.
+
 ### R-package Overview
 
 This package implements procedures for working with multinomial logistic regression models using sparse group lasso. This includes procedures for fitting and cross validating sparse models in a high dimensional setup. See the [Quick Start (Predict primary cancer site based on microRNA measurements)](quick-start.md) for an example of a traditional workflow consisting of 1) model selection and assessment using cross validation, 2) estimation of a final model and 3) using the selected model for carrying out predictions on new data.
@@ -31,18 +33,26 @@ The package is under active development with releases to CRAN about ones or twic
 
 ### Installation
 
-Get the released version from CRAN:
+Install the released version from CRAN:
 
 ``` r
 install.packages("msgl")
 ```
 
-Or the development version from github:
+Install the release candidate from GitHub:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("vincent-dk/sglOptim")
 devtools::install_github("vincent-dk/msgl")
+```
+
+Install the development version from GitHub:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("vincent-dk/sglOptim", ref = "develop")
+devtools::install_github("vincent-dk/msgl", ref = "develop")
 ```
 
 ### Minimal Example

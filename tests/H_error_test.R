@@ -9,6 +9,14 @@ assertWarning(
   msgl::cv(x, classes, alpha = .5, fold = 11L, lambda = 0.8, standardize = TRUE)
 )
 
+### Test for errors if standardize fails
+xz <- x
+xz[,100] <- 0
+
+assertError(
+  msgl::fit(xz, classes, alpha = 0.5, lambda = 0.8, standardize = TRUE)
+)
+
 ### Test for errors if X or Y contains NA
 xna <- x
 xna[1,1] <- NA

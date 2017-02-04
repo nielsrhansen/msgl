@@ -59,13 +59,20 @@ if(pandoc.installed) {
   branch <- get_git_branch(script.path)
   print(branch)
 
+  pkg_version <- packageVersion(pkg)
+
+  version_type <- if(branch == "master") "release candidate" else "development version"
+
   for(file in vignettes.files) {
 
     rmarkdown::render(
       input = file.path(vignettes.path, file),
       output_format = rmarkdown::md_document(variant = "markdown_github"),
       output_dir = script.path,
-      params = list(branch = branch)
+      params = list(
+        branch = branch,
+        pkg_version = pkg_version,
+        version_type = version_type)
     )
   }
 
