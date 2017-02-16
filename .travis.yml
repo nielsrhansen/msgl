@@ -1,10 +1,9 @@
-# .travis.yml for R projects
-
 os:
   - linux
   - osx
 
 language: r
+
 r:
   - 3.2
   - release
@@ -15,10 +14,13 @@ sudo: required
 
 r_packages:
   - knitr
+  - covr
 
 after_success:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then Rscript -e 'install.packages("covr"); library(covr); codecov(type="all", quiet = FALSE)' Using Wercker CI ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then Rscript -e 'library(covr); codecov(type = c("tests", "examples"), quiet = FALSE)' Using Wercker CI ; fi
 
 # install sglOptim
-r_github_packages:
- - vincent-dk/sglOptim
+before_install:
+  - Rscript -e 'install.packages("devtools")'
+  - if [[ "$TRAVIS_BRANCH" == "develop" ]]; then Rscript -e 'devtools::install_github("vincent-dk/sglOptim", ref = "develop")' Using Wercker CI ; fi
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then Rscript -e 'devtools::install_github("vincent-dk/sglOptim", ref = "master")' Using Wercker CI ; fi
