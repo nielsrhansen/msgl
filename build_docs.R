@@ -1,31 +1,40 @@
-get_script_path <- function() {
-    cmd.args <- commandArgs()
-    m <- regexpr("(?<=^--file=).+", cmd.args, perl=TRUE)
-
-    script.dir <- dirname(regmatches(cmd.args, m))
-
-    if(length(script.dir) == 0) stop("can't determine script dir: please call the script with Rscript")
-    if(length(script.dir) > 1) stop("can't determine script dir: more than one '--file' argument detected")
-
-    return(script.dir)
-}
-
-get_git_branch <- function(path) {
-  git_branch_cmd <- paste("cd", path, ";",  "git  branch | grep '^\\*' | cut -d' ' -f2")
-  system(git_branch_cmd, intern = TRUE)
-}
-
 package_name <- function(path) {
     out <- c(read.dcf(list.files(path, pattern="DESCRIPTION",
         recursive=TRUE, full.names=TRUE), "Package"))
     return(out)
 }
 
-build_install_local <- function(pkg, path, build_vignettes = FALSE) {
-  ver <- packageVersion(pkg, lib.loc = path)
+package_version <- function(path) {
+    out <- c(read.dcf(list.files(path, pattern="DESCRIPTION",
+        recursive=TRUE, full.names=TRUE), "Version"))
+    return(out)
+}
 
-  build_flags <- if(build_vignettes) "" else "--no-build-vignettes"
-  build_command <- paste("R CMD build ", build_flags, file.path(path, pkg))
+get_git_branch <- function(path) {
+
+  old_path <- getwd()
+  setwd(path)
+
+  git_branch_cmd <- "git  branch | grep '^\\*' | cut -d' ' -f2"
+
+  if(Sys.info()['sysname'] == "Windows") {
+    res <- system("cmd.exe", input = git_branch_cmd, intern = TRUE)
+    res <- res[5] # this is a bit shaky
+  } else {
+    res <- system2(git_branch_cmd)
+  }
+
+  setwd(old_path)
+
+  return( res )
+}
+
+build_install_local <- function(path) {
+
+  pkg <- package_name(path)
+  ver <- package_version(path)
+
+  build_command <- paste("R CMD build ", path)
   system(build_command)
 
   build_name <- paste(pkg, "_", ver, ".tar.gz", sep="")
@@ -33,52 +42,51 @@ build_install_local <- function(pkg, path, build_vignettes = FALSE) {
   system(install_command)
 }
 
-if( ! "roxygen2" %in% rownames(installed.packages())) {
-  install.packages("roxygen2", repos = "https://cloud.r-project.org")
-}
+## Get script path
+script.path <- getSrcDirectory(function(x) {x})
 
+## Update git branch in DESCRIPTION
+branch <- get_git_branch(script.path)
+print(branch)
+
+x_dcf <- read.dcf(file = file.path(script.path,"DESCRIPTION"))
+x_dcf[1,"GitHubRepo"] <- branch
+write.dcf(x_dcf, file = file.path(script.path,"DESCRIPTION"))
+
+## Roxygenise
 library("roxygen2")
 
-script.path <- get_script_path()
-path <- file.path(getwd(), script.path)
-pkg <- package_name(path)
+script.path <- getSrcDirectory(function(x) {x})
 
-roxygenise(path)
+pkg <- package_name(script.path)
+
+roxygenise(script.path)
 print(warnings())
 
-# build vignettes
+build_install_local(script.path)
+
+## Build vignettes and README
 pandoc.installed <- system('pandoc -v')==0
 
 if(pandoc.installed) {
 
-  build_install_local(pkg, file.path(path, ".."), build_vignettes = FALSE)
-
   vignettes.path <- file.path(script.path, "vignettes")
   vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")
 
-  branch <- get_git_branch(script.path)
-  print(branch)
-
-  pkg_version <- packageVersion(pkg)
-
-  version_type <- if(branch == "master") "release candidate" else "development version"
-
   for(file in vignettes.files) {
 
+    input_file <- file.path(vignettes.path, file)
+
+    print(getwd())
+
     rmarkdown::render(
-      input = file.path(vignettes.path, file),
+      input = input_file,
       output_format = rmarkdown::md_document(variant = "markdown_github"),
-      output_dir = script.path,
-      params = list(
-        branch = branch,
-        pkg_version = pkg_version,
-        version_type = version_type)
+      output_dir = script.path
     )
+
   }
 
 } else {
   warning("Not building vignettes")
 }
-
-# install
-build_install_local(pkg, file.path(path, ".."), build_vignettes = pandoc.installed)
