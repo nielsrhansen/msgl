@@ -4,11 +4,6 @@ library(tools)
 data(SimData)
 set.seed(200)
 
-# This should show a warning
-assertWarning(
-  msgl::cv(x, classes, alpha = .5, fold = 11L, lambda = 0.8, standardize = TRUE)
-)
-
 ### Test for errors if standardize fails
 xz <- x
 xz[,100] <- 0
