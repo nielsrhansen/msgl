@@ -1,7 +1,7 @@
 High Dimensional Multiclass Classification
 ------------------------------------------
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/msgl)](http://cran.r-project.org/package=msgl) [![Travis-CI Build Status](https://travis-ci.org/vincent-dk/msgl.svg?branch=develop)](https://travis-ci.org/vincent-dk/msgl) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/vincent-dk/msgl?branch=master&svg=true)](https://ci.appveyor.com/project/vincent-dk/msgl) [![Coverage Status](https://codecov.io/github/vincent-dk/msgl/coverage.svg?branch=master)](https://codecov.io/github/vincent-dk/msgl?branch=master)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/msgl)](http://cran.r-project.org/package=msgl) [![Travis-CI Build Status](https://travis-ci.org/vincent-dk/msgl.svg?branch=develop)](https://travis-ci.org/vincent-dk/msgl) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/vincent-dk/msgl?branch=develop&svg=true)](https://ci.appveyor.com/project/vincent-dk/msgl) [![Coverage Status](https://codecov.io/github/vincent-dk/msgl/coverage.svg?branch=develop)](https://codecov.io/github/vincent-dk/msgl?branch=develop)
 
 Multi-class classification with feature and parameter selection using sparse group lasso. Suitable for high dimensional problems.
 
@@ -98,17 +98,17 @@ fit.cv
     ## Models:
     ## 
     ##  Index:  Lambda:  Features:  Parameters:  Error: 
-    ##        1     1.00        1.5         11.1    0.93
-    ##       20     0.88        4.8         32.4    0.74
-    ##       40     0.76        8.8         51.4    0.62
-    ##       60     0.66       11.2         64.8    0.50
-    ##       80     0.58       15.2         87.1    0.41
-    ##      100     0.50       20.5        113.1    0.37
+    ##        1     1.00        1.6         12.1    0.96
+    ##       20     0.88          5         31.9    0.72
+    ##       40     0.76        8.7         51.1    0.62
+    ##       60     0.66       11.1           64    0.56
+    ##       80     0.58       15.7         88.9    0.46
+    ##      100     0.50       21.7        118.5    0.35
     ## 
     ## Best model:
     ## 
     ##  Index:  Lambda:  Features:  Parameters:  Error: 
-    ##       95     0.52       18.8          105    0.37
+    ##       96     0.51       20.8        113.7    0.35
 
 ### Documentation
 

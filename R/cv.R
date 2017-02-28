@@ -95,29 +95,31 @@
 #' @importFrom sglOptim sgl_cv
 #' @importFrom sglOptim transpose_response_elements
 #' @export
-cv <- function(x, classes,
-	sampleWeights = NULL,
-	grouping = NULL,
-	groupWeights = NULL,
-	parameterWeights = NULL,
-	alpha = 0.5,
-	standardize = TRUE,
-	lambda,
-	d = 100,
-	fold = 10L,
-	cv.indices = list(),
-	intercept = TRUE,
-	sparse.data = is(x, "sparseMatrix"),
-	max.threads = NULL,
-	use_parallel = FALSE,
-	algorithm.config = msgl.standard.config) {
+cv <- function(
+  x,
+  classes,
+  sampleWeights = NULL,
+  grouping = NULL,
+  groupWeights = NULL,
+  parameterWeights = NULL,
+  alpha = 0.5,
+  standardize = TRUE,
+  lambda,
+  d = 100,
+  fold = 10L,
+  cv.indices = list(),
+  intercept = TRUE,
+  sparse.data = is(x, "sparseMatrix"),
+  max.threads = NULL,
+  use_parallel = FALSE,
+  algorithm.config = msgl.standard.config) {
 
-	# Get call
-	cl <- match.call()
+  # Get call
+  cl <- match.call()
 
-	if(fold > min(table(classes))) {
-		warning("fold larger than the number of samples in the smalest group")
-	}
+  if(fold > min(table(classes))) {
+    message("msgl: fold larger than the number of samples in the smalest group\n")
+  }
 
 	setup <- .process_args(
     x = x,
