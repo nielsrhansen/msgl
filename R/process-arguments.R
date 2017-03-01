@@ -89,9 +89,15 @@
 	if(standardize) {
 
     if(sparse.data) {
+
       x.scale <- sqrt(colMeans(x*x) - colMeans(x)^2)
+      # Handel constant columns
+      x.scale[x.scale == 0] <- 1
+
       x.center <- rep(0, length(x.scale))
+
       x <- x%*%Diagonal(x=1/x.scale)
+
     } else {
       x <- scale(x, TRUE, TRUE)
       x.scale <- attr(x, "scaled:scale")
@@ -100,6 +106,10 @@
 
     if(sum(is.na(x)) > 0) {
       stop("x contains NA values after standardization, try 'standardize = FALSE'")
+    }
+
+    if(sum(is.infinite(x)) > 0) {
+      stop("x contains Inf values after standardization, remove constant columns")
     }
 	}
 
