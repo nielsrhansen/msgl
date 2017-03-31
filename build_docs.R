@@ -21,7 +21,7 @@ get_git_branch <- function(path) {
     res <- system("cmd.exe", input = git_branch_cmd, intern = TRUE)
     res <- res[5] # this is a bit shaky
   } else {
-    res <- system2(git_branch_cmd)
+    res <- system(git_branch_cmd, intern = TRUE)
   }
 
   setwd(old_path)
@@ -34,31 +34,36 @@ build_install_local <- function(path) {
   pkg <- package_name(path)
   ver <- package_version(path)
 
-  build_command <- paste("R CMD build ", path)
+  build_command <- paste("R CMD build --no-build-vignettes", path)
   system(build_command)
 
   build_name <- paste(pkg, "_", ver, ".tar.gz", sep="")
-  install_command <- paste("R CMD INSTALL ", build_name)
+  install_command <- paste("R CMD INSTALL", build_name)
   system(install_command)
 }
 
 ## Get script path
 script.path <- getSrcDirectory(function(x) {x})
 
+print(script.path)
+
 ## Update git branch in DESCRIPTION
 branch <- get_git_branch(script.path)
 print(branch)
 
+# update branch and date in DESCRIPTION
 x_dcf <- read.dcf(file = file.path(script.path,"DESCRIPTION"))
-x_dcf[1,"GitHubRepo"] <- branch
+  x_dcf[1,"GitHubRepo"] <- branch
+  x_dcf[1,"Date"] <- as.character(Sys.Date())
 write.dcf(x_dcf, file = file.path(script.path,"DESCRIPTION"))
+
 
 ## Roxygenise
 library("roxygen2")
 
-script.path <- getSrcDirectory(function(x) {x})
-
 pkg <- package_name(script.path)
+
+print(pkg)
 
 roxygenise(script.path)
 print(warnings())
@@ -73,18 +78,33 @@ if(pandoc.installed) {
   vignettes.path <- file.path(script.path, "vignettes")
   vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")
 
+  old_path <- getwd()
+  setwd(script.path)
+
   for(file in vignettes.files) {
 
     input_file <- file.path(vignettes.path, file)
 
-    print(getwd())
-
     rmarkdown::render(
       input = input_file,
-      output_format = rmarkdown::md_document(variant = "markdown_github"),
-      output_dir = script.path
+      output_format = rmarkdown::md_document(variant = "markdown_github")
     )
 
+  }
+
+  setwd(old_path)
+
+  # Move generated files to pkg root
+  files_to_move <- list.files(vignettes.path)
+  files_to_move <- files_to_move[ ! files_to_move %in% vignettes.files ]
+
+  for(file in files_to_move) {
+
+    from <- file.path(vignettes.path, file)
+    to <- file.path(script.path, file)
+
+    unlink(to, recursive = TRUE)
+    file.rename(from, to)
   }
 
 } else {
