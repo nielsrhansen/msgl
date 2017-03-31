@@ -24,3 +24,4 @@ before_install:
   - Rscript -e 'install.packages("devtools")'
   - if [[ "$TRAVIS_BRANCH" == "develop" ]]; then Rscript -e 'devtools::install_github("vincent-dk/sglOptim", ref = "develop")' Using Wercker CI ; fi
   - if [[ "$TRAVIS_BRANCH" == "master" ]]; then Rscript -e 'devtools::install_github("vincent-dk/sglOptim", ref = "master")' Using Wercker CI ; fi
+  - if [[ "$TRAVIS_BRANCH" == "release" ]]; then Rscript -e 'devtools::install_github("vincent-dk/sglOptim", ref = "release")' Using Wercker CI ; fi

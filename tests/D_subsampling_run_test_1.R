@@ -46,10 +46,12 @@ run_tests(
 
 data$X <- Matrix(data$X, sparse = TRUE)
 
-run_tests(
-  data = data,
-  args_values = values,
-  args_consistency = consistency,
-  test = subsampling_test,
-  check_consistency = check_subsampling_consistency
+not_on_cran(
+  run_tests(
+    data = data,
+    args_values = values,
+    args_consistency = consistency,
+    test = subsampling_test,
+    check_consistency = check_subsampling_consistency
+  )
 )

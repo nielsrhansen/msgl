@@ -113,7 +113,7 @@ msgl.standard.config <- msgl.algorithm.config()
 #' @return list
 #'
 #' @author Martin Vicnet
-#' @useDynLib msgl r_pkg_c_config
+#' @useDynLib msgl .registration=TRUE
 #' @export
 msgl.c.config <- function() {
 	.Call("r_pkg_c_config")
