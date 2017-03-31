@@ -1,7 +1,7 @@
 High Dimensional Multiclass Classification
 ------------------------------------------
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/msgl)](http://cran.r-project.org/package=msgl) [![Travis-CI Build Status](https://travis-ci.org/vincent-dk/msgl.svg?branch=release)](https://travis-ci.org/vincent-dk/msgl) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/vincent-dk/msgl?branch=release&svg=true)](https://ci.appveyor.com/project/vincent-dk/msgl) [![Coverage Status](https://codecov.io/github/vincent-dk/msgl/coverage.svg?branch=release)](https://codecov.io/github/vincent-dk/msgl?branch=release)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/msgl)](https://cran.r-project.org/package=msgl) [![Travis-CI Build Status](https://travis-ci.org/vincent-dk/msgl.svg?branch=release)](https://travis-ci.org/vincent-dk/msgl) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/vincent-dk/msgl?branch=release&svg=true)](https://ci.appveyor.com/project/vincent-dk/msgl) [![Coverage Status](https://codecov.io/github/vincent-dk/msgl/coverage.svg?branch=release)](https://codecov.io/github/vincent-dk/msgl?branch=release)
 
 Multi-class classification with feature and parameter selection using sparse group lasso. Suitable for high dimensional problems.
 
