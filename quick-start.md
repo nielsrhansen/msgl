@@ -1,4 +1,4 @@
-Quick Start (for msgl version 2.3.6)
+Quick Start (for msgl version 2.3.7)
 ------------------------------------
 
 ### 1. Load the msgl library in R
