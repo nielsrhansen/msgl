@@ -59,7 +59,7 @@ fit_test <- function(data, values, consistency, i, j) {
   # print
   print(est)
 
-  res <-  predict(est, X, sparse.data = values$sparseX[j])
+  res <-  predict(est, X, sparse.data = values$sparseX[i])
 
   print(res)
 
