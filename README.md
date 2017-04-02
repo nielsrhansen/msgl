@@ -5,7 +5,7 @@ High Dimensional Multiclass Classification
 
 Multi-class classification with feature and parameter selection using sparse group lasso. Suitable for high dimensional problems.
 
-This is the **release candidate** of R package **msgl version 2.3.6**.
+This is the **release candidate** of R package **msgl version 2.3.7**.
 
 ### R-package Overview
 
