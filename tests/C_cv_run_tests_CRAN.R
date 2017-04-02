@@ -15,13 +15,10 @@ data <- create_test_data()
 
 ## Possible args values
 values <- expand.grid(
-  grouping = list(
-    NULL,
-    factor(1:ncol(data$X) %% 100)
-    ),
+  grouping = list(NULL),
   groupWeights = list(NULL),
   parameterWeights = list(NULL),
-  alpha = c(0.5, 1),
+  alpha = c(0, 0.5, 1),
   d = 50,
   lambda = 0.95,
   fold = 5,
@@ -36,24 +33,10 @@ consistency <- expand.grid(
   Xrownames = c(TRUE, FALSE)
 )
 
-not_on_cran(
-  run_tests(
-    data = data,
-    args_values = values,
-    args_consistency = consistency,
-    test = cv_test,
-    check_consistency = check_cv_consistency
-  )
-)
-
-data$X <- Matrix(data$X, sparse = TRUE)
-
-not_on_cran(
-  run_tests(
-    data = data,
-    args_values = values,
-    args_consistency = consistency,
-    test = cv_test,
-    check_consistency = check_cv_consistency
-  )
+run_tests(
+  data = data,
+  args_values = values,
+  args_consistency = consistency,
+  test = cv_test,
+  check_consistency = check_cv_consistency
 )

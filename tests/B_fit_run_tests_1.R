@@ -35,12 +35,14 @@ consistency <- expand.grid(
   Xrownames = c(TRUE, FALSE)
 )
 
-run_tests(
-  data = data,
-  args_values = values,
-  args_consistency = consistency,
-  test = fit_test,
-  check_consistency = check_fit_consistency
+not_on_cran(
+  run_tests(
+    data = data,
+    args_values = values,
+    args_consistency = consistency,
+    test = fit_test,
+    check_consistency = check_fit_consistency
+  )
 )
 
 data$X <- Matrix(data$X, sparse = TRUE)
