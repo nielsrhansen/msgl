@@ -14,4 +14,3 @@ msgl.lambda.seq(x, classes, sampleWeights = NULL, grouping = NULL,
 Deprecated lambda function
 }
 \keyword{internal}
-

@@ -96,4 +96,3 @@ Err(fit, x)
 \author{
 Martin Vincent
 }
-

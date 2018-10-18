@@ -1,9 +1,8 @@
 Package: msgl
 Type: Package
-Title: High Dimensional Multiclass Classification Using Sparse Group
-        Lasso
+Title: Multinomial Sparse Group Lasso
 Version: 2.3.7
-Date: 2017-04-02
+Date: 2018-10-18
 Author: Martin Vincent
 Maintainer: Martin Vincent <martin.vincent.dk@gmail.com>
 Description: Multinomial logistic regression with sparse group lasso
@@ -17,14 +16,13 @@ Description: Multinomial logistic regression with sparse group lasso
         package issues on GitHub.
 URL:
         http://www.sciencedirect.com/science/article/pii/S0167947313002168,
-        https://github.com/vincent-dk/msgl
-BugReports: https://github.com/vincent-dk/msgl/issues
+        https://github.com/nielsrhansen/msgl
+BugReports: https://github.com/nielsrhansen/msgl/issues
 License: GPL (>= 2)
 LazyLoad: yes
 Imports: methods, tools, utils, stats
-Depends: R (>= 3.2.4), Matrix, sglOptim (== 1.3.7)
+Depends: R (>= 3.2.4), Matrix, sglOptim (>= 1.3.7)
 LinkingTo: Rcpp, RcppProgress, RcppArmadillo, BH, sglOptim
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
-GitHubRepo: master
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

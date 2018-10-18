@@ -34,4 +34,3 @@ sapply(parameters(fit), sum)
 \author{
 Martin Vincent
 }
-

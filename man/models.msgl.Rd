@@ -22,4 +22,3 @@ Returns the fitted models, that is the estimated \eqn{\beta} matrices.
 \author{
 Martin Vincent
 }
-

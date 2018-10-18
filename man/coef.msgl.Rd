@@ -33,4 +33,3 @@ coef(fit, index = c(1,10,20))
 \author{
 Martin Vincent
 }
-

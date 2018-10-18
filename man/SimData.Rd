@@ -16,4 +16,3 @@ The data set contains 100 simulated samples grouped into 10 classes.
 For each sample 400 features have been simulated.
 }
 \keyword{data}
-

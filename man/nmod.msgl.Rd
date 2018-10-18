@@ -32,4 +32,3 @@ nmod(fit)
 \author{
 Martin Vincent
 }
-

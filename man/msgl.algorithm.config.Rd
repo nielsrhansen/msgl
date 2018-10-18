@@ -74,4 +74,3 @@ fit <- msgl::fit(x, classes, alpha = .5, lambda = lambda,
 \author{
 Martin Vincent
 }
-

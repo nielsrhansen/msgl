@@ -85,4 +85,3 @@ Err(fit.sub, type="loglike")
 \author{
 Martin Vincent
 }
-

@@ -8,4 +8,3 @@
 Class vector
 }
 \keyword{data}
-

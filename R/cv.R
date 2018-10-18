@@ -118,7 +118,7 @@ cv <- function(
   cl <- match.call()
 
   if(fold > min(table(classes))) {
-    message("Note (msgl): fold larger than the number of samples in the smalest group\n")
+    message("Note (msgl): fold larger than the number of samples in the smallest group\n")
   }
 
 	setup <- .process_args(

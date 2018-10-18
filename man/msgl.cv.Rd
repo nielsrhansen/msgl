@@ -15,4 +15,3 @@ msgl.cv(x, classes, sampleWeights = NULL, grouping = NULL,
 Deprecated cv function
 }
 \keyword{internal}
-

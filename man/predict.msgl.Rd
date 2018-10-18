@@ -48,4 +48,3 @@ res$classes[,20]
 \author{
 Martin Vincent
 }
-

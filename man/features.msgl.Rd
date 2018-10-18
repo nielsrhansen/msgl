@@ -34,4 +34,3 @@ sapply(features(fit), length)
 \author{
 Martin Vincent
 }
-

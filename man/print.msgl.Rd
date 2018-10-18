@@ -44,4 +44,3 @@ fit.sub
 \author{
 Martin Vincent
 }
-

@@ -8,4 +8,3 @@
 Design matrix
 }
 \keyword{data}
-

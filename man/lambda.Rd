@@ -63,4 +63,3 @@ lambda <- msgl::lambda(x, classes, alpha = .5, d = 100, lambda.min = 0.01)
 \author{
 Martin Vincent
 }
-

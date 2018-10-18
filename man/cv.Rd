@@ -100,4 +100,3 @@ Err(fit.cv, type="loglike")
 \author{
 Martin Vincent
 }
-

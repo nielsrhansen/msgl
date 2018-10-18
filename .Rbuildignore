@@ -1,6 +1,6 @@
 ^\.travis\.yml$
-^README.md
-^quick-start.md
+^*\.md
+^*\.md
 ^LICENSE
 ^fig1.png
 ^appveyor\.yml$
@@ -9,3 +9,5 @@
 ^build_docs\.R$
 ^run-tests-valgrind\.R$
 ^run-tests\.R$
+^.*\.Rproj$
+^\.Rproj\.user$
