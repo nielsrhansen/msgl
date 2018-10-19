@@ -3,8 +3,10 @@ Type: Package
 Title: Multinomial Sparse Group Lasso
 Version: 2.3.7
 Date: 2018-10-18
-Author: Martin Vincent
-Maintainer: Martin Vincent <martin.vincent.dk@gmail.com>
+Author@R: c(
+        person("Martin", "Vincent", role = "aut"),
+        person("Niels", "Richard Hansen", email = "niels.r.hansen@math.ku.dk", role = c("ctb", "cre"))
+        )
 Description: Multinomial logistic regression with sparse group lasso
         penalty. Simultaneous feature selection and parameter
         estimation for classification. Suitable for high dimensional

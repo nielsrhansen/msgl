@@ -1,4 +1,5 @@
-## Run from package root directory
+## Run from package root directory. The script builds the 
+## vignettes and includes the md-file for publication on GitHub.
 
 vignettes.path <- file.path(getwd(), "vignettes")
 vignettes.files <- list.files(vignettes.path, pattern="*.Rmd")

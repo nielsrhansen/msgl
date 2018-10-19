@@ -1,5 +1,11 @@
 ## Quick Start (for msgl version 2.3.7)
 
+Prediction of primary cancer site based on microRNA measurements, see
+[Modeling tissue contamination to improve molecular identification of
+the primary tumor site of
+metastases](https://academic.oup.com/bioinformatics/article/30/10/1417/267259)
+for more details.
+
 ### 1\. Load the msgl library in R
 
 ``` r
@@ -64,16 +70,17 @@ classes <- classes[-idx]
 
 Choose `lambda` (fraction of lambda.max) and `alpha`, with `alpha = 1`
 for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1)
-for spares group lasso.
+for sparse group lasso.
 
 Use `msgl::cv` to estimate the error for each lambda in a sequence
-decreasing from the data derived *lambda max* to `lambda` \* *lambda
-max*. Lambda max is the lambda at which the first penalized parameter
-becomes non-zero. A smaller `lambda` will take longer to fit and include
-more features. The following command will run a 10 fold cross validation
-for each lambda value in the lambda sequence using 2 parallel units
-(using the [foreach](https://CRAN.R-project.org/package=foreach) and
-[doParallel](https://CRAN.R-project.org/package=doParallel) packages.
+decreasing from the data derived *lambda.max* to `lambda` \*
+*lambda.max*. Lambda.max is the lambda at which the first penalized
+parameter becomes non-zero. A smaller `lambda` will take longer to fit
+and include more features. The following code will run a 10 fold cross
+validation for each lambda value in the lambda sequence using 2 parallel
+units (using the [foreach](https://CRAN.R-project.org/package=foreach)
+and [doParallel](https://CRAN.R-project.org/package=doParallel)
+packages.
 
 ``` r
 cl <- makeCluster(2)
@@ -91,11 +98,9 @@ fit.cv <- msgl::cv(x, classes, fold = 10, alpha = 0.5, lambda = 0.1, use_paralle
 stopCluster(cl)
 ```
 
-(for the current version *no progress bar will be shown*)
-
-**Get a summery of the validated models.** We have now cross validated
-the models corresponding to the lambda values, one model for each lambda
-value. We may get a summery of this validation by doing:
+We have now cross validated the models corresponding to the lambda
+values, one model for each lambda value. We can summarize the validation
+as follows.
 
 ``` r
 fit.cv
@@ -139,8 +144,6 @@ fit <- msgl::fit(x, classes, alpha = 0.5, lambda = 0.1)
     ##  Samples:  Features:  Classes:  Groups:  Parameters: 
     ##        155        372         9      372       3.348k
 
-**Get a summery of the estimated models**
-
 ``` r
 fit
 ```
@@ -159,9 +162,9 @@ fit
     ##       80     0.16         48          250
     ##      100     0.10         67          345
 
-**Take a look at the estimated models.** As we saw in the previous step
-the model with index 79 had the best cross validation error, we may take
-a look at the included features using the
+As we saw in the previous step the model with index 79 had the best
+cross validation error, we may take a look at the included features
+using the
     command:
 
 ``` r
@@ -234,8 +237,8 @@ coef(fit, best_model(fit.cv))[,1:5] # First 5 non-zero parameters of best model
     ## Pancreas   2.2165935 -0.4771551 -0.86238089  1.49733450 -0.02583901
     ## Squamous   3.2212960  .          .          -0.01105621  .
 
-If we count the total number of non-zero parameters in the model we get,
-in this case 250 which is close to the expected based on the cross
+If we count the total number of non-zero parameters in the model we get
+in this case 250, which is close to the expected based on the cross
 validation estimate.
 
 ### 6\. Use your model for predictions
@@ -246,7 +249,7 @@ validation estimate.
 x.test <- # load matrix with test data (of size M x p)
 ```
 
-Use the final model to predict the classes of the M samples in x.test.
+Use the final model to predict the classes of the M samples in `x.test`.
 
 ``` r
 res <- predict(fit, x.test)

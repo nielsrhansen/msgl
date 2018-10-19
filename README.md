@@ -1,7 +1,8 @@
-## High Dimensional Multiclass Classification
+## Multinomial sparse group lasso
 
-Multi-class classification with feature and parameter selection using
-sparse group lasso. Suitable for high dimensional problems.
+Multiclass classification with feature and parameter selection using
+sparse group lasso for the multinomial model. Suitable for high
+dimensional problems.
 
 This is the R package msgl version **2.3.7**.
 
@@ -11,16 +12,16 @@ This package implements procedures for working with multinomial logistic
 regression models using sparse group lasso. This includes procedures for
 fitting and cross validating sparse models in a high dimensional setup.
 See the [Quick Start (Predict primary cancer site based on microRNA
-measurements)](quick-start.md) for an example of a traditional workflow
-consisting of 1) model selection and assessment using cross validation,
-2) estimation of a final model and 3) using the selected model for
-carrying out predictions on new data.
+measurements)](quick-start.md) for an example of a workflow consisting
+of 1) model selection and assessment using cross validation, 2)
+estimation of a final model and 3) using the selected model for carrying
+out predictions on new data.
 
 ![alt tag](https://raw.github.com/nielsrhansen/msgl/master/fig1.png)
 
-> Classification of cancer site. Error estimted by 10-fold cross
-> validation on a data set consist of miRNA expression measurements of
-> leaser dissected primary cancers.
+> Classification of cancer site. Error estimated by 10-fold cross
+> validation on a data set consisting of microRNA expression
+> measurements of laser dissected primary cancers.
 
 **Package highlights:**
 
@@ -34,15 +35,10 @@ carrying out predictions on new data.
 
 The penalized maximum likelihood estimator for multinomial logistic
 regression is computed using a coordinate gradient descent algorithm via
-the [sglOptim](https://github.com/vincent-dk/sglOptim) optimizer. Use of
-parallel computing for cross validation and subsampling is supported
+the [sglOptim](https://github.com/nielsrhansen/sglOptim) optimizer. Use
+of parallel computing for cross validation and subsampling is supported
 through the [foreach](https://cran.r-project.org/package=foreach) and
 [doParallel](https://cran.r-project.org/package=doParallel) packages.
-
-### Status
-
-The package is under active development with releases to CRAN about ones
-or twice each year.
 
 ### Installation
 
@@ -52,21 +48,16 @@ Install the released version from CRAN:
 install.packages("msgl")
 ```
 
-Install the release candidate from GitHub:
+Install the version from GitHub:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("vincent-dk/sglOptim")
-devtools::install_github("vincent-dk/msgl")
+devtools::install_github("nielsrhansen/sglOptim", build_vignettes = TRUE)
+devtools::install_github("nielsrhansen/msgl", build_vignettes = TRUE)
 ```
 
-Install the development version from GitHub:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("vincent-dk/sglOptim", ref = "develop")
-devtools::install_github("vincent-dk/msgl", ref = "develop")
-```
+If you don’t want to build the vignettes when installing, just remove
+the `build_vignettes = TRUE` argument.
 
 ### Minimal Example
 
@@ -134,7 +125,8 @@ fit.cv
 
 ### Author
 
-Martin Vincent
+Martin Vincent wrote the package. Niels Richard Hansen is the current
+maintainer.
 
 ### License
 

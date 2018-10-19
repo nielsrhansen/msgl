@@ -1,6 +1,5 @@
 ---
 title: "Quick Start"
-author: "Martin Vincent"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -14,6 +13,10 @@ set.seed(150)
 ```
 
 ## Quick Start (for msgl version `r packageVersion("msgl")`)
+
+Prediction of primary cancer site based on microRNA measurements, see
+[Modeling tissue contamination to improve molecular identification of the primary tumor site of metastases](https://academic.oup.com/bioinformatics/article/30/10/1417/267259) 
+for more details. 
 
 ### 1. Load the msgl library in R
 ```{r results="hide"}
@@ -47,12 +50,13 @@ classes <- classes[-idx]
 ```
 
 ### 3. Estimate error using cross validation
-Choose `lambda` (fraction of lambda.max) and `alpha`, with `alpha = 1` for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1) for spares group lasso.
+Choose `lambda` (fraction of lambda.max) and `alpha`, with `alpha = 1` for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1) for sparse group lasso.
 
-Use `msgl::cv` to estimate the error for each lambda in a sequence decreasing from the data derived *lambda max* to `lambda` * *lambda max*.
-Lambda max is the lambda at which the first penalized parameter becomes non-zero.
+Use `msgl::cv` to estimate the error for each lambda in a sequence decreasing from the data derived *lambda.max* to `lambda` * *lambda.max*.
+Lambda.max is the lambda at which the first penalized parameter becomes non-zero.
 A smaller `lambda` will take longer to fit and include more features.
-The following command will run a 10 fold cross validation for each lambda value in the lambda sequence using 2 parallel units (using the [foreach](https://CRAN.R-project.org/package=foreach) and [doParallel](https://CRAN.R-project.org/package=doParallel) packages.
+The following code will run a 10 fold cross validation for each lambda value in 
+the lambda sequence using 2 parallel units (using the [foreach](https://CRAN.R-project.org/package=foreach) and [doParallel](https://CRAN.R-project.org/package=doParallel) packages.
 
 ```{r}
 cl <- makeCluster(2)
@@ -63,10 +67,8 @@ fit.cv <- msgl::cv(x, classes, fold = 10, alpha = 0.5, lambda = 0.1, use_paralle
 stopCluster(cl)
 ```
 
-(for the current version *no progress bar will be shown*)
-
-**Get a summery of the validated models.**
-We have now cross validated the models corresponding to the lambda values, one model for each lambda value. We may get a summery of this validation by doing:
+We have now cross validated the models corresponding to the lambda values, 
+one model for each lambda value. We can summarize the validation as follows.
 ```{r}
 fit.cv
 ```
@@ -79,12 +81,11 @@ Use msgl to fit a final model.
 ```{r}
 fit <- msgl::fit(x, classes, alpha = 0.5, lambda = 0.1)
 ```
-**Get a summery of the estimated models**
+
 ```{r}
 fit
 ```
 
-**Take a look at the estimated models.**
 As we saw in the previous step the model with index `r best_model(fit.cv)` had the best cross validation error, we may take a look at the included features using the command:
 ```{r}
 features(fit)[[best_model(fit.cv)]] # Non-zero features in best model
@@ -102,16 +103,17 @@ We may also take a look at the estimate parameters (or coefficients)
 coef(fit, best_model(fit.cv))[,1:5] # First 5 non-zero parameters of best model
 ```
 
-If we count the total number of non-zero parameters in the model we get, in this case `r sum(parameters(fit)[[best_model(fit.cv)]])` which is close to the expected based on the cross validation estimate.
+If we count the total number of non-zero parameters in the model we get in this case `r sum(parameters(fit)[[best_model(fit.cv)]])`, which is close to the expected based on the cross validation estimate.
 
 ### 6. Use your model for predictions
 
 **Load test data** containing M samples and p features.
-```R
+
+```{r, eval=FALSE}
 x.test <- # load matrix with test data (of size M x p)
 ```
 
-Use the final model to predict the classes of the M samples in x.test.
+Use the final model to predict the classes of the M samples in `x.test`.
 ```{r}
 res <- predict(fit, x.test)
 
