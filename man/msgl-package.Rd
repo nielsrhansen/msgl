@@ -43,5 +43,5 @@ stopCluster(cl)
 fit.cv
 }
 \author{
-Martin Vincent \email{martin.vincent.dk@gmail.com}
+Martin Vincent
 }

@@ -15,7 +15,7 @@
 #' (default is one covariate per group, hence the default dimension of \eqn{\beta^{(J)}} is \eqn{K}).
 #' The group weights \eqn{\gamma \in [0,\infty)^m} and parameter weights \eqn{\xi \in [0,\infty)^n} may be explicitly specified.
 #'
-#' @author Martin Vincent \email{martin.vincent.dk@gmail.com}
+#' @author Martin Vincent 
 #'
 #' @examples
 #' # Load some data

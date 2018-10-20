@@ -176,6 +176,60 @@ subsampling <- function(x, classes,
 	return(res)
 }
 
+#' C interface
+#'
+#' @keywords internal
+#' @export
+msgl_dense_sgl_subsampling_R <- function(
+  data,
+  test_data,
+  block_dim,
+  groupWeights,
+  parameterWeights,
+  alpha,
+  lambda,
+  idx,
+  algorithm.config) {
+  
+  .Call(msgl_dense_sgl_subsampling, PACKAGE = "msgl",
+        data,
+        test_data,
+        block_dim,
+        groupWeights,
+        parameterWeights,
+        alpha,
+        lambda,
+        algorithm.config
+  )
+}
+
+#' C interface
+#'
+#' @keywords internal
+#' @export
+msgl_sparse_sgl_subsampling_R <- function(
+  data,
+  test_data,
+  block_dim,
+  groupWeights,
+  parameterWeights,
+  alpha,
+  lambda,
+  idx,
+  algorithm.config) {
+  
+  .Call(msgl_sparse_sgl_subsampling, PACKAGE = "msgl",
+        data,
+        test_data,
+        block_dim,
+        groupWeights,
+        parameterWeights,
+        alpha,
+        lambda,
+        algorithm.config
+  )
+}
+
 #' Deprecated subsampling function
 #'
 #' @keywords internal

@@ -13,5 +13,5 @@ list
 Featch information about the C side configuration of the package
 }
 \author{
-Martin Vicnet
+Martin Vincent
 }

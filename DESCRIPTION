@@ -3,7 +3,7 @@ Type: Package
 Title: Multinomial Sparse Group Lasso
 Version: 2.3.7
 Date: 2018-10-18
-Author@R: c(
+Authors@R: c(
         person("Martin", "Vincent", role = "aut"),
         person("Niels", "Richard Hansen", email = "niels.r.hansen@math.ku.dk", role = c("ctb", "cre"))
         )

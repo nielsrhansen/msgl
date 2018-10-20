@@ -1,6 +1,5 @@
 ^\.travis\.yml$
-^*\.md
-^*\.md
+^.*\.md$
 ^LICENSE
 ^fig1.png
 ^appveyor\.yml$

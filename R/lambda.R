@@ -106,6 +106,64 @@ lambda <- function(
   return(lambda)
 }
 
+
+#' C interface
+#'
+#' @keywords internal
+#' @export
+msgl_dense_sgl_lambda_R <- function(
+  data,
+  block_dim,
+  groupWeights,
+  parameterWeights,
+  alpha,
+  d,
+  lambda.min,
+  lambda.min.rel,
+  algorithm.config) {
+  
+  .Call(msgl_dense_sgl_lambda, PACKAGE = "msgl",
+        data,
+        block_dim,
+        groupWeights,
+        parameterWeights,
+        alpha,
+        d,
+        lambda.min,
+        lambda.min.rel,
+        algorithm.config
+  )
+}
+
+#' C interface
+#'
+#' @keywords internal
+#' @export
+msgl_sparse_sgl_lambda_R <- function(
+  data,
+  block_dim,
+  groupWeights,
+  parameterWeights,
+  alpha,
+  d,
+  lambda.min,
+  lambda.min.rel,
+  algorithm.config) {
+  
+  .Call(msgl_sparse_sgl_lambda, PACKAGE = "msgl",
+        data,
+        block_dim,
+        groupWeights,
+        parameterWeights,
+        alpha,
+        d,
+        lambda.min,
+        lambda.min.rel,
+        algorithm.config
+  )
+}
+
+
 #' Deprecated lambda function
 #'
 #' @keywords internal

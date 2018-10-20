@@ -49,7 +49,7 @@ predict.msgl <- function(object, x, sparse.data = is(x, "sparseMatrix"), ...) {
 
 	if(object$intercept) {
 		# add intercept
-		x <- cBind(Intercept = rep(1, nrow(x)), x)
+		x <- cbind(Intercept = rep(1, nrow(x)), x)
 	}
 
 	#Check dimension of x
@@ -87,3 +87,20 @@ predict.msgl <- function(object, x, sparse.data = is(x, "sparseMatrix"), ...) {
 	class(res) <- "msgl"
 	return(res)
 }
+
+#' C interface
+#'
+#' @keywords internal
+#' @export
+msgl_dense_sgl_predict_R <- function(data, beta) {
+  .Call(msgl_dense_sgl_predict, PACKAGE = "msgl", data, beta)
+}
+
+#' C interface
+#'
+#' @keywords internal
+#' @export
+msgl_sparse_sgl_predict_R <- function(data, beta) {
+  .Call(msgl_sparse_sgl_predict, PACKAGE = "msgl", data, beta)
+}
+

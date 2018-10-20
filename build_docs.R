@@ -23,7 +23,7 @@ files_to_move <- files_to_move[ ! files_to_move %in% vignettes.files ]
 for(file in files_to_move) {
   
   from <- file.path(vignettes.path, file)
-  to <- file.path(script.path, file)
+  to <- file.path(getwd(), file)
   
   unlink(to, recursive = TRUE)
   file.rename(from, to)

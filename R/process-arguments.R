@@ -118,18 +118,18 @@
     # add intercept
 
     if( is.null(colnames(x)) ) {
-		  x <- cBind(rep(1, nrow(x)), x)
+		  x <- cbind(rep(1, nrow(x)), x)
 	  } else {
-		  x <- cBind(Intercept = rep(1, nrow(x)), x)
+		  x <- cbind(Intercept = rep(1, nrow(x)), x)
 	  }
 
     groupWeights <- c(0, groupWeights)
 
 
     if( is.null(colnames(parameterWeights)) ) {
-      parameterWeights <- cBind(rep(0, length(levels(classes))), parameterWeights)
+      parameterWeights <- cbind(rep(0, length(levels(classes))), parameterWeights)
     } else {
-      parameterWeights <- cBind(Intercept = rep(0, length(levels(classes))), parameterWeights)
+      parameterWeights <- cbind(Intercept = rep(0, length(levels(classes))), parameterWeights)
     }
 
     grouping <- factor(c("Intercept", as.character(grouping)), levels = c("Intercept", levels(grouping)))
@@ -167,7 +167,7 @@ return(setup)
 
 }
 
-# Match with MODULE_NAME in logitsgl.cpp
+# Match with MODULE_NAME in msgl.cpp
 .get_callsym <- function(data) {
 
   obj <- "msgl"

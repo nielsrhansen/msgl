@@ -12,6 +12,6 @@ msgl.standard.config
 \code{msgl.standard.config <- msgl.algorithm.config()}
 }
 \author{
-Martin Vicnet
+Martin Vincent
 }
 \keyword{datasets}
