@@ -4,7 +4,8 @@
 \alias{predict.msgl}
 \title{Predict}
 \usage{
-\method{predict}{msgl}(object, x, sparse.data = is(x, "sparseMatrix"), ...)
+\method{predict}{msgl}(object, x, sparse.data = is(x, "sparseMatrix"),
+  ...)
 }
 \arguments{
 \item{object}{an object of class msgl, produced with \code{msgl}.}

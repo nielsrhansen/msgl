@@ -4,8 +4,8 @@
 \alias{msgl_dense_sgl_lambda_R}
 \title{C interface}
 \usage{
-msgl_dense_sgl_lambda_R(data, block_dim, groupWeights, parameterWeights, alpha,
-  d, lambda.min, lambda.min.rel, algorithm.config)
+msgl_dense_sgl_lambda_R(data, block_dim, groupWeights, parameterWeights,
+  alpha, d, lambda.min, lambda.min.rel, algorithm.config)
 }
 \description{
 C interface

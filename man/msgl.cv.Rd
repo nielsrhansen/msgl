@@ -6,9 +6,9 @@
 \usage{
 msgl.cv(x, classes, sampleWeights = NULL, grouping = NULL,
   groupWeights = NULL, parameterWeights = NULL, alpha = 0.5,
-  standardize = TRUE, lambda, d = 100, fold = 10L, cv.indices = list(),
-  intercept = TRUE, sparse.data = is(x, "sparseMatrix"),
-  max.threads = NULL, use_parallel = FALSE,
+  standardize = TRUE, lambda, d = 100, fold = 10L,
+  cv.indices = list(), intercept = TRUE, sparse.data = is(x,
+  "sparseMatrix"), max.threads = NULL, use_parallel = FALSE,
   algorithm.config = msgl.standard.config)
 }
 \description{

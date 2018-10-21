@@ -72,7 +72,8 @@ data(SimData)
 dim(x)
 table(classes)
 # Fit multinomial sparse group lasso regularization path
-# Using a lambda sequence ranging from the maximal lambda to 0.5 * maximal lambda
+# using a lambda sequence ranging from the maximal lambda to 0.5 * maximal lambda
+
 fit <- msgl::fit(x, classes, alpha = 0.5, lambda = 0.5)
 
 # Print some information about the fit

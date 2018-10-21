@@ -10,3 +10,4 @@
 ^run-tests\.R$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^tests$

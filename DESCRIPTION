@@ -27,4 +27,4 @@ Depends: R (>= 3.2.4), Matrix, sglOptim (>= 1.3.7)
 LinkingTo: Rcpp, RcppProgress, RcppArmadillo, BH, sglOptim
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

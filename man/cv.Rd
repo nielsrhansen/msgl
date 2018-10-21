@@ -4,11 +4,12 @@
 \alias{cv}
 \title{Cross Validation}
 \usage{
-cv(x, classes, sampleWeights = NULL, grouping = NULL, groupWeights = NULL,
-  parameterWeights = NULL, alpha = 0.5, standardize = TRUE, lambda,
-  d = 100, fold = 10L, cv.indices = list(), intercept = TRUE,
-  sparse.data = is(x, "sparseMatrix"), max.threads = NULL,
-  use_parallel = FALSE, algorithm.config = msgl.standard.config)
+cv(x, classes, sampleWeights = NULL, grouping = NULL,
+  groupWeights = NULL, parameterWeights = NULL, alpha = 0.5,
+  standardize = TRUE, lambda, d = 100, fold = 10L,
+  cv.indices = list(), intercept = TRUE, sparse.data = is(x,
+  "sparseMatrix"), max.threads = NULL, use_parallel = FALSE,
+  algorithm.config = msgl.standard.config)
 }
 \arguments{
 \item{x}{design matrix, matrix of size \eqn{N \times p}.}

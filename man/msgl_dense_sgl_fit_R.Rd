@@ -4,8 +4,8 @@
 \alias{msgl_dense_sgl_fit_R}
 \title{C interface}
 \usage{
-msgl_dense_sgl_fit_R(data, block_dim, groupWeights, parameterWeights, alpha,
-  lambda, idx, algorithm.config)
+msgl_dense_sgl_fit_R(data, block_dim, groupWeights, parameterWeights,
+  alpha, lambda, idx, algorithm.config)
 }
 \description{
 C interface

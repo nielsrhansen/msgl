@@ -6,9 +6,9 @@
 \usage{
 msgl.subsampling(x, classes, sampleWeights = NULL, grouping = NULL,
   groupWeights = NULL, parameterWeights = NULL, alpha = 0.5,
-  standardize = TRUE, lambda, d = 100, training, test, intercept = TRUE,
-  sparse.data = is(x, "sparseMatrix"), collapse = FALSE,
-  max.threads = NULL, use_parallel = FALSE,
+  standardize = TRUE, lambda, d = 100, training, test,
+  intercept = TRUE, sparse.data = is(x, "sparseMatrix"),
+  collapse = FALSE, max.threads = NULL, use_parallel = FALSE,
   algorithm.config = msgl.standard.config)
 }
 \description{
