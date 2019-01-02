@@ -1,9 +1,9 @@
 ---
-title: "Quick Start"
+title: "Getting started with msgl"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Quick Start}
+  %\VignetteIndexEntry{Getting started with msgl}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,13 +12,13 @@ vignette: >
 set.seed(150)
 ```
 
-## Quick Start (for msgl version `r packageVersion("msgl")`)
+## Getting started with msgl (version `r packageVersion("msgl")`)
 
 Prediction of primary cancer site based on microRNA measurements, see
 [Modeling tissue contamination to improve molecular identification of the primary tumor site of metastases](https://academic.oup.com/bioinformatics/article/30/10/1417/267259) 
 for more details. 
 
-### 1. Load the msgl library in R
+### 1. Load the msgl package in R
 ```{r results="hide"}
 library(msgl)
 ```

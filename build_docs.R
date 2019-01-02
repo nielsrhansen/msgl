@@ -10,7 +10,7 @@ for(file in vignettes.files) {
   
   rmarkdown::render(
     input = input_file,
-    output_format = rmarkdown::md_document(variant = "gfm")
+    output_format = rmarkdown::md_document(variant = "markdown_github")
   )
   
 }

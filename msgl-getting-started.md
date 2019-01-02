@@ -1,18 +1,15 @@
-## Quick Start (for msgl version 2.3.7)
+Getting started with msgl (version 2.3.8)
+-----------------------------------------
 
-Prediction of primary cancer site based on microRNA measurements, see
-[Modeling tissue contamination to improve molecular identification of
-the primary tumor site of
-metastases](https://academic.oup.com/bioinformatics/article/30/10/1417/267259)
-for more details.
+Prediction of primary cancer site based on microRNA measurements, see [Modeling tissue contamination to improve molecular identification of the primary tumor site of metastases](https://academic.oup.com/bioinformatics/article/30/10/1417/267259) for more details.
 
-### 1\. Load the msgl library in R
+### 1. Load the msgl package in R
 
 ``` r
 library(msgl)
 ```
 
-### 2\. Load your data
+### 2. Load your data
 
 Load data containing N samples and p features (covariates):
 
@@ -21,8 +18,7 @@ x <- # load design matrix (of size N x p)
 classes <- # load class labels (a vector of size N)
 ```
 
-For the purpose of this tutorial we will load a data set consisting of
-microRNA normalized expression measurements of primary cancer samples.
+For the purpose of this tutorial we will load a data set consisting of microRNA normalized expression measurements of primary cancer samples.
 
 ``` r
 data(PrimaryCancers)
@@ -52,9 +48,7 @@ table(classes)
     ##  Pancreas  Squamous 
     ##        20        16
 
-Hence, p = 384, N = 165 and the number of classes K = 9, this implies
-that the multinomial classification model has 9\*(384+1) = 3465
-parameters.
+Hence, p = 384, N = 165 and the number of classes K = 9, this implies that the multinomial classification model has 9\*(384+1) = 3465 parameters.
 
 Let us take out a small test set:
 
@@ -66,21 +60,11 @@ classes.test <- classes[idx]
 classes <- classes[-idx]
 ```
 
-### 3\. Estimate error using cross validation
+### 3. Estimate error using cross validation
 
-Choose `lambda` (fraction of lambda.max) and `alpha`, with `alpha = 1`
-for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1)
-for sparse group lasso.
+Choose `lambda` (fraction of lambda.max) and `alpha`, with `alpha = 1` for lasso, `alpha = 0` for group lasso and `alpha` in the range (0,1) for sparse group lasso.
 
-Use `msgl::cv` to estimate the error for each lambda in a sequence
-decreasing from the data derived *lambda.max* to `lambda` \*
-*lambda.max*. Lambda.max is the lambda at which the first penalized
-parameter becomes non-zero. A smaller `lambda` will take longer to fit
-and include more features. The following code will run a 10 fold cross
-validation for each lambda value in the lambda sequence using 2 parallel
-units (using the [foreach](https://CRAN.R-project.org/package=foreach)
-and [doParallel](https://CRAN.R-project.org/package=doParallel)
-packages.
+Use `msgl::cv` to estimate the error for each lambda in a sequence decreasing from the data derived *lambda.max* to `lambda` \* *lambda.max*. Lambda.max is the lambda at which the first penalized parameter becomes non-zero. A smaller `lambda` will take longer to fit and include more features. The following code will run a 10 fold cross validation for each lambda value in the lambda sequence using 2 parallel units (using the [foreach](https://CRAN.R-project.org/package=foreach) and [doParallel](https://CRAN.R-project.org/package=doParallel) packages.
 
 ``` r
 cl <- makeCluster(2)
@@ -98,9 +82,7 @@ fit.cv <- msgl::cv(x, classes, fold = 10, alpha = 0.5, lambda = 0.1, use_paralle
 stopCluster(cl)
 ```
 
-We have now cross validated the models corresponding to the lambda
-values, one model for each lambda value. We can summarize the validation
-as follows.
+We have now cross validated the models corresponding to the lambda values, one model for each lambda value. We can summarize the validation as follows.
 
 ``` r
 fit.cv
@@ -126,11 +108,9 @@ fit.cv
     ##  Index:  Lambda:  Features:  Parameters:  Error: 
     ##       79     0.16       53.5        276.9    0.12
 
-Hence, the best model is obtained using lambda index 79 and it has a
-cross validation error of 0.12. The expected number of selected features
-is 53.5 and the expected number of parameters is 276.9.
+Hence, the best model is obtained using lambda index 79 and it has a cross validation error of 0.12. The expected number of selected features is 53.5 and the expected number of parameters is 276.9.
 
-### 4\. Fit the final model
+### 4. Fit the final model
 
 Use msgl to fit a final model.
 
@@ -162,10 +142,7 @@ fit
     ##       80     0.16         48          250
     ##      100     0.10         67          345
 
-As we saw in the previous step the model with index 79 had the best
-cross validation error, we may take a look at the included features
-using the
-    command:
+As we saw in the previous step the model with index 79 had the best cross validation error, we may take a look at the included features using the command:
 
 ``` r
 features(fit)[[best_model(fit.cv)]] # Non-zero features in best model
@@ -182,12 +159,9 @@ features(fit)[[best_model(fit.cv)]] # Non-zero features in best model
     ## [41] "miR.526b"    "miR.532.3p"  "miR.548d.3p" "miR.615.5p"  "miR.625"    
     ## [46] "miR.628.5p"  "miR.885.5p"  "miR.891a"
 
-Hence 48 features are included in the model, this is close to the
-expected number based on the cross validation estimate.
+Hence 48 features are included in the model, this is close to the expected number based on the cross validation estimate.
 
-The sparsity structure of the parameters belonging to these 48 features
-may be viewed
-    using
+The sparsity structure of the parameters belonging to these 48 features may be viewed using
 
 ``` r
 parameters(fit)[[best_model(fit.cv)]]
@@ -218,8 +192,7 @@ parameters(fit)[[best_model(fit.cv)]]
     ## Pancreas  . . . . . | | . . | | . . . | |
     ## Squamous  | | | . | . . . . . . . . . . .
 
-We may also take a look at the estimate parameters (or
-coefficients)
+We may also take a look at the estimate parameters (or coefficients)
 
 ``` r
 coef(fit, best_model(fit.cv))[,1:5] # First 5 non-zero parameters of best model
@@ -237,11 +210,9 @@ coef(fit, best_model(fit.cv))[,1:5] # First 5 non-zero parameters of best model
     ## Pancreas   2.2165935 -0.4771551 -0.86238089  1.49733450 -0.02583901
     ## Squamous   3.2212960  .          .          -0.01105621  .
 
-If we count the total number of non-zero parameters in the model we get
-in this case 250, which is close to the expected based on the cross
-validation estimate.
+If we count the total number of non-zero parameters in the model we get in this case 250, which is close to the expected based on the cross validation estimate.
 
-### 6\. Use your model for predictions
+### 6. Use your model for predictions
 
 **Load test data** containing M samples and p features.
 
@@ -272,8 +243,7 @@ classes.test # True classes
     ##        EG       CCA       CRC 
     ## Levels: Breast CCA Cirrhosis CRC EG HCC Liver Pancreas Squamous
 
-We may also get the estimated probabilities for each of the
-    classes
+We may also get the estimated probabilities for each of the classes
 
 ``` r
 res$response[[best_model(fit.cv)]]
