@@ -27,12 +27,6 @@ The penalized maximum likelihood estimator for multinomial logistic regression i
 
 ### Installation
 
-Install the released version from CRAN:
-
-``` r
-install.packages("msgl")
-```
-
 Install the version from GitHub:
 
 ``` r
